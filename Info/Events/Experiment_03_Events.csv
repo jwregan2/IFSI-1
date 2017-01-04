@@ -1,0 +1,22 @@
+Time,Event,,,,,,,,,,Hour,Minute,Second
+2015-06-16-09:22:22,Ignition BR6,,,,,Ignition BR 6,0:00:00,,9:22:22 AM,,9,22,22
+2015-06-16-09:24:22,Ignition BR5,,,,,Ignition BR 5,0:02:00,,9:24:22 AM,,9,24,22
+2015-06-16-09:26:52,FD Dispatch,,,,,FD Dispatch,0:04:30,,9:26:52 AM,,9,26,52
+2015-06-16-09:28:53,Water in Window,,,,,Water in BR 6 Window,0:06:31,,9:28:53 AM,,9,28,53
+2015-06-16-09:29:09,Water in BR 5 Window 4 Seconds,,,,,Water in BR 6 Window Stop,0:06:36,,9:28:58 AM,,9,28,58
+2015-06-16-09:30:39,Front Door Open,,,,,Water in BR 5 Window,0:06:47,,9:29:09 AM,,9,29,9
+2015-06-16-09:30:58,Nozzle FF Reaches Hallway,,,,,Water in BR 5 Window Stop,0:06:51,,9:29:13 AM,,9,29,13
+2015-06-16-09:31:08,BR 5 & BR 6 Window Open/Cleared,,,,,2ND Water in BR 6 Window Start,NA,,,,,,
+2015-06-16-09:31:10,BR 5 Rear Window Open,,,,,2ND Water in BR 6 Window Stop,NA,,,,,,
+2015-06-16-09:32:33,Victim 1 Out,,,,,Front Door Open,0:08:17,,9:30:39 AM,,9,30,39
+2015-06-16-09:35:43,Victim 2 Out,,,,,Nozzle FF Reaches Hallway,0:08:36,,9:30:58 AM,,9,30,58
+2015-06-16-09:40:27,Living Room Right Window Open,,,,,BR 6 Window Cleared,0:08:46,,9:31:08 AM,,9,31,8
+2015-06-16-09:40:30,Living Room Left Window Open,,,,,BR 5 Rear Window Open,0:08:48,,9:31:10 AM,,9,31,10
+2015-06-16-09:43:07,BR 3 Exterior Door Open,,,,,Victim 1 Out,0:10:11,,9:32:33 AM,,9,32,33
+2015-06-16-09:43:00,BR 4 Exterior Door Open,,,,,Victim 2 Out,0:13:21,,9:35:43 AM,,9,35,43
+2015-06-16-09:56:39,End of Experiment,,,,,Living Room Right Window Open,0:18:05,,9:40:27 AM,,9,40,27
+,,,,,,Living Room Left Window Open,0:18:08,,9:40:30 AM,,9,40,30
+,,,,,,Kitchen Window Open,NA,,,,,,
+,,,,,,BR 3 Exterior Door Open,0:20:45,,9:43:07 AM,,9,43,7
+,,,,,,BR 4 Exterior Door Open,0:20:38,,9:43:00 AM,,9,43,0
+,,,,,,End of Experiment,0:34:17,,9:56:39 AM,,9,56,39
