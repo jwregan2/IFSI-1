@@ -35,7 +35,7 @@ fig = figure()
 for i in range(data.shape[1]-1):
 	y = data[fuel+str(i+1)]
 	plot(data['Time (s)'],y,color=colors[i],marker=markers[i],markevery=50,ms=8,label=fuel.replace('_',' ')+str(i+1))
-plot(data['Time (s)'],data2.mean(axis=1),'k',label=fuel.replace('_',' ')+'AVG',linewidth=3)
+plot(temps['Time (s)'],data2.mean(axis=1),'k',label=fuel.replace('_',' ')+'AVG',linewidth=3)
 plt.fill_between(data['Time (s)'],data2.mean(axis=1)+2*data2.std(axis=1), data2.mean(axis=1)-2*data2.std(axis=1), facecolor='gray',alpha=0.5, interpolate=True,linewidth=3)
 ax1 = gca()
 xlabel('Time (s)', fontsize=20)
