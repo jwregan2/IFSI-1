@@ -116,8 +116,8 @@ close()
 fig = figure()
 for i in range(12):
 	y = temps[i]
-	plot(time_vector[0:len(time_vector)-1],y[0:len(time_vector)-1],color=colors[i],marker=markers[i],markevery=50,ms=8,label=Exp_Names[i])
-plot(time_vector[0:len(time_vector)-1],temps[0:len(time_vector)-1].mean(axis=1),'k',label='average'+'AVG',linewidth=3)
+	plot(time_vector[0:len(time_vector)-1],y[0:len(time_vector)-1],color=colors[i],marker=markers[i],markevery=50,ms=8,label=Exp_Names[i].replace('_',' '))
+plot(time_vector[0:len(time_vector)-1],temps[0:len(time_vector)-1].mean(axis=1),'k',label='Average',linewidth=3)
 # plt.fill_between(time_vector[0:len(time_vector)-1] ,temps[0:len(time_vector)-1].mean(axis=1)+2*temps[0:len(time_vector)-1].std(axis=1), temps[0:len(time_vector)-1].mean(axis=1)-2*temps[0:len(time_vector)-1].std(axis=1), facecolor='gray',alpha=0.5, interpolate=True,linewidth=3)
 plt.fill_between(time_vector[0:len(time_vector)-1],.9*temps[0:len(time_vector)-1].mean(axis=1), 1.1*temps[0:len(time_vector)-1].mean(axis=1), facecolor='gray',alpha=0.5, interpolate=True,linewidth=3)
 ax1 = gca()
