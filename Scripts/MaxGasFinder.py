@@ -133,7 +133,8 @@ for f in os.listdir(data_location):
 					 	hall_ff_temp_5ft.loc[Exp_Num-1,i]= 'NaN'
 			if height=='7ft':
 				for i in range(len(Locations)):
-					try						pre_ff_temp_7ft.loc[Exp_Num-1,i] = max(Exp_data[str(Locations[i])+str(height)][str(Ignition):str(Int_time)])
+					try						
+						pre_ff_temp_7ft.loc[Exp_Num-1,i] = max(Exp_data[str(Locations[i])+str(height)][str(Ignition):str(Int_time)])
 						hall_ff_temp_7ft.loc[Exp_Num-1,i]=Exp_data[str(Locations[i])+str(height)][str(FF_time)]
 					except:
 					 	pre_ff_temp_7ft.loc[Exp_Num-1,i] = 'NaN'
