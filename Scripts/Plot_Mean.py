@@ -49,15 +49,32 @@ for chart in channels.index.values:
 	Exp_Names=[]
 	max_temp=0
 	i=0
-	temps=pd.DataFrame(np.zeros((N_rows,N_columns)))
-	temps_left=pd.DataFrame(np.zeros((N_rows,.5*N_columns)))
-	temps_right=pd.DataFrame(np.zeros((N_rows,.5*N_columns)))
+
+	temps=np.empty((N_rows,N_columns))
+	temps[:]=np.NaN
+	temps=pd.DataFrame(temps)
+
+
+	temps_left=np.empty((N_rows,.5*N_columns))
+	temps_left[:]=np.nan
+	temps_left=pd.DataFrame(temps)
+
+	temps_right=np.empty((N_rows,.5*N_columns))
+	temps_right[:]=np.nan
+	temps_right=pd.DataFrame(temps_right)
 
 	for f in os.listdir(data_location):
 		if f.endswith('.csv'):
 			try:
 				data_file=pd.read_csv(data_location+f,low_memory=False)
 				data_file=data_file.set_index('Time')
+
+				if channels['Gas'][chart]=='Y':
+					data_copy = data_file.drop('Elapsed Time', axis=1)
+					data_copy = data_copy.rolling(window=15, center=True).mean()
+					data_copy.insert(0, 'Elapsed Time', data_file['Elapsed Time'])
+					data_file = data_copy
+
 
 				##NEED TO BE ABLE TO READ SIDE
 				Test_Name=f[:-4]
@@ -76,9 +93,8 @@ for chart in channels.index.values:
 					channel=channels['Right_Channel'][chart] 
 					Ignition = datetime.datetime.strptime(Events['Time']['Ignition BR1'], '%Y-%m-%d-%H:%M:%S')
 					if channels['Gas'][chart]=='Y':
-
 						Ignition=Ignition+timedelta(seconds=int(channels['Right Transport'][chart]))
-						
+					Factor=channels['Right Factor'][chart]
 					Int_Time=Ignition+timedelta(seconds=359)
 					# Locations=['LRFront','LRRear','DRFront','DRRear','HallRight','Bedroom2','Bedroom1','HallRightHF']
 
@@ -88,7 +104,7 @@ for chart in channels.index.values:
 					Ignition = datetime.datetime.strptime(Events['Time']['Ignition BR6'], '%Y-%m-%d-%H:%M:%S')
 					if channels['Gas'][chart]=='Y':
 						Ignition=Ignition+timedelta(seconds=int(channels['Left Transport'][chart]))
-											
+					Factor=channels['Left Factor'][chart]											
 					Int_Time=Ignition+timedelta(seconds=359)
 
 					# Locations=['LRFront','LRRear','DRFront','DRRear','HallLeft','Bedroom5','Bedroom6','HallLeftHF']
@@ -100,25 +116,28 @@ for chart in channels.index.values:
 
 
 
-				if channels['Gas'][chart]=='Y':
-					for j in range(len(temps[i])):
-						if j<len(temp_vec):
-							temps.loc[j,i]=channels['Factor'][chart]*temp_vec[channel][j]
-						else:
-							continue
-				else:
-					for j in range(len(temps[i])):
-						if j<len(temp_vec):
-							temps.loc[j,i]=temp_vec[channel][j]
-						else:
-							continue	
+				# if channels['Gas'][chart]=='Y':
+				for j in range(len(temps[i])):
+					if j<len(temp_vec):
+						temps.loc[j,i]=Factor*temp_vec[channel][j]
+					else:
+						continue
+				# else:
+				# 	for j in range(len(temps[i])):
+				# 		if j<len(temp_vec):
+				# 			temps.loc[j,i]=temp_vec[channel][j]
+				# 		else:
+				# 			continue	
 				# print (temps)
 				i=i+1
 			except:
 				print('DNE')
 				i=i+1
 	time_vector=np.linspace(1,358,358)
-	max_temp=max(temps.max())
+
+	av_temps_df=temps.dropna(axis=1,how='all')
+	# print(temps)
+	max_temp=max(av_temps_df.max())
 
 
 	##2 x standard DEV
@@ -126,12 +145,12 @@ for chart in channels.index.values:
 	for i in range(12):
 		y = temps[i]
 		plot(time_vector[0:len(time_vector)-1],y[0:len(time_vector)-1],color=colors[i],marker=markers[i],markevery=50,ms=8,label=Exp_Names[i])
-	plot(time_vector[0:len(time_vector)-1],temps[0:len(time_vector)-1].mean(axis=1),'k',label='average'+'AVG',linewidth=3)
-	plt.fill_between(time_vector[0:len(time_vector)-1] ,temps[0:len(time_vector)-1].mean(axis=1)+2*temps[0:len(time_vector)-1].std(axis=1), temps[0:len(time_vector)-1].mean(axis=1)-2*temps[0:len(time_vector)-1].std(axis=1), facecolor='gray',alpha=0.5, interpolate=True,linewidth=3)
+	plot(time_vector[0:len(time_vector)-1],av_temps_df[0:len(time_vector)-1].mean(axis=1),'k',label='average'+'AVG',linewidth=3)
+	plt.fill_between(time_vector[0:len(time_vector)-1] ,av_temps_df[0:len(time_vector)-1].mean(axis=1)+2*av_temps_df[0:len(time_vector)-1].std(axis=1), av_temps_df[0:len(time_vector)-1].mean(axis=1)-2*av_temps_df[0:len(time_vector)-1].std(axis=1), facecolor='gray',alpha=0.5, interpolate=True,linewidth=3)
 	# plt.fill_between(time_vector[0:len(time_vector)-1],.9*temps[0:len(time_vector)-1].mean(axis=1), 1.1*temps[0:len(time_vector)-1].mean(axis=1), facecolor='gray',alpha=0.5, interpolate=True,linewidth=3)
 	ax1 = gca()
 	xlabel('Time (s)', fontsize=20)
-	ylabel('Temperature (C)', fontsize=20)
+	ylabel(str(channels['Y Axis'][chart]), fontsize=20)
 	xticks(fontsize=16)
 	yticks(fontsize=16)
 	legend(numpoints=1,loc=1,ncol=2,fontsize=16)
@@ -155,12 +174,12 @@ for chart in channels.index.values:
 	for i in range(12):
 		y = temps[i]
 		plot(time_vector[0:len(time_vector)-1],y[0:len(time_vector)-1],color=colors[i],marker=markers[i],markevery=50,ms=8,label=Exp_Names[i].replace('_',' '))
-	plot(time_vector[0:len(time_vector)-1],temps[0:len(time_vector)-1].mean(axis=1),'k',label='Average',linewidth=3)
+	plot(time_vector[0:len(time_vector)-1],av_temps_df[0:len(time_vector)-1].mean(axis=1),'k',label='Average',linewidth=3)
 	# plt.fill_between(time_vector[0:len(time_vector)-1] ,temps[0:len(time_vector)-1].mean(axis=1)+2*temps[0:len(time_vector)-1].std(axis=1), temps[0:len(time_vector)-1].mean(axis=1)-2*temps[0:len(time_vector)-1].std(axis=1), facecolor='gray',alpha=0.5, interpolate=True,linewidth=3)
-	plt.fill_between(time_vector[0:len(time_vector)-1],.85*temps[0:len(time_vector)-1].mean(axis=1), 1.15*temps[0:len(time_vector)-1].mean(axis=1), facecolor='gray',alpha=0.5, interpolate=True,linewidth=3)
+	plt.fill_between(time_vector[0:len(time_vector)-1],.85*av_temps_df[0:len(time_vector)-1].mean(axis=1), 1.15*av_temps_df[0:len(time_vector)-1].mean(axis=1), facecolor='gray',alpha=0.5, interpolate=True,linewidth=3)
 	ax1 = gca()
 	xlabel('Time (s)', fontsize=20)
-	ylabel('Temperature (C)', fontsize=20)
+	ylabel(str(channels['Y Axis'][chart]), fontsize=20)
 	xticks(fontsize=16)
 	yticks(fontsize=16)
 	legend(numpoints=1,loc=1,ncol=2,fontsize=16)
@@ -213,7 +232,7 @@ for chart in channels.index.values:
 	plt.fill_between(time_vector[0:len(time_vector)-1],.85*temps_right[0:len(time_vector)-1].mean(axis=1), 1.15*temps_right[0:len(time_vector)-1].mean(axis=1), facecolor='gray',alpha=0.5, interpolate=True,linewidth=3)
 	ax1 = gca()
 	xlabel('Time (s)', fontsize=20)
-	ylabel('Temperature (C)', fontsize=20)
+	ylabel(str(channels['Y Axis'][chart]), fontsize=20)
 	xticks(fontsize=16)
 	yticks(fontsize=16)
 	legend(numpoints=1,loc=1,ncol=2,fontsize=16)

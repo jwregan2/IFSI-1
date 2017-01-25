@@ -1,27 +1,28 @@
-Chart,Left_Channel,Right_Channel,Factor,Gas,Left Transport,Right Transport
-Fire Room 1 7',Bedroom67ft,Bedroom17ft,1,N,0,0
-Fire Room 1 5',Bedroom65ft,Bedroom15ft,1,N,0,0
-Fire Room 2 7',Bedroom57ft,Bedroom27ft,1,N,0,0
-Fire Room 2 5',Bedroom55ft,Bedroom25ft,1,N,0,0
-Hallway 7ft,HallLeft7ft,HallRight7ft,1,N,0,0
-Near Bedroom O2,Bedroom4O2V,Bedroom3O2V,5,Y,18,17
-Far Bedroom O2,Bedroom3O2V,Bedroom4O2V,5,Y,17,18
-Near Hall O2,HallLeftO2V,HallRightO2V,5,Y,17,19
-Far Hall O2,HallRightO2V,HallLeftO2V,5,Y,19,17
-Victim 1 O2,Victim1O2,Victim1O2,1,Y,0,0
-Victim 2 O2,Victim2O2,Victim2O2,1,Y,0,0
-Near Bedroom CO2,Bedroom4CO2V,Bedroom3CO2V,5,Y,40,21
-Far Bedroom CO2,Bedroom3CO2V,Bedroom4CO2V,5,Y,21,40
-Near Hall CO2,HallLeftCO2V,HallRightCO2V,5,Y,40,21
-Far Hall CO2,HallRightCO2V,HallLeftCO2V,5,Y,21,40
-Victim 1 CO2,Victim1CO2,Victim1CO2,1,Y,0,0
-Victim 2 CO2,Victim2CO2,Victim2CO2,1,Y,0,0
-Near Bedroom CO,Bedroom4COV,Bedroom3COV,10000,Y,19,21
-Far Bedroom CO,Bedroom3COV,Bedroom4COV,10000,Y,21,19
-Near Hall CO,HallLeftCOV,HallRightCOV,10000,Y,21,21
-Far Hall CO,HallRightCOV,HallLeftCOV,10000,Y,21,21
-Victim 1 CO,Victim1CO,Victim1CO,1,Y,0,0
-Victim 2 CO2,Victim2CO,Victim2CO,1,Y,0,0
-DR Rear,DRRear7ft,DRRear7ft,1,N,0,0
-LR Rear,LRRear7ft,LRRear7ft,1,N,0,0
-Hallway 5ft,HallLeft5ft,HallRight5ft,1,N,0,0
+Chart,Left_Channel,Right_Channel,Left Factor,Right Factor,Left Offset,Right Offset,Gas,Left Transport,Right Transport,Y Axis
+Fire Room 1 7',Bedroom67ft,Bedroom17ft,1,1,0,0,N,0,0,Temperature ($^{\{circ}}$C) 
+Fire Room 1 5',Bedroom65ft,Bedroom15ft,1,1,0,0,N,0,0,Temperature ($^{\{circ}}$C) 
+Fire Room 2 7',Bedroom57ft,Bedroom27ft,1,1,0,0,N,0,0,Temperature ($^{\{circ}}$C) 
+Fire Room 2 5',Bedroom55ft,Bedroom25ft,1,1,0,0,N,0,0,Temperature ($^{\{circ}}$C) 
+Hallway 7ft,HallLeft7ft,HallRight7ft,1,1,0,0,N,0,0,Temperature ($^{\{circ}}$C) 
+Near Bedroom O2,Bedroom4O2V,Bedroom3O2V,5,5,0,0,Y,18,17,Concentration (%)
+Far Bedroom O2,Bedroom3O2V,Bedroom4O2V,5,5,0,0,Y,17,18,Concentration (%)
+Near Hall O2,HallLeftO2V,HallRightO2V,5,5,0,0,Y,17,19,Concentration (%)
+Far Hall O2,HallRightO2V,HallLeftO2V,5,5,0,0,Y,19,17,Concentration (%)
+Victim 1 O2,Victim1O2,Victim1O2,1,1,0,0,Y,0,0,Concentration (%)
+Victim 2 O2,Victim2O2,Victim2O2,1,1,0,0,Y,0,0,Concentration (%)
+Near Bedroom CO2,Bedroom4CO2V,Bedroom3CO2V,5,5,0,0,Y,40,21,Concentration (%)
+Far Bedroom CO2,Bedroom3CO2V,Bedroom4CO2V,5,5,0,0,Y,21,40,Concentration (%)
+Near Hall CO2,HallLeftCO2V,HallRightCO2V,5,5,0,0,Y,40,21,Concentration (%)
+Far Hall CO2,HallRightCO2V,HallLeftCO2V,5,5,0,0,Y,21,40,Concentration (%)
+Victim 1 CO2,Victim1CO2,Victim1CO2,1,1,0,0,Y,0,0,Concentration (%)
+Victim 2 CO2,Victim2CO2,Victim2CO2,1,1,0,0,Y,0,0,Concentration (%)
+Near Bedroom CO,Bedroom4COV,Bedroom3COV,10000,10000,0,0,Y,19,21,Concentration (PPM)
+Far Bedroom CO,Bedroom3COV,Bedroom4COV,10000,10000,0,0,Y,21,19,Concentration (PPM)
+Near Hall CO,HallLeftCOV,HallRightCOV,10000,10000,0,0,Y,21,21,Concentration (PPM)
+Far Hall CO,HallRightCOV,HallLeftCOV,10000,10000,0,0,Y,21,21,Concentration (PPM)
+Victim 1 CO,Victim1CO,Victim1CO,1,1,0,0,Y,0,0,Concentration (PPM)
+Victim 2 CO,Victim2CO,Victim2CO,1,1,0,0,Y,0,0,Concentration (PPM)
+DR Rear,DRRear7ft,DRRear7ft,1,1,0,0,N,0,0,Temperature ($^{\{circ}}$C) 
+LR Rear,LRRear7ft,LRRear7ft,1,1,0,0,N,0,0,Temperature ($^{\{circ}}$C) 
+Hallway 5ft,HallLeft5ft,HallRight5ft,1,1,0,0,N,0,0,Temperature ($^{\{circ}}$C) 
+Near Hall HF 5ft,HallLeftHF5ftV,HallRightHF5ftV,1919,1951,0,0,N,0,0,Heat Flux($kW/m^2$)
