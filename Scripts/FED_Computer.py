@@ -137,7 +137,7 @@ for f in os.listdir(data_location):
 				##Compute O2 Fractions
 				if channels[Gas_label][loc]=='Victim1'or 'Victim2':
 					try:
-						for x in data_file[channels[Gas_label][loc]+'O2'][str(O2_ign):str(O2_end)]:
+						for x in data_file[channels[Gas_label][loc]+'O2'][str(O2_ign):str(O2_end)]:	
 							O2_FED.append((1.0/60.0)*1/(exp(8.13-0.54*(20.9-float(x)))))
 						
 						##CO Fraction
@@ -171,6 +171,9 @@ for f in os.listdir(data_location):
 				for i in range(min([len(CO2_FED),len(O2_FED),len(CO_FED)])):
 					if i==0:	
 						FED_cum.append(CO2_FED[i]*CO_FED[i]+O2_FED[i])
+					elif np.isnan(FED_cum[i-1]):
+						FEDs_df.loc[Test_Name,loc]=('Sensor Malfunction at '+str(((Ignition_mdy+timedelta(seconds=i))-Ignition_mdy).total_seconds()))
+						break
 					elif FED_cum[i-1]>1.0:
 						FEDs_df.loc[Test_Name,loc]=((Ignition_mdy+timedelta(seconds=i))-Ignition_mdy).total_seconds()
 						break
@@ -186,8 +189,13 @@ for f in os.listdir(data_location):
 				##COMPUTE TEMPS FEDs
 				try:
 					for x in data_file[channels[Temp_label][loc]][str(Ignition_mdy):str(End_Experiment_mdy)]:
-						Temps_rad.append((2.72*10**14)/((max([x,0])+273.0)**(1.35)))
-						Temps_conv.append((5.0*10**7)*max([x,0])**(-3.4))
+						if np.isnan(x):
+							##If any of the temperatures are nans, act as if they are room temperature
+							Temps_rad.append((2.72*10**14)/((25+273.0)**(1.35)))
+							Temps_conv.append((5.0*10**7)*25)**(-3.4)
+						else:
+							Temps_rad.append((2.72*10**14)/((max([x,0])+273.0)**(1.35)))
+							Temps_conv.append((5.0*10**7)*max([x,0])**(-3.4))
 					
 				except:
 					print('NO DATA FOR ' +channels[Temp_label][loc])
@@ -195,19 +203,23 @@ for f in os.listdir(data_location):
 
 
 
+
 				
 				for i in range(min([len(Temps_conv),len(Temps_rad)])):
 
 					if i==0:	
-						Temps_cum.append((1/60)*((1/Temps_conv[i])+(1/Temps_rad[i])))
+						# Temps_cum.append((1/60)*((1/Temps_conv[i])+(1/Temps_rad[i])))
+						Temps_cum.append((1/60)*((1/Temps_conv[i])))
 					elif Temps_cum[i-1]>1.0:
 						FEDs_df.loc[Test_Name,loc+' Temp']=((Ignition_mdy+timedelta(seconds=i))-Ignition_mdy).total_seconds()
 						break
 					elif i==min([len(Temps_conv),len(Temps_rad)])-1:
-						FEDs_df.loc[Test_Name,loc+' Temp']=('N/A '+str(round((1/60)*((1/Temps_conv[i])+(1/Temps_rad[i]))+Temps_cum[i-1],3)))
+						# FEDs_df.loc[Test_Name,loc+' Temp']=('N/A '+str(round((1/60)*((1/Temps_conv[i])+(1/Temps_rad[i]))+Temps_cum[i-1],3)))
+						FEDs_df.loc[Test_Name,loc+' Temp']=('N/A '+str(round((1/60)*((1/Temps_conv[i]))+Temps_cum[i-1],3)))
 						print('NO INCAP')
 					else:
-						Temps_cum.append((1/60)*((1/Temps_conv[i])+(1/Temps_rad[i]))+Temps_cum[i-1])
+						# Temps_cum.append((1/60)*((1/Temps_conv[i])+(1/Temps_rad[i]))+Temps_cum[i-1])
+						Temps_cum.append((1/60)*((1/Temps_conv[i]))+Temps_cum[i-1])
 
 
 

@@ -1,7 +1,7 @@
 Chart,Left Temp Name,Right Temp Name,Left Gas Name,Right Gas Name
-Near Bedroom,Bedroom47ft,Bedroom37ft,Bedroom4,Bedroom3
-Far Bedroom,Bedroom37ft,Bedroom47ft,Bedroom3,Bedroom4
-Near Hall,HallLeft7ft,HallRight7ft,HallLeft,HallRight
-Far Hall,HallRight7ft,HallLeft7ft,HallRight,HallLeft
+Near Bedroom,Bedroom43ft,Bedroom33ft,Bedroom4,Bedroom3
+Far Bedroom,Bedroom33ft,Bedroom43ft,Bedroom3,Bedroom4
+Near Hall,HallLeft3ft,HallRight3ft,HallLeft,HallRight
+Far Hall,HallRight3ft,HallLeft3ft,HallRight,HallLeft
 Victim 1,Victim1Temp,Victim1Temp,Victim1,Victim1
 Victim 2,Victim2Temp,Victim2Temp,Victim2,Victim2
