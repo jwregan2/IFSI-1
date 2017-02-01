@@ -23,21 +23,22 @@ channels=channels.set_index('Chart')
 output_table_loc='../Tables/'
 
 N_rows=12
-N_columns=14
+N_columns=15
 
 ##SPECIFY DESIRED HEIGHTS FOR TEMP FED COMPUTATIONS##
 conv_height='7ft'
 rad_height='7ft'
 
 FEDs_df=pd.DataFrame(np.zeros((N_rows,N_columns)))
-FEDs_df.columns=['Experiment','Test Length','Near Hall','Near Bedroom','Far Bedroom','Far Hall','Victim 1','Victim 2','Near Hall Temp','Near Bedroom Temp','Far Bedroom Temp','Far Hall Temp','Victim 1 Temp','Victim 2 Temp']
+FEDs_df.columns=['Experiment','Attack Type','Test Length','Near Hall','Near Bedroom','Far Bedroom','Far Hall','Victim 1','Victim 2','Near Hall Temp','Near Bedroom Temp','Far Bedroom Temp','Far Hall Temp','Victim 1 Temp','Victim 2 Temp']
 Exp_Names=[]
 for f in os.listdir(data_location):
 	if f.endswith('.csv'):
 		Exp_Names.append(f[:-4])
-
+Attack_Type=['Transitional','Interior','Transitional','Interior','Interior','Transitional','Interior','Transitional','Interior','Transitional','Transitional','Interior']
 for i in range(len(FEDs_df)):
 	FEDs_df.loc[i,'Experiment']=Exp_Names[i]
+	FEDs_df.loc[i,'Attack Type']=Attack_Type[i]
 FEDs_df=FEDs_df.set_index('Experiment')
 
 

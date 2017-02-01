@@ -87,7 +87,7 @@ for f in os.listdir(data_location):
 				 print ('ERROR 1')
 			
 			try:
-				End_Experiment_mdy=datetime.datetime.strptime(Events['Time']['End of Experiment'], '%Y-%m-%d-%H:%M:%S')
+				End_Experiment_mdy=datetime.datetime.strptime(Events['Time']['Victim 2 Out'], '%Y-%m-%d-%H:%M:%S')+timedelta(seconds=360)
 				End_Experiment_elapsed=data_file['Elapsed Time'][str(End_Experiment_mdy)]
 			except:
 				End_Experiment_mdy=datetime.datetime.strptime(Events['Time']['Data System Error'], '%Y-%m-%d-%H:%M:%S')
@@ -200,23 +200,22 @@ for f in os.listdir(data_location):
 					yticks(fontsize=16)
 					legend(numpoints=1,loc=1,ncol=2,fontsize=16)
 					axis([0, 1.1*max(gas_time), 0, 1.1*max(FED_cum)])
-					box = ax1.get_position()
-					ax1.set_position([box.x0, box.y0, box.width * 0.75, box.height])
-					ax3=ax1.twiny()
-					ax3.set_xlim(0,max(gas_time))
+					# ax3=ax1.twiny()
+					# ax3.set_xlim(0,1.1*max(gas_time))
 
 					plt.axvline(Water_on,color='0',lw=1) 
-					ax3.set_xticks([Water_on])
-					ax3.set_xticklabels('Water on', fontsize=14, ha='left')
+					# ax3.set_xticks([Water_on])
+					# ax3.set_xticklabels('Water on', fontsize=14, ha='left')
 
 					# ax1.set_xlim([0,1.1*N_rows])
-
+					box = ax1.get_position()
+					ax1.set_position([box.x0, box.y0, box.width * 0.75, box.height])
 					# ax1.set_ylim([0,1.1*max_temp])
 					ax1.legend(loc='center left', bbox_to_anchor=(1, 0.5))
 					grid(True) 
-					if not os.path.exists(output_loc+Test_Name):
-						os.makedirs(output_loc+Test_Name)
-					savefig(output_loc+Test_Name+'/'+ loc + '.pdf',format='pdf')
+					if not os.path.exists(output_loc+'Gas_Charts/'+Test_Name+'/'):
+						os.makedirs(output_loc+'Gas_Charts/'+Test_Name+'/')
+					savefig(output_loc+'Gas_Charts/'+Test_Name+'/'+ loc + '.pdf',format='pdf')
 					close()
 				except:
 					print('No chart '+loc)
@@ -252,9 +251,6 @@ for f in os.listdir(data_location):
 					if i==0:	
 						# Temps_cum.append((1/60)*((1/Temps_conv[i])+(1/Temps_rad[i])))
 						Temps_cum.append((1/60)*((1/Temps_conv[i])))
-					elif Temps_cum[i-1]>1.0:
-						FEDs_df.loc[Test_Name,loc+' Temp']=((Ignition_mdy+timedelta(seconds=i))-Ignition_mdy).total_seconds()
-						break
 					elif i==min([len(Temps_conv),len(Temps_rad)])-1:
 						# FEDs_df.loc[Test_Name,loc+' Temp']=('N/A '+str(round((1/60)*((1/Temps_conv[i])+(1/Temps_rad[i]))+Temps_cum[i-1],3)))
 						FEDs_df.loc[Test_Name,loc+' Temp']=('N/A '+str(round((1/60)*((1/Temps_conv[i]))+Temps_cum[i-1],3)))
@@ -262,3 +258,35 @@ for f in os.listdir(data_location):
 					else:
 						# Temps_cum.append((1/60)*((1/Temps_conv[i])+(1/Temps_rad[i]))+Temps_cum[i-1])
 						Temps_cum.append((1/60)*((1/Temps_conv[i]))+Temps_cum[i-1])
+				temp_time=range(len(Temps_cum))
+
+				try:
+					fig = figure()
+					plot(temp_time,Temps_cum,'k',linewidth=3)
+					ax1 = gca()
+					xlabel('Time (s)', fontsize=20)
+					ylabel('Temperature FED', fontsize=20)
+					xticks(fontsize=16)
+					yticks(fontsize=16)
+					legend(numpoints=1,loc=1,ncol=2,fontsize=16)
+					axis([0, 1.1*max(temp_time), 0, 1.1*max(Temps_cum)])
+					# ax3=ax1.twiny()
+					# ax3.set_xlim(0,1.1*max(gas_time))
+
+					plt.axvline(Water_on,color='0',lw=1) 
+					# ax3.set_xticks([Water_on])
+					# ax3.set_xticklabels('Water on', fontsize=14, ha='left')
+
+					# ax1.set_xlim([0,1.1*N_rows])
+					box = ax1.get_position()
+					ax1.set_position([box.x0, box.y0, box.width * 0.75, box.height])
+					# ax1.set_ylim([0,1.1*max_temp])
+					ax1.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+					grid(True) 
+					if not os.path.exists(output_loc+'Temp_Charts/'+Test_Name+'/'):
+						os.makedirs(output_loc+'Temp_Charts/'+Test_Name+'/')
+					savefig(output_loc+'Temp_Charts/'+Test_Name+'/'+ loc + '.pdf',format='pdf')
+					close()
+				except:
+					print('No temp chart '+loc)
+					continue
