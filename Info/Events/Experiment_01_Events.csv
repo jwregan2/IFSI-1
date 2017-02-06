@@ -1,22 +1,12 @@
-Time,Event,,,,,,,,,,Hour,Minute,Second
-2015-06-14-10:02:07,Ignition BR6,,,,,Ignition BR 6,0:00:00,,10:02:07 AM,,10,2,7
-2015-06-14-10:04:07,Ignition BR5,,,,,Ignition BR 5,0:02:00,,10:04:07 AM,,10,4,7
-2015-06-14-10:06:37,FD Dispatch,,,,,FD Dispatch,0:04:30,,10:06:37 AM,,10,6,37
-2015-06-14-10:08:46,Water in Window,,,,,Water in BR 6 Window - 15 Seconds,0:06:39,,10:08:46 AM,,10,8,46
-2015-06-14-10:09:08,Water in BR 5 Window - 16 Seconds,,,,,Water in BR 6 Window Stop,0:06:54,0:00:15,10:09:01 AM,,10,9,1
-2015-06-14-10:10:03,Front Door Open,,,,,Water in BR 5 Window - 16 Seconds,0:07:01,,10:09:08 AM,,10,9,8
-2015-06-14-10:11:19,Nozzle FF Reaches Hallway,,,,,Water in BR 5 Window Stop,0:07:17,0:00:16,10:09:24 AM,,10,9,24
-2015-06-14-10:11:34,BR 5 & BR 6 Window Opened/Cleared,,,,,2ND Water in BR 6 Window Start,NA,,,,,,
-2015-06-14-10:13:35,Victim 1 Out,,,,,2ND Water in BR 6 Window Stop,NA,,,,,,
-2015-06-14-10:17:25,Data System Error,,,,,Front Door Open,0:07:56,,10:10:03 AM,,10,10,3
-,,,,,,Nozzle FF Reaches Hallway,0:09:12,,10:11:19 AM,,10,11,19
-2015-06-14-10:18:19,Victim 2 Out,,,,,BR 6 Window Cleared,0:09:27,,10:11:34 AM,,10,11,34
-2015-06-14-10:37:39,End of Experiment,,,,,BR 5 Rear Window Open,0:09:34,0:00:07,10:11:41 AM,,10,11,41
-,,,,,,Victim 1 Out,0:11:28,,10:13:35 AM,,10,13,35
-,,,,,,Victim 2 Out,0:16:12,,10:18:19 AM,,10,18,19
-,,,,,,Living Room Right Window Open,0:19:34,,10:21:41 AM,,10,21,41
-,2015-06-14-10:17:25,,,,,Living Room Left Window Open,0:19:39,,10:21:46 AM,,10,21,46
-,,,,,,Kitchen Window Open,0:20:33,,10:22:40 AM,,10,22,40
-,,,,,,BR 3 Exterior Door Open,NA,,#VALUE!,,#VALUE!,#VALUE!,#VALUE!
-,,,,,,BR 4 Exterior Door Open,NA,,#VALUE!,,#VALUE!,#VALUE!,#VALUE!
-,,,,,,End of Experiment,0:35:32,,10:37:39 AM,,10,37,39
+Time,Event,
+2015-06-14-10:02:07,Ignition BR6,
+2015-06-14-10:04:07,Ignition BR5,
+2015-06-14-10:06:37,FD Dispatch,
+2015-06-14-10:08:46,Water in Window,
+2015-06-14-10:09:08,Water in BR 5 Window - 16 Seconds,
+2015-06-14-10:10:03,Front Door Open,
+2015-06-14-10:11:19,Nozzle FF Reaches Hallway,
+2015-06-14-10:11:34,BR 5 & BR 6 Window Opened/Cleared,
+2015-06-14-10:13:35,Victim 1 Out,
+2015-06-14-10:17:25,Data System Error,
+

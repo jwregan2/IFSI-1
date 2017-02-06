@@ -1,22 +1,12 @@
-Time,Event,,,,,,,,,,Hour,Minute,Second
-2015-06-23-08:49:04,Ignition BR1,,,,,Ignition BR 1,0:00:00,,8:49:04 AM,,8,49,4
-2015-06-23-08:51:04,Ignition BR2,,,,,Ignition BR 2,0:02:00,,8:51:04 AM,,8,51,4
-2015-06-23-08:53:34,FD Dispatch,,,,,FD Dispatch,0:04:30,,8:53:34 AM,,8,53,34
-2015-06-23-08:55:34,Water in Window,,,,,Water in BR 2 Window - 10 Seconds,0:06:30,,8:55:34 AM,,8,55,34
-2015-06-23-08:55:54,Water in BR 1 Window - 11 Seconds,,,,,Water in BR 2 Window Stop,0:06:40,0:00:10,8:55:44 AM,,8,55,44
-2015-06-23-08:57:12,Front Door Open,,,,,Water in BR 1 Window - 11 Seconds,0:06:50,,8:55:54 AM,,8,55,54
-2015-06-23-09:01:26,Nozzle FF Reaches Hallway,,,,,Water in BR 1 Window Stop,0:07:01,0:00:11,8:56:05 AM,,8,56,5
-2015-06-23-08:56:39,BR 1 & BR 2 Window Open/Cleared,,,,,2ND Water in BR 6 Window Start,0:07:15,,8:56:19 AM,,8,56,19
-2015-06-23-08:58:49,Victim 1 Out,,,,,2ND Water in BR 6 Window Stop,0:07:27,,8:56:31 AM,,8,56,31
-2015-06-23-09:03:09,Victim 2 Out,,,,,Front Door Open,0:08:08,,8:57:12 AM,,8,57,12
-2015-06-23-09:24:39,End of Experiment,,,,,Nozzle FF Reaches Hallway,0:12:22,,9:01:26 AM,,9,1,26
-,,,,,,BR 1 & BR 2 Window Open/Cleared,0:07:35,,8:56:39 AM,,8,56,39
-,,,,,,BR 5 Rear Window Open,0:07:13,,8:56:17 AM,,8,56,17
-,,,,,,Victim 1 Out,0:09:45,,8:58:49 AM,,8,58,49
-,,,,,,Victim 2 Out,0:14:05,,9:03:09 AM,,9,3,9
-,,,,,,Living Room Right Window Open,0:16:03,,9:05:07 AM,,9,5,7
-,,,,,,Living Room Left Window Open,0:16:01,,9:05:05 AM,,9,5,5
-,,,,,,Kitchen Window Open,0:16:49,,9:05:53 AM,,9,5,53
-,,,,,,BR 3 Exterior Door Open,NA,,,,,,
-,,,,,,BR 4 Exterior Door Open,NA,,,,,,
-,,,,,,End of Experiment,0:35:35,,9:24:39 AM,,9,24,39
+Time,Event,
+2015-06-23-08:49:04,Ignition BR1,
+2015-06-23-08:51:04,Ignition BR2,
+2015-06-23-08:53:34,FD Dispatch,
+2015-06-23-08:55:34,Water in Window,
+2015-06-23-08:55:54,Water in BR 1 Window - 11 Seconds,
+2015-06-23-08:57:12,Front Door Open,
+2015-06-23-09:01:26,Nozzle FF Reaches Hallway,
+2015-06-23-08:56:39,BR 1 & BR 2 Window Open/Cleared,
+2015-06-23-08:58:49,Victim 1 Out,
+2015-06-23-09:03:09,Victim 2 Out,
+2015-06-23-09:24:39,End of Experiment,

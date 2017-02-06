@@ -1,30 +1,12 @@
-Time,Event,,,,,,,,,,Hour,Minute,Second
-2015-06-28-08:45:47,Ignition BR1,,,,,Ignition BR 1,0:00:00,,8:45:47 AM,,8,45,47
-2015-06-28-08:47:47,Ignition BR2,,,,,Ignition BR 2,0:02:00,,8:47:47 AM,,8,47,47
-2015-06-28-08:50:17,FD Dispatch,,,,,FD Dispatch,0:04:30,,8:50:17 AM,,8,50,17
-2015-06-28-08:52:14,Water in Window,,,,,Water in BR 2 Window - 15 Seconds,0:06:27,,8:52:14 AM,,8,52,14
-2015-06-28-08:52:41,Water in BR 1 Window - 16 Seconds,,,,,Water in BR 2 Window Stop,0:06:42,0:00:15,8:52:29 AM,,8,52,29
-2015-06-28-08:53:22,Front Door Open,,,,,Water in BR 1 Window - 16 Seconds,0:06:54,,8:52:41 AM,,8,52,41
-2015-06-28-08:53:34,BR 1 & BR 2 Window Open/Cleared,,,,,Water in BR 1 Window Stop,0:07:10,0:00:16,8:52:57 AM,,8,52,57
-2015-06-28-08:53:38,Nozzle FF Reaches Hallway,,,,,2ND Water in BR 6 Window Start,NA,,,,,,
-2015-06-28-08:54:51,Victim 1 Out,,,,,2ND Water in BR 6 Window Stop,NA,,,,,,
-2015-06-28-08:56:45,Victim 2 Out,,,,,Front Door Open,0:07:35,,8:53:22 AM,,8,53,22
-2015-06-28-09:17:09,End of Experiment,,,,,Nozzle FF Reaches Hallway,0:07:51,,8:53:38 AM,,8,53,38
-,,,,,,BR 1 & BR 2 Window Open/Cleared,0:07:47,,8:53:34 AM,,8,53,34
-,,,,,,BR 5 Rear Window Open,0:07:32,,8:53:19 AM,,8,53,19
-,,,,,,Victim 1 Out,0:09:04,,8:54:51 AM,,8,54,51
-,,,,,,Victim 2 Out,0:10:58,,8:56:45 AM,,8,56,45
-,,,,,,Living Room Right Window Open,0:16:00,,9:01:47 AM,,9,1,47
-,,,,,,Living Room Left Window Open,0:16:27,,9:02:14 AM,,9,2,14
-,,,,,,Kitchen Window Open,0:17:32,,9:03:19 AM,,9,3,19
-,,,,,,BR 3 Exterior Door Open,NA,,,,,,
-,,,,,,BR 4 Exterior Door Open,NA,,,,,,
-,,,,,,End of Experiment,0:31:22,,9:17:09 AM,,9,17,9
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,8:40:38,,,,,,,,,,,
-,,8:45:47,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,0:05:09,,,,,,,,,,
+Time,Event,
+2015-06-28-08:45:47,Ignition BR1,
+2015-06-28-08:47:47,Ignition BR2,
+2015-06-28-08:50:17,FD Dispatch,
+2015-06-28-08:52:14,Water in Window,
+2015-06-28-08:52:41,Water in BR 1 Window - 16 Seconds,
+2015-06-28-08:53:22,Front Door Open,
+2015-06-28-08:53:34,BR 1 & BR 2 Window Open/Cleared,
+2015-06-28-08:53:38,Nozzle FF Reaches Hallway,
+2015-06-28-08:54:51,Victim 1 Out,
+2015-06-28-08:56:45,Victim 2 Out,
+2015-06-28-09:17:09,End of Experiment,
