@@ -180,7 +180,7 @@ for f in os.listdir(data_location):
 						break
 					elif i==min([len(CO2_FED),len(O2_FED),len(CO_FED)])-1:
 
-						FEDs_df.loc[Test_Name,loc]=('N/A '+str(round((CO2_FED[i]*CO_FED[i]+O2_FED[i])+FED_cum[i-1],3)))
+						FEDs_df.loc[Test_Name,loc]=('N/A ('+str(round((CO2_FED[i]*CO_FED[i]+O2_FED[i])+FED_cum[i-1],3))+')')
 					else:
 						FED_cum.append((CO2_FED[i]*CO_FED[i]+O2_FED[i])+FED_cum[i-1])
 
@@ -192,15 +192,28 @@ for f in os.listdir(data_location):
 					for x in data_file[channels[Temp_label][loc]][str(Ignition_mdy):str(End_Experiment_mdy)]:
 						if np.isnan(x):
 							##If any of the temperatures are nans, act as if they are room temperature
-							Temps_rad.append((2.72*10**14)/((25+273.0)**(1.35)))
+							# Temps_rad.append((2.72*10**14)/((25+273.0)**(1.35)))
 							Temps_conv.append((5.0*10**7)*25)**(-3.4)
 						else:
-							Temps_rad.append((2.72*10**14)/((max([x,0])+273.0)**(1.35)))
+							# Temps_rad.append((2.72*10**14)/((max([x,0])+273.0)**(1.35)))
 							Temps_conv.append((5.0*10**7)*max([x,0])**(-3.4))
+					# rad_loc=channels[Temp_label][loc][:-3]+'7ft'
+
+					# for x in data_file[rad_loc][str(Ignition_mdy):str(End_Experiment_mdy)]:
+					for x in data_file[channels[Temp_label][loc]][str(Ignition_mdy):str(End_Experiment_mdy)]:					
+						if np.isnan(x):
+							##If any of the temperatures are nans, act as if they are room temperature
+							Temps_rad.append((2.72*10**14)/((25+273.0)**(1.35)))
+							# Temps_conv.append((5.0*10**7)*25)**(-3.4)
+						else:
+							Temps_rad.append((2.72*10**14)/((max([x,0])+273.0)**(1.35)))
+							# Temps_conv.append((5.0*10**7)*max([x,0])**(-3.4))
 					
 				except:
 					print('NO DATA FOR ' +channels[Temp_label][loc])
 					FEDs_df.loc[Test_Name,loc+' Temp']=('No Data')
+				print(Temps_rad)
+
 
 
 
@@ -216,7 +229,7 @@ for f in os.listdir(data_location):
 						break
 					elif i==min([len(Temps_conv),len(Temps_rad)])-1:
 						# FEDs_df.loc[Test_Name,loc+' Temp']=('N/A '+str(round((1/60)*((1/Temps_conv[i])+(1/Temps_rad[i]))+Temps_cum[i-1],3)))
-						FEDs_df.loc[Test_Name,loc+' Temp']=('N/A '+str(round((1/60)*((1/Temps_conv[i]))+Temps_cum[i-1],3)))
+						FEDs_df.loc[Test_Name,loc+' Temp']=('N/A ('+str(round((1/60)*((1/Temps_conv[i]))+Temps_cum[i-1],3))+')')
 						print('NO INCAP')
 					else:
 						# Temps_cum.append((1/60)*((1/Temps_conv[i])+(1/Temps_rad[i]))+Temps_cum[i-1])
