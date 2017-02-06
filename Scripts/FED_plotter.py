@@ -199,13 +199,9 @@ for f in os.listdir(data_location):
 					legend(numpoints=1,loc=1,ncol=2,fontsize=16)
 					# axis([0, 1.1*max(gas_time), 0, 1.1*max(FED_cum)])
 
-
 					EventTime=list(range(len(Events.index.values)))
 					Event_Names=[]
 					Tick_Times=[]
-
-
-
 
 					for i in range(len(Events.index.values)):
 						# if Events.index.values[i]=='End of Experiment':
@@ -287,18 +283,28 @@ for f in os.listdir(data_location):
 					xticks(fontsize=16)
 					yticks(fontsize=16)
 					legend(numpoints=1,loc=1,ncol=2,fontsize=16)
-					axis([0, 1.1*max(temp_time), 0, 1.1*max(Temps_cum)])
+					EventTime=list(range(len(Events.index.values)))
+					Event_Names=[]
+					Tick_Times=[]
+
+					for i in range(len(Events.index.values)):
+						# if Events.index.values[i]=='End of Experiment':
+						# 	continue
+						EventTime[i] = (datetime.datetime.strptime(Events['Time'][Events.index.values[i]], '%Y-%m-%d-%H:%M:%S')-Ignition_mdy).total_seconds()
+						plt.axvline(EventTime[i], color='0', lw=1)
+						if EventTime[i]<max(temp_time):
+							Event_Names.append(Events.index.values[i])
+							Tick_Times.append(EventTime[i])
+
+					ax1.set_xlim(0,1.1*max(temp_time))
+					ax1.set_ylim(0,1.1*max(Temps_cum))
 					ax3=ax1.twiny()
-					ax3.set_xlim(0,1.1*max(gas_time))
-
-					plt.axvline(Water_on,color='0',lw=1) 
-					ax3.set_xticks([Water_on])
-					ax3.set_xticklabels('Water on', fontsize=14, ha='left')
-
-					ax1.set_xlim([0,1.1*N_rows])
-					box = ax1.get_position()
-					ax1.set_position([box.x0, box.y0, box.width * 0.75, box.height])
-					# ax1.set_ylim([0,1.1*max_temp])
+					ax3.set_xlim(0,1.1*max(temp_time))
+					ax3.set_xticks(Tick_Times)
+					plt.setp(plt.xticks()[1], rotation=90)
+					ax3.set_xticklabels(Event_Names, fontsize=10, ha='left')
+					fig.set_size_inches(20, 16)
+					plt.tight_layout()
 					ax1.legend(loc='center left', bbox_to_anchor=(1, 0.5))
 					grid(True) 
 					if not os.path.exists(output_loc+'Temp_Charts/'+Test_Name+'/'):

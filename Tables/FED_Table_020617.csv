@@ -1,0 +1,13 @@
+Experiment,Attack Type,Test Length,Near Hall,Near Bedroom,Far Bedroom,Far Hall,Victim 1,Victim 2,Near Hall Temp,Near Bedroom Temp,Far Bedroom Temp,Far Hall Temp,Victim 1 Temp,Victim 2 Temp
+Experiment_01,Transitional,854,N/A 0.012,N/A 0.035,N/A 0.015,N/A 0.326,No Data,No Data,300,N/A 0.019,N/A 0.009,N/A 0.008,N/A 0.293,N/A 0.033
+Experiment_02,Interior,2137,N/A 0.251,N/A 0.038,N/A 0.089,N/A 0.153,No Data,No Data,344,N/A 0.035,N/A 0.037,N/A 0.022,466,N/A 0.066
+Experiment_03,Transitional,1984,442,984,N/A 0.362,513,No Data,Sensor Malfunction at 1895.0,345,N/A 0.041,N/A 0.027,N/A 0.017,N/A 0.321,N/A 0.051
+Experiment_04,Interior,2062,N/A 0.274,N/A 0.016,N/A 0.209,N/A 0.043,Sensor Malfunction at 1.0,Sensor Malfunction at 1609.0,300,N/A 0.02,N/A 0.028,N/A 0.016,N/A 0.332,1035
+Experiment_05,Interior,2148,465,927,N/A 0.762,813,Sensor Malfunction at 138.0,N/A 0.286,341,N/A 0.072,N/A 0.034,N/A 0.022,N/A 0.357,N/A 0.074
+Experiment_06,Transitional,2063,623,N/A 0.286,N/A 0.717,972,1277,N/A 0.283,344,N/A 0.027,N/A 0.024,N/A 0.024,N/A 0.092,N/A 0.023
+Experiment_07,Interior,1931,419,N/A 0.572,N/A 0.582,474,No Data,N/A 0.258,346,N/A 0.026,N/A 0.018,N/A 0.014,N/A 0.452,N/A 0.021
+Experiment_08,Transitional,2063,409,N/A 0.414,1068,876,132,N/A 0.351,262,N/A 0.024,N/A 0.026,N/A 0.02,N/A 0.124,N/A 0.039
+Experiment_09,Interior,1980,408,N/A 0.211,N/A 0.719,476,50,N/A 0.133,225,N/A 0.038,N/A 0.026,N/A 0.018,N/A 0.34,N/A 0.022
+Experiment_10,Transitional,1811,444,N/A 0.059,N/A 0.001,976,160,N/A 0.106,365,N/A 0.032,N/A 0.031,N/A 0.026,N/A 0.332,N/A 0.009
+Experiment_11,Transitional,1831,371,N/A -0.001,N/A 0.849,456,62,N/A 0.108,315,N/A 0.036,N/A 0.034,N/A 0.022,N/A 0.546,N/A 0.012
+Experiment_12,Interior,1854,442,N/A 0.036,N/A 0.003,635,184,N/A 0.064,373,N/A 0.028,N/A 0.04,No Data,N/A 0.672,N/A 0.108
