@@ -54,7 +54,7 @@ for f in os.listdir(data_location):
 		Test_Length.append((End_Experiment-Ignition).total_seconds())
 print(Test_Length)
 
-N_rows=801#max(Test_Length)
+N_rows=1000#max(Test_Length)
 N_columns=12
 
 markers = ['s', '*', '^', 'o', '<', '>', '8', 'h','d','x','p','v','H', 'D', '1', '2', '3', '4', '|']
@@ -124,7 +124,7 @@ for chart in channels.index.values:
 					if channels['Gas'][chart]=='Y':
 						Ignition=Ignition+timedelta(seconds=int(channels['Right Transport'][chart]))
 					Factor=channels['Right Factor'][chart]
-					Int_Time=Ignition+timedelta(seconds=801)
+					Int_Time=Ignition+timedelta(seconds=int(N_rows))
 					# Locations=['LRFront','LRRear','DRFront','DRRear','HallRight','Bedroom2','Bedroom1','HallRightHF']
 
 				elif Exp_Num%2==1:
@@ -134,13 +134,21 @@ for chart in channels.index.values:
 					if channels['Gas'][chart]=='Y':
 						Ignition=Ignition+timedelta(seconds=int(channels['Left Transport'][chart]))
 					Factor=channels['Left Factor'][chart]											
-					Int_Time=Ignition+timedelta(seconds=801)
+					Int_Time=Ignition+timedelta(seconds=int(N_rows))
 
 					# Locations=['LRFront','LRRear','DRFront','DRRear','HallLeft','Bedroom5','Bedroom6','HallLeftHF']
 				else:
 					 print ('ERROR 1')
+				if Exp_Num==1:
+					if channels['Gas'][chart]=='Y':
+						End_Chart=Ignition+timedelta(seconds=Test_Length[i])-timedelta(seconds=60)
 
-				temp_vec=data_file[channel][str(Ignition):str(Int_Time)]#Ig,Ig+358
+					else:
+						End_Chart=Ignition+timedelta(seconds=Test_Length[i])
+
+				else:
+					End_Chart=Int_Time
+				temp_vec=data_file[channel][str(Ignition):str(End_Chart)]#Ig,Ig+358
 				temp_vec=temp_vec.reset_index()
 
 
