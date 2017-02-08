@@ -151,7 +151,7 @@ for chart in channels.index.values:
 				temp_vec=data_file[channel][str(Ignition):str(End_Chart)]#Ig,Ig+358
 				temp_vec=temp_vec.reset_index()
 
-
+     			print('go')
 
 				# if channels['Gas'][chart]=='Y':
 				for j in range(len(temps[i])):
