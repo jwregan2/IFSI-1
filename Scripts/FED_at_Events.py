@@ -23,14 +23,14 @@ channels=channels.set_index('Chart')
 output_table_loc='../Tables/'
 
 N_rows=12
-N_columns=8
+N_columns=15
 
 ##SPECIFY DESIRED HEIGHTS FOR TEMP FED COMPUTATIONS##
 conv_height='7ft'
 rad_height='7ft'
 
 FEDs_df=pd.DataFrame(np.zeros((N_rows,N_columns)))
-FEDs_df.columns=['Experiment','FD Dispatch','Water in Window','Water in BR','Front Door','Nozzle FF Reaches Hallway','Victim 1 Out','Victim 2 Out']
+FEDs_df.columns=['Experiment','FD Dispatch','Water in Window','Water in BR','Front Door','Nozzle FF Reaches Hallway','Victim 1 Out','Victim 2 Out','FD Dispatch (Temp)','Water in Window (Temp)','Water in BR (Temp)','Front Door (Temp)','Nozzle FF Reaches Hallway (Temp)','Victim 1 Out (Temp)','Victim 2 Out (Temp)']
 Exp_Names=[]
 for f in os.listdir(data_location):
 	if f.endswith('.csv'):
@@ -39,8 +39,8 @@ for i in range(len(FEDs_df)):
 	FEDs_df.loc[i,'Experiment']=Exp_Names[i]
 
 FEDs_df=FEDs_df.set_index('Experiment')
-Near_Hall_df=FEDs_df
-Far_Hall_df=FEDs_df
+Near_Hall_df=FEDs_df.copy()
+Far_Hall_df=FEDs_df.copy()
 events_of_interest=['FD Dispatch','Water in Window','Water in BR','Front Door','Nozzle FF Reaches Hallway','Victim 1 Out','Victim 2 Out']
 
 
@@ -169,28 +169,29 @@ for f in os.listdir(data_location):
 							FED_cum.append(CO2_FED[i]*CO_FED[i]+O2_FED[i])
 						elif i==min([len(CO2_FED),len(O2_FED),len(CO_FED)])-1:
 
-							FEDs_df.loc[Test_Name,loc]=('N/A ('+str(round((CO2_FED[i]*CO_FED[i]+O2_FED[i])+FED_cum[i-1],3))+')')
+							continue
 						else:
 							FED_cum.append((CO2_FED[i]*CO_FED[i]+O2_FED[i])+FED_cum[i-1])
 
 					EventTime=list(range(len(Events.index.values)))
 
 					for i in range(len(Events.index.values)):
-						EventTime[i] = (datetime.datetime.strptime(Events['Time'][Events.index.values[i]], '%Y-%m-%d-%H:%M:%S')-Ignition_mdy).total_seconds()
-					event_feds=[]	
-
-					for i in range(len(EventTime)):
-						try:
-							j=int(EventTime[i])
-							z=Events.index.values[i]
-							event_feds.append(str(Events.index.values[i])+': '+str(round(FED_cum[j],3)))
-						except:
-							event_feds.append(str(Events.index.values[i])+': '+'No Data')
-
-					print(event_feds)
-
-				
-
+						if loc=='Near Hall':
+							for column in Near_Hall_df:
+								if column in Events.index.values[i]:
+									try:
+										j = (datetime.datetime.strptime(Events['Time'][Events.index.values[i]], '%Y-%m-%d-%H:%M:%S')-Ignition_mdy).total_seconds()
+										Near_Hall_df.loc[Test_Name,column]=round(FED_cum[int(j)],5)
+									except:
+										Far_Hall_df.loc[Test_Name,column]='No Sensor'
+						else:
+							for column in Far_Hall_df:
+								if column in Events.index.values[i]:
+									try:	
+										j = (datetime.datetime.strptime(Events['Time'][Events.index.values[i]], '%Y-%m-%d-%H:%M:%S')-Ignition_mdy).total_seconds()
+										Far_Hall_df.loc[Test_Name,column]=round(FED_cum[int(j)],5)
+									except:
+										Far_Hall_df.loc[Test_Name,column]='No Sensor'
 
 
 					##GAS FEDS COMPLETE
@@ -219,34 +220,50 @@ for f in os.listdir(data_location):
 					except:
 						print('NO DATA FOR ' +channels[Temp_label][loc])
 						FEDs_df.loc[Test_Name,loc+' Temp']=('No Data')
-				else: 
-					continue
+				
 
-
-
-
-
-					
 					for i in range(min([len(Temps_conv),len(Temps_rad)])):
 
 						if i==0:	
 							# Temps_cum.append((1/60)*((1/Temps_conv[i])+(1/Temps_rad[i])))
 							Temps_cum.append((1/60)*((1/Temps_conv[i])))
-						elif Temps_cum[i-1]>1.0:
-							FEDs_df.loc[Test_Name,loc+' Temp']=((Ignition_mdy+timedelta(seconds=i))-Ignition_mdy).total_seconds()
-							break
 						elif i==min([len(Temps_conv),len(Temps_rad)])-1:
 							# FEDs_df.loc[Test_Name,loc+' Temp']=('N/A '+str(round((1/60)*((1/Temps_conv[i])+(1/Temps_rad[i]))+Temps_cum[i-1],3)))
-							FEDs_df.loc[Test_Name,loc+' Temp']=('N/A ('+str(round((1/60)*((1/Temps_conv[i]))+Temps_cum[i-1],3))+')')
-							print('NO INCAP')
+							# FEDs_df.loc[Test_Name,loc+' Temp']=('N/A ('+str(round((1/60)*((1/Temps_conv[i]))+Temps_cum[i-1],3))+')')
+							continue
 						else:
 							# Temps_cum.append((1/60)*((1/Temps_conv[i])+(1/Temps_rad[i]))+Temps_cum[i-1])
 							Temps_cum.append((1/60)*((1/Temps_conv[i]))+Temps_cum[i-1])
 
+					EventTime=list(range(len(Events.index.values)))
 
+					for i in range(len(Events.index.values)):
+						if loc=='Near Hall':
+							for column in Near_Hall_df:
+								if column in Events.index.values[i]:
+									try:
+										j = (datetime.datetime.strptime(Events['Time'][Events.index.values[i]], '%Y-%m-%d-%H:%M:%S')-Ignition_mdy).total_seconds()
+										Near_Hall_df.loc[Test_Name,column+' (Temp)']=round(Temps_cum[int(j)],5)
+									except:
+										Far_Hall_df.loc[Test_Name,column+' (Temp)']='No Sensor'
+						elif loc =='Far Hall':
+							for column in Far_Hall_df:
+								if column in Events.index.values[i]:
+									try:
+										j = (datetime.datetime.strptime(Events['Time'][Events.index.values[i]], '%Y-%m-%d-%H:%M:%S')-Ignition_mdy).total_seconds()
+										Far_Hall_df.loc[Test_Name,column+' (Temp)']=round(Temps_cum[int(j)],5)
+									except:
+										Far_Hall_df.loc[Test_Name,column+' (Temp)']='No Sensor'
+						else:
+							print('Error Temp')
+
+				else: 
+					continue
 
 				#add FEDs
-
+print(Near_Hall_df)
+print(Far_Hall_df)
 if not os.path.exists(output_table_loc):
 	os.makedirs(output_table_loc)
-FEDs_df.to_csv(output_table_loc+'FED_Table.csv')
+Near_Hall_df.to_csv(output_table_loc+'Near_Hall_Table.csv')
+Far_Hall_df.to_csv(output_table_loc+'Far_Hall_Table.csv')
