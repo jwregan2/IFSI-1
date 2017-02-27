@@ -26,6 +26,10 @@ N_rows=12
 N_columns=15
 Water=[]
 
+##SELECT 'rate' OR 'cum' ##
+mode='cum'
+output_loc=output_loc+mode+'/'
+
 ##SPECIFY DESIRED HEIGHTS FOR TEMP FED COMPUTATIONS##
 conv_height='7ft'
 rad_height='7ft'
@@ -176,16 +180,28 @@ for f in os.listdir(data_location):
 
 				# print(O2_end,CO2_end,CO_end)
 				for i in range(min([len(CO2_FED),len(O2_FED),len(CO_FED)])):
-					if i==0:	
-						FED_cum.append(CO2_FED[i]*CO_FED[i]+O2_FED[i])
-					elif np.isnan(FED_cum[i-1]):
-						FEDs_df.loc[Test_Name,loc]=('Sensor Malfunction at '+str(((Ignition_mdy+timedelta(seconds=i))-Ignition_mdy).total_seconds()))
-						break
-					elif i==min([len(CO2_FED),len(O2_FED),len(CO_FED)])-1:
+					if mode == 'cum':
+						if i==0:	
+							FED_cum.append(CO2_FED[i]*CO_FED[i]+O2_FED[i])
+						elif np.isnan(FED_cum[i-1]):
+							FEDs_df.loc[Test_Name,loc]=('Sensor Malfunction at '+str(((Ignition_mdy+timedelta(seconds=i))-Ignition_mdy).total_seconds()))
+							break
+						elif i==min([len(CO2_FED),len(O2_FED),len(CO_FED)])-1:
 
-						FEDs_df.loc[Test_Name,loc]=('N/A '+str(round((CO2_FED[i]*CO_FED[i]+O2_FED[i])+FED_cum[i-1],3)))
-					else:
-						FED_cum.append((CO2_FED[i]*CO_FED[i]+O2_FED[i])+FED_cum[i-1])
+							FEDs_df.loc[Test_Name,loc]=('N/A '+str(round((CO2_FED[i]*CO_FED[i]+O2_FED[i])+FED_cum[i-1],3)))
+						else:
+							FED_cum.append((CO2_FED[i]*CO_FED[i]+O2_FED[i])+FED_cum[i-1])
+					elif mode== 'rate':
+						if i==0:	
+							FED_cum.append(CO2_FED[i]*CO_FED[i]+O2_FED[i])
+						elif np.isnan(FED_cum[i-1]):
+							FEDs_df.loc[Test_Name,loc]=('Sensor Malfunction at '+str(((Ignition_mdy+timedelta(seconds=i))-Ignition_mdy).total_seconds()))
+							break
+						elif i==min([len(CO2_FED),len(O2_FED),len(CO_FED)])-1:
+							FEDs_df.loc[Test_Name,loc]=('N/A '+str(round((CO2_FED[i]*CO_FED[i]+O2_FED[i])+FED_cum[i-1],3)))
+						else:
+							FED_cum.append((CO2_FED[i]*CO_FED[i]+O2_FED[i]))
+
 				gas_time=range(len(FED_cum))
 
 				try:
@@ -221,10 +237,6 @@ for f in os.listdir(data_location):
 					ax3.set_xticklabels(Event_Names, fontsize=10, ha='left')
 					fig.set_size_inches(20, 16)
 					plt.tight_layout()
-					# box = ax1.get_position()
-					# ax1.set_position([box.x0, box.y0, box.width * 0.75, box.height])
-					# ax3.set_position([box.x0, box.y0, box.width * 0.75, box.height])
-					# # ax1.set_ylim([0,1.1*max_temp])
 					ax1.legend(loc='center left', bbox_to_anchor=(1, 0.5))
 					grid(True) 
 					if not os.path.exists(output_loc+'Gas_Charts/'+Test_Name+'/'):
@@ -261,17 +273,26 @@ for f in os.listdir(data_location):
 
 				
 				for i in range(min([len(Temps_conv),len(Temps_rad)])):
+					if mode=='cum':
+						if i==0:	
+							Temps_cum.append((1/60)*((1/Temps_conv[i])))
+						elif i==min([len(Temps_conv),len(Temps_rad)])-1:
+							FEDs_df.loc[Test_Name,loc+' Temp']=('N/A '+str(round((1/60)*((1/Temps_conv[i]))+Temps_cum[i-1],3)))
+							print('NO INCAP')
+						else:
+							Temps_cum.append((1/60)*((1/Temps_conv[i]))+Temps_cum[i-1])
 
-					if i==0:	
-						# Temps_cum.append((1/60)*((1/Temps_conv[i])+(1/Temps_rad[i])))
-						Temps_cum.append((1/60)*((1/Temps_conv[i])))
-					elif i==min([len(Temps_conv),len(Temps_rad)])-1:
-						# FEDs_df.loc[Test_Name,loc+' Temp']=('N/A '+str(round((1/60)*((1/Temps_conv[i])+(1/Temps_rad[i]))+Temps_cum[i-1],3)))
-						FEDs_df.loc[Test_Name,loc+' Temp']=('N/A '+str(round((1/60)*((1/Temps_conv[i]))+Temps_cum[i-1],3)))
-						print('NO INCAP')
+					elif mode=='rate':
+						if i==0:
+							Temps_cum.append((1/60)*((1/Temps_conv[i])))
+						elif i==min([len(Temps_conv),len(Temps_rad)])-1:
+							FEDs_df.loc[Test_Name,loc+' Temp']=('N/A '+str(round((1/60)*((1/Temps_conv[i]))+Temps_cum[i-1],3)))
+							print('NO INCAP')
+						else:
+							Temps_cum.append((1/60)*((1/Temps_conv[i])))
 					else:
-						# Temps_cum.append((1/60)*((1/Temps_conv[i])+(1/Temps_rad[i]))+Temps_cum[i-1])
-						Temps_cum.append((1/60)*((1/Temps_conv[i]))+Temps_cum[i-1])
+						print('Choose rate or cum')
+
 				temp_time=range(len(Temps_cum))
 
 				try:
