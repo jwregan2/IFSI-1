@@ -216,14 +216,16 @@ for chart in channels.index.values:
 	xticks(fontsize=16)
 	yticks(fontsize=16)
 	legend(numpoints=1,loc=1,ncol=2,fontsize=16)
-	# axis([0, 1.1*N_rows, 0, 1.1*max_temp])
+	axis([0, 1.1*120, 0, 1.1*max_temp])
 	box = ax1.get_position()
-	# ax1.set_position([box.x0, box.y0, box.width * 0.75, box.height])
+	ax1.set_position([box.x0, box.y0, box.width * 0.75, box.height])
+	# ax1.set_xlim([0,1.1*N_rows])
 
-	ax1.set_xlim([0,1.1*120])
+	# ax1.set_ylim([0,1.1*max_temp])
 
-	ax1.set_ylim([0,1.1*max_temp])
 	ax1.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+	# fig.set_size_inches(10, 8)
+
 	grid(True)
 	output_location=output_location_init+ '10percent_TC/'
 	if not os.path.exists(output_location):
