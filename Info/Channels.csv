@@ -26,3 +26,5 @@ DR Rear,DRRear3ft,DRRear3ft,1,1,0,0,N,0,0,Temperature ($^o$C) ,0.15
 LR Rear,LRRear3ft,LRRear3ft,1,1,0,0,N,0,0,Temperature ($^o$C) ,0.15
 Hallway 3ft,HallLeft3ft,HallRight3ft,1,1,0,0,N,0,0,Temperature ($^o$C) ,0.15
 Near Hall HF 3ft,HallLeftHF3ftV,HallRightHF3ftV,1919,1951,0,0,N,0,0,Heat Flux($kW/m^2$),0.08
+Attack FF,AttackFFTemp,AttackFFTemp,1,1,0,0,N,0,0,Temperature ($^o$C) ,0.15
+Search FF,SearchFFTemp,SearchFFTemp,1,1,0,0,N,0,0,Temperature ($^o$C) ,1.15

@@ -213,22 +213,51 @@ for chart in channels.index.values:
 		plot(time_vector[0:len(time_vector)-1],y[0:len(time_vector)-1],color=colors[i],marker=markers[i],markevery=50,ms=8,label=Exp_Names[i].replace('_',' '))
 	plot(time_vector[0:len(time_vector)-1],av_temps_df[0:len(time_vector)-1].mean(axis=1),'k',label='Average',linewidth=3)
 	# plt.fill_between(time_vector[0:len(time_vector)-1] ,temps[0:len(time_vector)-1].mean(axis=1)+2*temps[0:len(time_vector)-1].std(axis=1), temps[0:len(time_vector)-1].mean(axis=1)-2*temps[0:len(time_vector)-1].std(axis=1), facecolor='gray',alpha=0.5, interpolate=True,linewidth=3)
-	plt.fill_between(time_vector[0:len(time_vector)-1],(1-channels['Error'][chart])*av_temps_df[0:len(time_vector)-1].mean(axis=1), (1+channels['Error'][chart])*av_temps_df[0:len(time_vector)-1].mean(axis=1), facecolor='gray',alpha=0.5, interpolate=True,linewidth=3)
+	# plt.fill_between(time_vector[0:len(time_vector)-1],(1-channels['Error'][chart])*av_temps_df[0:len(time_vector)-1].mean(axis=1), (1+channels['Error'][chart])*av_temps_df[0:len(time_vector)-1].mean(axis=1), facecolor='gray',alpha=0.5, interpolate=True,linewidth=3)
 	ax1 = gca()
-	xlabel('Time (s)', fontsize=20)
-	ylabel(str(channels['Y Axis'][chart]), fontsize=20)
+	xlabel('Time (s)', fontsize=16)
+	ylabel(str(channels['Y Axis'][chart]), fontsize=16)
 	xticks(fontsize=16)
 	yticks(fontsize=16)
-	legend(numpoints=1,loc=1,ncol=2,fontsize=16)
+
 	axis([0, 1.1*N_rows, 0, 1.1*max_temp])
 	box = ax1.get_position()
 	ax1.set_position([box.x0, box.y0, box.width * 0.75, box.height])
 	# ax1.set_xlim([0,1.1*N_rows])
 
 	# ax1.set_ylim([0,1.1*max_temp])
-	ax1.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+	# legend(numpoints=1,loc=1,ncol=2,fontsize=8)	
+	ax1.legend(loc='center left', bbox_to_anchor=(1, 0.5),fontsize=8)
 	grid(True)
 	output_location=output_location_init+ '10percent_TC/'
+	if not os.path.exists(output_location):
+		os.makedirs(output_location)
+	savefig(output_location+ chart + '.pdf',format='pdf')
+	close()
+
+	#average lines
+	fig = figure()
+	# for i in range(12):
+	# 	y = temps[i]
+	# 	plot(time_vector[0:len(time_vector)-1],y[0:len(time_vector)-1],color=colors[i],marker=markers[i],markevery=50,ms=8,label=Exp_Names[i].replace('_',' '))
+	plot(time_vector[0:len(time_vector)-1],av_temps_df[0:len(time_vector)-1].mean(axis=1),'k',label='Average',linewidth=3)
+	# plt.fill_between(time_vector[0:len(time_vector)-1] ,temps[0:len(time_vector)-1].mean(axis=1)+2*temps[0:len(time_vector)-1].std(axis=1), temps[0:len(time_vector)-1].mean(axis=1)-2*temps[0:len(time_vector)-1].std(axis=1), facecolor='gray',alpha=0.5, interpolate=True,linewidth=3)
+	# plt.fill_between(time_vector[0:len(time_vector)-1],(1-channels['Error'][chart])*av_temps_df[0:len(time_vector)-1].mean(axis=1), (1+channels['Error'][chart])*av_temps_df[0:len(time_vector)-1].mean(axis=1), facecolor='gray',alpha=0.5, interpolate=True,linewidth=3)
+	ax1 = gca()
+	xlabel('Time (s)', fontsize=16)
+	ylabel(str(channels['Y Axis'][chart]), fontsize=16)
+	xticks(fontsize=16)
+	yticks(fontsize=16)
+	axis([0, 1.1*N_rows, 0, 1.1*max_temp])
+	box = ax1.get_position()
+	ax1.set_position([box.x0, box.y0, box.width * 0.75, box.height])
+	# ax1.set_xlim([0,1.1*N_rows])
+
+	# ax1.set_ylim([0,1.1*max_temp])
+	ax1.legend(loc='center left', bbox_to_anchor=(1, 0.5),fontsize=8)
+	# legend(numpoints=1,loc=1,ncol=2,fontsize=8)	
+	grid(True)
+	output_location=output_location_init+ 'Average_Value/'
 	if not os.path.exists(output_location):
 		os.makedirs(output_location)
 	savefig(output_location+ chart + '.pdf',format='pdf')
