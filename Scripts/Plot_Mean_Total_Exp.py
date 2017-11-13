@@ -68,13 +68,6 @@ colors = [(31, 119, 180), (174, 199, 232), (255, 127, 14), (255, 187, 120),
 for i in range(len(colors)):
     r, g, b = colors[i]
     colors[i] = (r / 255., g / 255., b / 255.)
-
-
-
-
-
-
-
 for chart in channels.index.values:
 	print(chart)
 	Exp_Names=[]
@@ -159,13 +152,6 @@ for chart in channels.index.values:
 						temps.loc[j,i]=Factor*temp_vec[channel][j]
 					else:
 						continue
-				# else:
-				# 	for j in range(len(temps[i])):
-				# 		if j<len(temp_vec):
-				# 			temps.loc[j,i]=temp_vec[channel][j]
-				# 		else:
-				# 			continue	
-				# print (temps)
 				i=i+1
 			except:
 				print(chart+' '+Test_Name+' DNE')
@@ -175,37 +161,6 @@ for chart in channels.index.values:
 	av_temps_df=temps.dropna(axis=1,how='all')
 	# print(temps)
 	max_temp=max(av_temps_df.max())
-
-
-	##2 x standard DEV
-	# fig = figure()
-	# for i in range(12):
-	# 	y = temps[i]
-	# 	plot(time_vector[0:len(time_vector)-1],y[0:len(time_vector)-1],color=colors[i],marker=markers[i],markevery=50,ms=8,label=Exp_Names[i])
-	# plot(time_vector[0:len(time_vector)-1],av_temps_df[0:len(time_vector)-1].mean(axis=1),'k',label='average'+'AVG',linewidth=3)
-	# plt.fill_between(time_vector[0:len(time_vector)-1] ,av_temps_df[0:len(time_vector)-1].mean(axis=1)+2*av_temps_df[0:len(time_vector)-1].std(axis=1), av_temps_df[0:len(time_vector)-1].mean(axis=1)-2*av_temps_df[0:len(time_vector)-1].std(axis=1), facecolor='gray',alpha=0.5, interpolate=True,linewidth=3)
-	# # plt.fill_between(time_vector[0:len(time_vector)-1],.9*temps[0:len(time_vector)-1].mean(axis=1), 1.1*temps[0:len(time_vector)-1].mean(axis=1), facecolor='gray',alpha=0.5, interpolate=True,linewidth=3)
-	# ax1 = gca()
-	# xlabel('Time (s)', fontsize=20)
-	# ylabel(str(channels['Y Axis'][chart]), fontsize=20)
-	# xticks(fontsize=16)
-	# yticks(fontsize=16)
-	# legend(numpoints=1,loc=1,ncol=2,fontsize=16)
-	# axis([0, 1.1*N_rows, 0, 1.1*max_temp])
-	# box = ax1.get_position()
-	# ax1.set_position([box.x0, box.y0, box.width * 0.75, box.height])
-	# # ax1.set_xlim([0,1.1*N_rows])
-
-	# # ax1.set_ylim([0,1.1*max_temp])
-	# ax1.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-	# grid(True) 
-	# output_location=output_location_init+'standard_dev/'
-	# if not os.path.exists(output_location):
-	# 	os.makedirs(output_location)
-	# savefig(output_location+chart + '.pdf',format='pdf')
-	# close()
-
-	##+- 10%
 
 	fig = figure()
 	for i in range(12):
@@ -221,13 +176,8 @@ for chart in channels.index.values:
 	yticks(fontsize=16)
 
 	axis([0, 1.1*N_rows, 0, 1.1*max_temp])
-	box = ax1.get_position()
-	ax1.set_position([box.x0, box.y0, box.width * 0.75, box.height])
-	# ax1.set_xlim([0,1.1*N_rows])
-
-	# ax1.set_ylim([0,1.1*max_temp])
-	# legend(numpoints=1,loc=1,ncol=2,fontsize=8)	
-	ax1.legend(loc='center left', bbox_to_anchor=(1, 0.5),fontsize=8)
+	box = ax1.get_position()	
+	ax1.legend(fontsize=8)
 	grid(True)
 	output_location=output_location_init+ '10percent_TC/'
 	if not os.path.exists(output_location):
@@ -251,66 +201,9 @@ for chart in channels.index.values:
 	axis([0, 1.1*N_rows, 0, 1.1*max_temp])
 	box = ax1.get_position()
 	ax1.set_position([box.x0, box.y0, box.width * 0.75, box.height])
-	# ax1.set_xlim([0,1.1*N_rows])
-
-	# ax1.set_ylim([0,1.1*max_temp])
-	ax1.legend(loc='center left', bbox_to_anchor=(1, 0.5),fontsize=8)
-	# legend(numpoints=1,loc=1,ncol=2,fontsize=8)	
 	grid(True)
 	output_location=output_location_init+ 'Average_Value/'
 	if not os.path.exists(output_location):
 		os.makedirs(output_location)
 	savefig(output_location+ chart + '.pdf',format='pdf')
 	close()
-
-##PLOT ODDS (Right Side)
-	# j=0
-	# k=0
-	# for column in temps:
-
-	# 	if column%2==1:
-	# 		temps_right[j]=temps[column]
-	# 		j=j+1
-
-
-	# 	if column%2==0:
-	# 		temps_left[k]=temps[column]
-	# 		k=k+1
-
-
-	# 	# else:
-	# 	# 	print('ERROR')
-
-
-	# fig = figure()
-	# for i in range(12):
-	# 	if i%2==1:
-	# 		y = temps[i]
-	# 		plot(time_vector[0:len(time_vector)-1],y[0:len(time_vector)-1],color='red',marker=markers[i],markevery=50,ms=8,label=Exp_Names[i].replace('_',' '))
-	# for i in range(12):
-	# 	if i%2==0:
-	# 		y = temps[i]
-	# 		plot(time_vector[0:len(time_vector)-1],y[0:len(time_vector)-1],color='blue',marker=markers[i],markevery=50,ms=8,label=Exp_Names[i].replace('_',' '))
-	# plot(time_vector[0:len(time_vector)-1],temps_left[0:len(time_vector)-1].mean(axis=1),'k',label='Left Side Average',linewidth=3)
-	# plot(time_vector[0:len(time_vector)-1],temps_right[0:len(time_vector)-1].mean(axis=1),'k',label='Right Side Average',linewidth=3)	
-	# # plt.fill_between(time_vector[0:len(time_vector)-1] ,temps[0:len(time_vector)-1].mean(axis=1)+2*temps[0:len(time_vector)-1].std(axis=1), temps[0:len(time_vector)-1].mean(axis=1)-2*temps[0:len(time_vector)-1].std(axis=1), facecolor='gray',alpha=0.5, interpolate=True,linewidth=3)
-	# plt.fill_between(time_vector[0:len(time_vector)-1],.85*temps_left[0:len(time_vector)-1].mean(axis=1), 1.15*temps_left[0:len(time_vector)-1].mean(axis=1), facecolor='green',alpha=0.5, interpolate=True,linewidth=3)	
-	# plt.fill_between(time_vector[0:len(time_vector)-1],.85*temps_right[0:len(time_vector)-1].mean(axis=1), 1.15*temps_right[0:len(time_vector)-1].mean(axis=1), facecolor='gray',alpha=0.5, interpolate=True,linewidth=3)
-	# ax1 = gca()
-	# xlabel('Time (s)', fontsize=20)
-	# ylabel(str(channels['Y Axis'][chart]), fontsize=20)
-	# xticks(fontsize=16)
-	# yticks(fontsize=16)
-	# legend(numpoints=1,loc=1,ncol=2,fontsize=16)
-	# axis([0, 1.1*N_rows, 0, 1.1*max_temp])
-	# box = ax1.get_position()
-	# ax1.set_position([box.x0, box.y0, box.width * 0.75, box.height])
-	# # ax1.set_xlim([0,1.1*N_rows])
-	# # ax1.set_ylim([0,1.1*max_temp])
-	# ax1.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-	# grid(True)
-	# output_location=output_location_init+ 'Side_Comparison/'
-	# if not os.path.exists(output_location):
-	# 	os.makedirs(output_location)
-	# savefig(output_location+ chart + '.pdf',format='pdf')
-	# close()
