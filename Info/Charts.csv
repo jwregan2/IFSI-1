@@ -1,0 +1,38 @@
+Chart,Y Label,Y Max,Y Min
+Dining Room Rear,Temperature ($^{\circ}$C),1000,0
+Bedroom 4,Temperature ($^{\circ}$C),1000,0
+Bedroom 5,Temperature ($^{\circ}$C),1000,0
+Bedroom 6,Temperature ($^{\circ}$C),1000,0
+Hall Left,Temperature ($^{\circ}$C),1000,0
+Living Room Rear,Temperature ($^{\circ}$C),1000,0
+Bedroom 3,Temperature ($^{\circ}$C),1000,0
+Bedroom 2,Temperature ($^{\circ}$C),1000,0
+Bedroom 1,Temperature ($^{\circ}$C),1000,0
+Hall Right,Temperature ($^{\circ}$C),1000,0
+Kitchen,Temperature ($^{\circ}$C),1000,0
+Dining Room Front,Temperature ($^{\circ}$C),1000,0
+Living Room Front,Temperature ($^{\circ}$C),1000,0
+Hall Left HF,Heat Flux (kW/m$^2$),30,0
+Hall Right HF,Heat Flux (kW/m$^2$),30,0
+Hall Left Gas,Gas Concentration (%),25,0
+Hall Left CO,CO Concentration (PPM),20000,0
+Bedroom 4 Gas,Gas Concentration (%),25,0
+Bedroom 4 CO,CO Concentration (PPM),20000,0
+Bedroom 3 Gas,Gas Concentration (%),25,0
+Bedroom 3 CO,CO Concentration (PPM),20000,0
+Hall Right Gas,Gas Concentration (%),25,0
+Hall Right CO,CO Concentration (PPM),20000,0
+Bedroom 1 High Pressure,Pressure (kPa),25,-25
+Bedroom 2 High Pressure,Pressure (kPa),25,-25
+Bedroom 3 High Pressure,Pressure (kPa),25,-25
+Bedroom 3 Low Pressure,Pressure (kPa),25,-25
+Bedroom 4 High Pressure,Pressure (kPa),25,-25
+Bedroom 4 Low Pressure,Pressure (kPa),25,-25
+Bedroom 5 High Pressure,Pressure (kPa),25,-25
+Bedroom 6 High Pressure,Pressure (kPa),25,-25
+Dining Room High Pressure,Pressure (kPa),25,-25
+Dining Room Low Pressure,Pressure (kPa),25,-25
+Living Room High Pressure,Pressure (kPa),25,-25
+Living Room Low Pressure,Pressure (kPa),25,-25
+Kitchen High Pressure,Pressure (kPa),25,-25
+Kitchen Low Pressure,Pressure (kPa),25,-25

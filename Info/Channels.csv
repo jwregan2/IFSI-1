@@ -105,15 +105,15 @@ Bedroom3COV,CO,Gas (PPM),10000,0,21,Bedroom 3 CO
 HallRightO2V,O2,Gas,5,0,19,Hall Right Gas
 HallRightCO2V,CO2,Gas,5,0,21,Hall Right Gas
 HallRightCOV,CO,Gas (PPM),10000,0,21,Hall Right CO
-Bedroom105Press1ftV,1 Foot,Pressure,49.816,124.54,,Bedroom 1 Pressure
-Bedroom105Press4ftV,4 Foot,Pressure,49.816,124.54,,Bedroom 1 Pressure
-Bedroom105Press7ftV,7 Foot,Pressure,49.816,124.54,,Bedroom 1 Pressure
-Bedroom205Press1ftV,1 Foot,Pressure,49.816,124.54,,Bedroom 2 Pressure
-Bedroom205Press4ftV,4 Foot,Pressure,49.816,124.54,,Bedroom 2 Pressure
-Bedroom205Press7ftV,7 Foot,Pressure,49.816,124.54,,Bedroom 2 Pressure
-Bedroom305Press1ftV,1 Foot,Pressure,49.816,124.54,,Bedroom 3 Pressure
-Bedroom305Press4ftV,4 Foot,Pressure,49.816,124.54,,Bedroom 3 Pressure
-Bedroom305Press7ftV,7 Foot,Pressure,49.816,124.54,,Bedroom 3 Pressure
+Bedroom105Press1ftV,1 Foot,Pressure,49.816,124.54,,Bedroom 1 High Pressure
+Bedroom105Press4ftV,4 Foot,Pressure,49.816,124.54,,Bedroom 1 High Pressure
+Bedroom105Press7ftV,7 Foot,Pressure,49.816,124.54,,Bedroom 1 High Pressure
+Bedroom205Press1ftV,1 Foot,Pressure,49.816,124.54,,Bedroom 2 High Pressure
+Bedroom205Press4ftV,4 Foot,Pressure,49.816,124.54,,Bedroom 2 High Pressure
+Bedroom205Press7ftV,7 Foot,Pressure,49.816,124.54,,Bedroom 2 High Pressure
+Bedroom305Press1ftV,1 Foot,Pressure,49.816,124.54,,Bedroom 3 High Pressure
+Bedroom305Press4ftV,4 Foot,Pressure,49.816,124.54,,Bedroom 3 High Pressure
+Bedroom305Press7ftV,7 Foot,Pressure,49.816,124.54,,Bedroom 3 High Pressure
 Bedroom301Press1ftV,1 Foot,Pressure,9.964,24.909,,Bedroom 3 Low Pressure
 Bedroom301Press4ftV,4 Foot,Pressure,9.964,24.909,,Bedroom 3 Low Pressure
 Bedroom301Press7ftV,7 Foot,Pressure,9.964,24.909,,Bedroom 3 Low Pressure
