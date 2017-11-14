@@ -1,0 +1,42 @@
+Sensor,Left Sensor,Right Sensor,Y Label,Y Max,Y Min
+Near Bedroom A 7ft,Bedroom67ft,Bedroom17ft,Temperature ($^{\circ}$C),1000,0
+Near Bedroom A 5ft,Bedroom65ft,Bedroom15ft,Temperature ($^{\circ}$C),1000,0
+Near Bedroom A 3ft,Bedroom63ft,Bedroom13ft,Temperature ($^{\circ}$C),1000,0
+Near Bedroom A 1ft,Bedroom61ft,Bedroom11ft,Temperature ($^{\circ}$C),1000,0
+Near Bedroom B 7ft,Bedroom57ft,Bedroom27ft,Temperature ($^{\circ}$C),1000,0
+Near Bedroom B 5ft,Bedroom55ft,Bedroom25ft,Temperature ($^{\circ}$C),1000,0
+Near Bedroom B 3ft,Bedroom53ft,Bedroom23ft,Temperature ($^{\circ}$C),1000,0
+Near Bedroom B 1ft,Bedroom51ft,Bedroom21ft,Temperature ($^{\circ}$C),1000,0
+Near Closed Bedroom 8ft,Bedroom48ft,Bedroom38ft,Temperature ($^{\circ}$C),50,0
+Near Closed Bedroom 7ft,Bedroom47ft,Bedroom37ft,Temperature ($^{\circ}$C),50,0
+Near Closed Bedroom 6ft,Bedroom46ft,Bedroom36ft,Temperature ($^{\circ}$C),50,0
+Near Closed Bedroom 5ft,Bedroom45ft,Bedroom35ft,Temperature ($^{\circ}$C),50,0
+Near Closed Bedroom 4ft,Bedroom44ft,Bedroom34ft,Temperature ($^{\circ}$C),50,0
+Near Closed Bedroom 3ft,Bedroom43ft,Bedroom33ft,Temperature ($^{\circ}$C),50,0
+Near Closed Bedroom 2ft,Bedroom42ft,Bedroom32ft,Temperature ($^{\circ}$C),50,0
+Near Closed Bedroom 1ft,Bedroom41ft,Bedroom31ft,Temperature ($^{\circ}$C),50,0
+Far Closed Bedroom 8ft,Bedroom38ft,Bedroom48ft,Temperature ($^{\circ}$C),50,0
+Far Closed Bedroom 7ft,Bedroom37ft,Bedroom47ft,Temperature ($^{\circ}$C),50,0
+Far Closed Bedroom 6ft,Bedroom36ft,Bedroom46ft,Temperature ($^{\circ}$C),50,0
+Far Closed Bedroom 5ft,Bedroom35ft,Bedroom45ft,Temperature ($^{\circ}$C),50,0
+Far Closed Bedroom 4ft,Bedroom34ft,Bedroom44ft,Temperature ($^{\circ}$C),50,0
+Far Closed Bedroom 3ft,Bedroom33ft,Bedroom43ft,Temperature ($^{\circ}$C),50,0
+Far Closed Bedroom 2ft,Bedroom32ft,Bedroom42ft,Temperature ($^{\circ}$C),50,0
+Far Closed Bedroom 1ft,Bedroom31ft,Bedroom41ft,Temperature ($^{\circ}$C),50,0
+Near Hall 8ft,HallLeft8ft,HallRight8ft,Temperature ($^{\circ}$C),1000,0
+Near Hall 7ft,HallLeft7ft,HallRight7ft,Temperature ($^{\circ}$C),1000,0
+Near Hall 6ft,HallLeft6ft,HallRight6ft,Temperature ($^{\circ}$C),1000,0
+Near Hall 5ft,HallLeft5ft,HallRight5ft,Temperature ($^{\circ}$C),1000,0
+Near Hall 4ft,HallLeft4ft,HallRight4ft,Temperature ($^{\circ}$C),500,0
+Near Hall 3ft,HallLeft3ft,HallRight3ft,Temperature ($^{\circ}$C),500,0
+Near Hall 2ft,HallLeft2ft,HallRight2ft,Temperature ($^{\circ}$C),500,0
+Near Hall 1ft,HallLeft1ft,HallRight1ft,Temperature ($^{\circ}$C),500,0
+Near Hall HF 1ft,HallLeftHF1ftV,HallRightHF1ftV,Heat Flux (kW/m$^2$),25,0
+Near Hall HF 3ft,HallLeftHF3ftV,HallRightHF3ftV,Heat Flux (kW/m$^2$),25,0
+Near Hall HF 5ft,HallLeftHF5ftV,HallRightHF5ftV,Heat Flux (kW/m$^2$),25,0
+Near Hall O2,HallLeftO2V,HallRightO2V,Percent (%),25,0
+Near Hall CO,HallLeftCOV,HallRightCOV,Concentration (PPM),30000,0
+Near Bedroom O2,Bedroom4O2V,Bedroom3O2V,Percent (%),25,0
+Near Bedroom CO,Bedroom4COV,Bedroom3COV,Concentration (PPM),30000,0
+Far Bedroom O2,Bedroom3O2V,Bedroom4O2V,Percent (%),25,0
+Far Bedroom CO,Bedroom3COV,Bedroom4COV,Concentration (PPM),30000,0
