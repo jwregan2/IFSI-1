@@ -106,7 +106,7 @@ for experiment in test_des.index.values:
 		plt.ylim([charts['Y Min'][chart],charts['Y Max'][chart]])
 		ax1 = plt.gca()
 		ax2=ax1.twiny()
-		ax2.set_xlim(0,end_time)
+		ax2.set_xlim(0,1000)
 		eventtime=list(range(len(events_df.index.values)))
 
 		for i in events_df.index.values:
