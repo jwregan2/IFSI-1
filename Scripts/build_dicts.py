@@ -47,7 +47,7 @@ for test in test_des.index.values:
 
 	#Make a list of elapsed time
 
-	elasped_time = []
+	elapsed_time = []
 	for t in data_df['Time']:
 
 		# if np.isnan(t)==True:
@@ -57,9 +57,16 @@ for test in test_des.index.values:
 
 		hh,mm,ss = timestamp.split(':')
 		timestamp = 3600*int(hh)+60*int(mm)+int(ss)-int(ignition)
-		elasped_time.append(timestamp)
+		elapsed_time.append(timestamp)
+	# for i in range(len(elapsed_time)-1):
+	# 	if i == 0:
+	# 		pass
+	# 	if elapsed_time[i] == elapsed_time[i+1]:
+	# 		elapsed_time[i] = int((elapsed_time[i-1]+elapsed_time[i+1])/2)
+	# print(elapsed_time)
+
 	#Set index as elapsed time
-	data_df['Elapsed Time'] = elasped_time
+	data_df['Elapsed Time'] = elapsed_time
 	data_df = data_df.set_index('Elapsed Time')
 
 	#Divide data datafrane into
@@ -82,6 +89,7 @@ for test in test_des.index.values:
 			zero_data = data_df[channel] - np.average(pre_exp_data[channel])
 			scaled_data = zero_data * scale_factor + offset
 			scaled_data = scaled_data.round(2)
+
 		elif channels['Type'][channel] == 'Gas':
 			transport_time = channels['Transport'][channel]
 			scaled_data = data_df[channel].iloc[int(transport_time):]*scale_factor+offset
@@ -91,8 +99,9 @@ for test in test_des.index.values:
 			scaled_data = pd.Series(np.concatenate([scaled_data.tolist(),nan_array]), index = test_df.index.values)
 
 		elif channels['Type'][channel] == 'Gas (PPM)':
+			zero_data = data_df[channel] - np.average(pre_exp_data[channel])
 			transport_time = channels['Transport'][channel]
-			scaled_data = data_df[channel].iloc[int(transport_time):]*scale_factor+offset
+			scaled_data = zero_data.iloc[int(transport_time):]*scale_factor+offset
 			scaled_data = scaled_data.round(2)
 			nan_array = np.empty(len(data_df.index.values)-len(scaled_data.index.values))
 			nan_array[:] =  np.NaN
