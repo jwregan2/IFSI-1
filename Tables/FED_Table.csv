@@ -1,13 +1,13 @@
 Experiment,Attack Type,Test Length,Near Hall,Near Bedroom,Far Bedroom,Far Hall,Victim 1,Victim 2,Near Hall Temp,Near Bedroom Temp,Far Bedroom Temp,Far Hall Temp,Victim 1 Temp,Victim 2 Temp
-Experiment_01,Transitional,854.0,N/A (0.012),N/A (0.035),N/A (0.015),N/A (0.326),No Data,No Data,300.0,N/A (0.019),N/A (0.009),N/A (0.008),N/A (0.293),N/A (0.033)
-Experiment_02,Interior,2137.0,N/A (0.251),N/A (0.038),N/A (0.089),N/A (0.153),No Data,No Data,344.0,N/A (0.035),N/A (0.037),N/A (0.022),466.0,N/A (0.066)
-Experiment_03,Transitional,1984.0,442.0,984.0,N/A (0.362),513.0,No Data,Sensor Malfunction at 1895.0,345.0,N/A (0.041),N/A (0.027),N/A (0.017),N/A (0.321),N/A (0.051)
-Experiment_04,Interior,2062.0,N/A (0.274),N/A (0.016),N/A (0.209),N/A (0.043),Sensor Malfunction at 1.0,Sensor Malfunction at 1609.0,300.0,N/A (0.02),N/A (0.028),N/A (0.016),No Data,No Data
-Experiment_05,Interior,2148.0,465.0,927.0,N/A (0.762),813.0,Sensor Malfunction at 138.0,N/A (0.286),341.0,N/A (0.072),N/A (0.034),N/A (0.022),No Data,N/A (0.074)
-Experiment_06,Transitional,2063.0,623.0,N/A (0.286),N/A (0.717),972.0,1277.0,N/A (0.283),344.0,N/A (0.027),N/A (0.024),N/A (0.024),No Data,No Data
-Experiment_07,Interior,1931.0,419.0,N/A (0.572),N/A (0.582),474.0,No Data,N/A (0.258),346.0,N/A (0.026),N/A (0.018),N/A (0.014),N/A (0.452),No Data
-Experiment_08,Transitional,2063.0,409.0,N/A (0.414),1068.0,876.0,132.0,N/A (0.351),262.0,N/A (0.024),N/A (0.026),N/A (0.02),No Data,N/A (0.039)
-Experiment_09,Interior,1980.0,408.0,N/A (0.211),N/A (0.719),476.0,50.0,N/A (0.133),225.0,N/A (0.038),N/A (0.026),N/A (0.018),N/A (0.34),N/A (0.022)
-Experiment_10,Transitional,1811.0,444.0,N/A (0.059),N/A (0.001),976.0,160.0,N/A (0.106),365.0,N/A (0.032),N/A (0.031),N/A (0.026),N/A (0.332),No Data
-Experiment_11,Transitional,1831.0,371.0,N/A (-0.001),N/A (0.849),456.0,62.0,N/A (0.108),315.0,N/A (0.036),N/A (0.034),N/A (0.022),No Data,No Data
-Experiment_12,Interior,1854.0,442.0,N/A (0.036),N/A (0.003),635.0,184.0,N/A (0.064),373.0,N/A (0.028),N/A (0.04),No Data,N/A (0.672),N/A (0.108)
+Experiment_01,Transitional,854.0,N/A (-0.002),N/A (0.311),N/A (0.109),535.0,No Data,No Data,300.0,N/A (0.019),N/A (0.009),N/A (0.008),No Data,No Data
+Experiment_02,Interior,2137.0,540.0,N/A (0.281),N/A (0.783),N/A (0.144),No Data,No Data,344.0,N/A (0.035),N/A (0.037),N/A (0.022),No Data,No Data
+Experiment_03,Transitional,1984.0,442.0,984.0,N/A (0.362),513.0,No Data,No Data,345.0,N/A (0.041),N/A (0.027),N/A (0.017),No Data,No Data
+Experiment_04,Interior,2062.0,468.0,N/A (0.077),764.0,N/A (0.655),No Data,No Data,300.0,N/A (0.02),N/A (0.028),N/A (0.016),No Data,No Data
+Experiment_05,Interior,2148.0,465.0,927.0,N/A (0.762),813.0,No Data,No Data,341.0,N/A (0.072),N/A (0.034),N/A (0.022),No Data,No Data
+Experiment_06,Transitional,2062.0,623.0,N/A (0.286),N/A (0.717),972.0,No Data,No Data,344.0,N/A (0.027),N/A (0.024),N/A (0.024),No Data,No Data
+Experiment_07,Interior,1931.0,419.0,N/A (0.572),N/A (0.582),474.0,No Data,No Data,346.0,N/A (0.026),N/A (0.018),N/A (0.014),No Data,No Data
+Experiment_08,Transitional,2062.0,409.0,N/A (0.414),1068.0,876.0,No Data,No Data,262.0,N/A (0.024),N/A (0.026),N/A (0.02),No Data,No Data
+Experiment_09,Interior,1980.0,408.0,N/A (0.211),N/A (0.719),476.0,No Data,No Data,225.0,N/A (0.038),N/A (0.026),N/A (0.018),No Data,No Data
+Experiment_10,Transitional,1811.0,444.0,N/A (0.059),N/A (0.001),976.0,No Data,No Data,365.0,N/A (0.032),N/A (0.031),N/A (0.026),No Data,No Data
+Experiment_11,Transitional,1831.0,371.0,N/A (-0.001),N/A (0.849),456.0,No Data,No Data,315.0,N/A (0.036),N/A (0.034),N/A (0.022),No Data,No Data
+Experiment_12,Interior,1854.0,442.0,N/A (0.036),N/A (0.003),635.0,No Data,No Data,373.0,N/A (0.028),N/A (0.04),No Data,No Data,No Data

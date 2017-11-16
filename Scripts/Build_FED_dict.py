@@ -44,7 +44,8 @@ FEDs_table=FEDs_table.set_index('Experiment')
 
 #Define output directory
 output_dir = '../Tables/'
-FED_dict = {}
+Gas_FED_dict = {}
+Temp_FED_dict = {}
 for experiment in test_des.index.values:
 	print(experiment)
 	side = test_des['Side'][experiment]
@@ -52,6 +53,11 @@ for experiment in test_des.index.values:
 	#load slice of dictionary corresponding to expeiment
 	data_df = test_data_dict[experiment]
 	events = test_events_dict[experiment]
+	data_df = data_df.loc[0:]
+	Gas_FED_df = pd.DataFrame(data={'Elapsed Time':data_df.index.values})
+	Gas_FED_df = Gas_FED_df.set_index('Elapsed Time')
+	Temp_FED_df = pd.DataFrame(data={'Elapsed Time':data_df.index.values})
+	Temp_FED_df = Temp_FED_df.set_index('Elapsed Time')
 	#find end of experiment or end of data recording in exp where data system failed
 	for event in events.index.values:
 			if events['Event'][event] == 'End of Experiment' or events['Event'][event] == 'Data System Error':
@@ -60,94 +66,109 @@ for experiment in test_des.index.values:
 	# loop through locations for each
 	for chart in channels.index.values:
 		if not channels[side+' Gas Name'][chart] + 'COV' in data_df.columns:
+			FEDs_table.loc[experiment,chart] = 'No Data'
 			continue
 		if not channels[side+' Temp Name'][chart] in data_df.columns:
+			FEDs_table.loc[experiment,chart+' Temp'] = 'No Data'
 			continue
 		#for Victim gas and temps, consider using if statment
-		CO_data = pd.Series(data_df[channels[side+' Gas Name'][chart]+ 'COV'].loc[0:])
-		CO2_data = pd.Series(data_df[channels[side+' Gas Name'][chart]+ 'CO2V'].loc[0:])
-		O2_data = pd.Series(data_df[channels[side+' Gas Name'][chart]+ 'O2V'].loc[0:])
-		temp_data = pd.Series(data_df[channels[side+' Temp Name'][chart]].loc[0:])
-		FED_df = pd.DataFrame(data={'Elapsed Time':CO_data.index.values})
+		CO_data = pd.Series(data_df[channels[side+' Gas Name'][chart]+ 'COV'].loc[0:end_time])
+		CO2_data = pd.Series(data_df[channels[side+' Gas Name'][chart]+ 'CO2V'].loc[0:end_time])
+		O2_data = pd.Series(data_df[channels[side+' Gas Name'][chart]+ 'O2V'].loc[0:end_time])
+		temp_data = pd.Series(data_df[channels[side+' Temp Name'][chart]].loc[0:end_time])
+
 
 		CO_FED=[]
 		CO2_FED=[]
 		O2_FED=[]
 		FED_cum=[]
+
 		Temps_conv=[]
 		Temps_rad=[]
 		Temps_cum=[]
 		#compute data for gas since delta t is =1, no need to compute
-		for t in CO_data.index.values:
+		for t in O2_data:
+			O2_FED.append((1.0/60.0)*1/(exp(8.13-0.54*(20.9-t))))
+		for t in CO2_data:
+			CO2_FED.append(exp(t/5.0))
+		for t in CO_data:
+			CO_FED.append((1.0/60.0)*(t/35000.0))
 
-			O2_FED.append((1.0/60.0)*1/(exp(8.13-0.54*(20.9-O2_data[t]))))
-			CO2_FED.append(exp(CO2_data[t]/5))
-			CO_FED.append((1.0/60.0)*(CO_data[t]/35000.0))
+		for i in range(min(len(O2_FED),len(CO2_FED),len(CO_FED))):
+			if i == 0:
+				FED_cum.append((O2_FED[i]+(CO2_FED[i]*CO_FED[i])))
+			elif FED_cum[i-1] >1.0:
+				FEDs_table.loc[experiment,chart] = i
+				break
+			elif i == min(len(O2_FED),len(CO2_FED),len(CO_FED))-1:
+				FEDs_table.loc[experiment,chart] = ('NA: '+str(np.round(FED_cum[i-1],3)))
+				break
+			elif np.isnan(FED_cum[i-1]):
+				FEDs_table.loc[experiment,chart] = ('NA: '+str(np.round(FED_cum[i-1],3)))
+				break
+			else:
+				FED_cum.append((O2_FED[i]+(CO2_FED[i]*CO_FED[i]))+FED_cum[i-1])
+
+
+
+
 		#compute data for temp
-		for t in temp_data.index.values:
+		for t in temp_data:
+
 			if np.isnan(t):
 				##If any of the temperatures are nans, act as if they are room temperature
 				Temps_rad.append((2.72*10**14)/((25+273.0)**(1.35)))
 				Temps_conv.append((5.0*10**7)*25)**(-3.4)
 			else:
 			# 	print(temp_data[1377:1380])		
-				print(temp_data[t])	
-				Temps_rad.append((2.72*10**14)/((max([temp_data[t],0])+273.0)**(1.35)))
-				Temps_conv.append((5.0*10**7)*max([temp_data[t],0])**(-3.4))
+				
+				Temps_rad.append((2.72*10**14)/((max([t,0])+273.0)**(1.35)))
+				Temps_conv.append((5.0*10**7)*max([t,0])**(-3.4))
 
-		#compute cumulative gas FEDs
-		for t in range(len(CO_FED)):
-			
-			if t==0:	
-				FED_cum.append(CO2_FED[t]*CO_FED[t]+O2_FED[t])
-			elif t == len(CO_FED):
+
+		for i in range(min(len(Temps_rad),len(Temps_conv))):
+			if i == 0:
+				Temps_cum.append((1.0/60.0)*((1/Temps_rad[i])+(1/Temps_conv[i])))
+			elif Temps_cum[i-1] > 1.0:
+				label = str(chart+' Temp')
+				FEDs_table.loc[experiment,label] = i
+				print('1')
 				break
-			elif np.isnan(FED_cum[j]):
-				FEDs_table.loc[experiment,chart]=('Sensor Malfunction at '+str(t))
+			elif i == min(len(Temps_rad),len(Temps_conv))-1:
+				label = str(chart+' Temp')
+				FEDs_table.loc[experiment,label] = str('NA: '+str(np.round(Temps_cum[i-1],3)))
+				print('2')
 				break
-			elif FED_cum[j]>1.0:
-				FEDs_table.loc[experiment,chart]=t
-				FED_cum.append((CO2_FED[t]*CO_FED[t]+O2_FED[t])+FED_cum[j])
-			elif t==end_time:
-			# 	continue
-				print('end')
-				FEDs_table.loc[experiment,chart]=('N/A ('+str(round((CO2_FED[t]*CO_FED[t]+O2_FED[t])+FED_cum[j],3))+')')
-				FED_cum.append((CO2_FED[t]*CO_FED[t]+O2_FED[t])+FED_cum[j])
+			elif np.isnan(Temps_cum[i-1]):
+				label = str(chart+' Temp')
+				FEDs_table.loc[experiment,label] = str('NA: '+str(np.round(Temps_cum[i-1],3)))
+				print('3')
+				break
 			else:
-				FED_cum.append((CO2_FED[t]*CO_FED[t]+O2_FED[t])+FED_cum[j])
-			j=t
-			# print(j,t,len(CO_FED))
+				Temps_cum.append((1.0/60.0)*((1/Temps_rad[i])+(1/Temps_conv[i]))+Temps_cum[i-1])
 
 
-		for t in range(len(Temps_rad)):
-			if t==0:	
-				Temps_cum.append((1/60)*((1/Temps_conv[t])+(1/Temps_rad[t])))
-				# Temps_cum.append((1/60)*((1/Temps_conv[i])))
-			elif t==len(Temps_rad):
-				break
-			elif Temps_cum[j]>1.0:
-				FEDs_table.loc[experiment,chart+' Temp']=t
-				Temps_cum.append((1/60)*((1/Temps_conv[t])+(1/Temps_rad[t]))+Temps_cum[j])
-			
-			elif t==end_time:
-				FEDs_table.loc[experiment,chart+' Temp']=('N/A '+str(round((1/60)*((1/Temps_conv[t])+(1/Temps_rad[t]))+Temps_cum[j],3)))
-				print('NO INCAP')
-				Temps_cum.append((1/60)*((1/Temps_conv[t])+(1/Temps_rad[t]))+Temps_cum[j])
-			else:
-				Temps_cum.append((1/60)*((1/Temps_conv[t])+(1/Temps_rad[t]))+Temps_cum[j])
-			j=t
-
-		FED_df['CO FED'] = pd.Series(CO_FED)
-		FED_df['CO2 FED'] = pd.Series(CO2_FED)
-		FED_df['O2 FED'] = pd.Series(O2_FED)
-		FED_df['Gas Cumulative'] = pd.Series(FED_cum)
-		FED_df['Radiative FED'] = pd.Series(Temps_rad)
-		FED_df['Convective FED'] = pd.Series(Temps_conv)
-		FED_df['Temp Cumulative'] = pd.Series(Temps_cum)
-		FED_dict[experiment]=FED_df
 
 
-pickle.dump(FED_dict, open (output_dir+'FED.dict','wb'))
+
+
+		# FED_df['CO FED'] = pd.Series(CO_FED)
+		# FED_df['CO2 FED'] = pd.Series(CO2_FED)
+		# FED_df['O2 FED'] = pd.Series(O2_FED)
+		# FED_df['Gas Cumulative'] = pd.Series(FED_cum)
+		# FED_df['Radiative FED'] = pd.Series(Temps_rad)
+		# FED_df['Convective FED'] = pd.Series(Temps_conv)
+		# FED_df['Temp Cumulative'] = pd.Series(Temps_cum)
+		Gas_FED_df[chart] = pd.Series(FED_cum)
+		Temp_FED_df[chart+' Temp'] = pd.Series(Temps_cum)
+		print
+	Gas_FED_dict[experiment]=Gas_FED_df
+	Temp_FED_dict[experiment] = Temp_FED_df
+
+
+
+pickle.dump(Gas_FED_dict, open (output_dir+'FED_gas.dict','wb'))
+pickle.dump(Temp_FED_dict, open (output_dir+'FED_temp.dict','wb'))
 if not os.path.exists(output_table_loc):
 	os.makedirs(output_table_loc)
 FEDs_table.to_csv(output_table_loc+'FED_Table_dict.csv')

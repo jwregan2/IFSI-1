@@ -93,8 +93,8 @@ for experiment in test_des.index.values:
  			marker=next(plot_markers)
 
  			#Plot data
- 			plt.plot(data_pre.index.values,data_pre,ls='-', marker=marker,markevery=500,markersize=8,mew=1.5,mec='none',ms=7,label=channels['Label'][channel] ,color=color)
- 			plt.plot(data_post.index.values,data_post,ls='--',marker=marker,markevery=500,markersize=8,mew=1.5,mec='none',ms=7,color=color,label='_nolegend_')
+ 			plt.plot(data_pre.index.values,data_pre,ls='-', marker=marker,markersize=8,mew=1.5,mec='none',ms=7,label=channels['Label'][channel] ,color=color)
+ 			plt.plot(data_post.index.values,data_post,ls='--',marker=marker,markersize=8,mew=1.5,mec='none',ms=7,color=color,label='_nolegend_')
  			plt.plot(ff_int,data_at,lw=3,ls='--',marker='o',markersize=5,color='k',label='_nolegend_')
 
 		plt.grid(True)
