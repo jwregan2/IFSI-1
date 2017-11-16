@@ -50,7 +50,44 @@ for chart in channels.index.values:
 	plot_markers = cycle(['s', 'o', '^', 'd', 'h', 'p','v','8','D','*','<','>','H'])
 	for experiment in test_des.index.values:
 		data_df = FED_dict[experiment]
+		events_df = test_events_dict[experiment]
+		for event in events_df.index.values:
+			if events_df['Event'][event] == 'Front Door Open' or events_df['Event'][event] == 'Water in Window':
+				ff_int = event
+				break	
+		#find end of test data
+		for event in events_df.index.values:
+			if events_df['Event'][event] == 'End of Experiment' or events_df['Event'][event] == 'Data System Error':
+				end_time = event
 		if chart not in data_df.columns:
 			continue
-		print('g')
 		data = data_df[chart]
+		#divide data into pre- and post-ff intervention
+		data_pre = data.loc[:ff_int]
+		data_post = data.loc[ff_int:end_time]
+		data_at = data.loc[ff_int]
+
+		##cycle plot markers and colors
+		color=next(tableau20)
+		marker=next(plot_markers)
+
+		#Plot data
+		plt.plot(data_pre.index.values,data_pre,ls='-', marker=marker,markevery=500,markersize=8,mew=1.5,mec='none',ms=7,label=experiment.replace('_',' '),color=color)
+		plt.plot(data_post.index.values,data_post,ls='--',marker=marker,markevery=500,markersize=8,mew=1.5,mec='none',ms=7,color=color,label='_nolegend_')
+		plt.plot(ff_int,data_at,lw=3,ls='--',marker='o',markersize=5,color='k',label='_nolegend_')
+
+	plt.grid(True)
+	plt.xlabel('Time (s)', fontsize=16)
+	# plt.ylabel(charts['Y Label'][chart], fontsize=16)
+	plt.xticks(fontsize=16)
+	plt.yticks(fontsize=16)
+	plt.xlim([0,1000])
+	# plt.ylim([charts['Y Min'][chart],charts['Y Max'][chart]])
+	ax1 = plt.gca()
+	handles1, labels1 = ax1.get_legend_handles_labels()		
+	fig.set_size_inches(10, 7)				
+	# plt.title('Experiment '+str(experiment)+' '+chart, y=1.08)
+	plt.tight_layout()	
+	plt.legend(handles1, labels1, fontsize=12)	
+	plt.savefig(output_dir + chart+'.png')
+	plt.close('all')	
