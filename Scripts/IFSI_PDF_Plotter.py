@@ -77,13 +77,11 @@ for experiment in test_des.index.values:
 		for channel in channel_groups.get_group(chart).index.values:
  			if not channel in data_df.columns:
  				if not channel in wireless_data.columns:
- 					print(wireless_data.columns)
+
  					continue
  			if 'Remote' in channels['Type'][channel]:
  				data = wireless_data[channel].dropna(how='all')
- 				print(data)
  				data= data.rolling(window=5, center=True).mean()
-
  			else:
  			#take 5 second moving average of the data for the channel
  				data = data_df[channel].rolling(window=5, center=True).mean()

@@ -88,12 +88,7 @@ for experiment in test_des.index.values:
 			df_flag = False
 		else:
 			data = pd.Series(data, name=channel)
-			# data = 	data.reset_index()
-			# print(len(data),len(time_index))
-			# data['Elapsed Time'] = time_index[0:len(data)]
-			# data = data.set_index('Elapsed Time')
 
-			# data = pd.Series(data, index = time_index[0:len(data)])
 			test_df = pd.concat([test_df,data],axis=1)
 
 	# print(test_df)

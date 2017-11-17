@@ -40,3 +40,7 @@ Near Bedroom O2,Bedroom4O2V,Bedroom3O2V,Percent (%),25,0
 Near Bedroom CO,Bedroom4COV,Bedroom3COV,Concentration (PPM),30000,0
 Far Bedroom O2,Bedroom3O2V,Bedroom4O2V,Percent (%),25,0
 Far Bedroom CO,Bedroom3COV,Bedroom4COV,Concentration (PPM),30000,0
+Firefighter_Attack,Firefighter_Attack,Firefighter_Attack,Temperature ($^{\circ}$C),250,0
+Firefighter_Search,Firefighter_Search,Firefighter_Search,Temperature ($^{\circ}$C),250,0
+Victim_Closed_Door,Victim_Closed_Door,Victim_Closed_Door,Temperature ($^{\circ}$C),100,0
+Victim_Open_Door,Victim_Open_Door,Victim_Open_Door,Temperature ($^{\circ}$C),150,0

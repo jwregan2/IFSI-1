@@ -28,7 +28,7 @@ sensors = pd.read_csv(info_dir+'Sensors_to_compare.csv',index_col = 'Sensor')
 # Load data & event pickle dicts
 test_data_dict = pickle.load(open(data_dir + 'metric_test_data.dict', 'rb'))
 test_events_dict = pickle.load(open(events_dir + 'events.dict', 'rb'))
-
+wireless_data_dict = pickle.load(open(data_dir + 'Wireless_TC_Data/metric_wireless_data.dict', 'rb'))
 #Define output directory
 output_dir = '../Figures/by_sensor/'
 
@@ -55,6 +55,7 @@ for chart in sensors.index.values:
 
 	#cycle through exeriments
 	for experiment in test_des.index.values:
+		wireless_data = wireless_data_dict[experiment]
 		data_df = test_data_dict[experiment]
 		events_df = test_events_dict[experiment]
 
@@ -64,7 +65,8 @@ for chart in sensors.index.values:
 			channel = sensors['Right Sensor'][chart]
 
 		if not channel in data_df.columns:
- 			continue
+ 			if not channel in wireless_data.columns:
+ 				continue
 
 		#find firefighter intervention time
 		for event in events_df.index.values:
@@ -76,12 +78,23 @@ for chart in sensors.index.values:
 			if events_df['Event'][event] == 'End of Experiment' or events_df['Event'][event] == 'Data System Error':
 				end_time = event
 
-		data = data_df[channel]
-		#take 5 second moving average of the data for the channel
-		data = data_df[channel].rolling(window=5, center=True).mean()
+		if 'Remote' in channels['Type'][channel]:
+			data = wireless_data[channel].dropna(how='all')
+			data= data.rolling(window=5, center=True).mean()
+		else:
+			#take 5 second moving average of the data for the channel
+			data = data_df[channel].rolling(window=5, center=True).mean()
+
 
 		#cut the pre-ignition data
 		data = data.loc[0:]
+ 		#adjust times where the intervention is not within the index to the next second
+		if ff_int in data.index:
+			pass
+		elif ff_int + 1 in data_df.index:
+			ff_int = ff_int +1
+		else:
+			print( )
 
 		#divide data into pre- and post-ff intervention
 		data_pre = data.loc[:ff_int]
