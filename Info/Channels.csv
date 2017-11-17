@@ -1,12 +1,12 @@
 Channel,Label,Type,Scale Factor,Offset,Transport,Left Chart,Right Chart
-DRRear1ft,1 Foot,Temperature,1.8,32,,Dining Room Rear,Dining Room Rear
-DRRear2ft,2 Foot,Temperature,1.8,32,,Dining Room Rear,Dining Room Rear
-DRRear3ft,3 Foot,Temperature,1.8,32,,Dining Room Rear,Dining Room Rear
-DRRear4ft,4 Foot,Temperature,1.8,32,,Dining Room Rear,Dining Room Rear
-DRRear5ft,5 Foot,Temperature,1.8,32,,Dining Room Rear,Dining Room Rear
-DRRear6ft,6 Foot,Temperature,1.8,32,,Dining Room Rear,Dining Room Rear
-DRRear7ft,7 Foot,Temperature,1.8,32,,Dining Room Rear,Dining Room Rear
-DRRear8ft,8 Foot,Temperature,1.8,32,,Dining Room Rear,Dining Room Rear
+LRRearLeft1ft,1 Foot,Temperature,1.8,32,,Living Room Rear,Dining Room Rear
+LRRearLeft2ft,2 Foot,Temperature,1.8,32,,Living Room Rear,Dining Room Rear
+LRRearLeft3ft,3 Foot,Temperature,1.8,32,,Living Room Rear,Dining Room Rear
+LRRearLeft4ft,4 Foot,Temperature,1.8,32,,Living Room Rear,Dining Room Rear
+LRRearLeft5ft,5 Foot,Temperature,1.8,32,,Living Room Rear,Dining Room Rear
+LRRearLeft6ft,6 Foot,Temperature,1.8,32,,Living Room Rear,Dining Room Rear
+LRRearLeft7ft,7 Foot,Temperature,1.8,32,,Living Room Rear,Dining Room Rear
+LRRearLeft8ft,8 Foot,Temperature,1.8,32,,Living Room Rear,Dining Room Rear
 Bedroom41ft,1 Foot,Temperature,1.8,32,,Near Closed Bedroom,Far Closed Bedroom
 Bedroom42ft,2 Foot,Temperature,1.8,32,,Near Closed Bedroom,Far Closed Bedroom
 Bedroom43ft,3 Foot,Temperature,1.8,32,,Near Closed Bedroom,Far Closed Bedroom
@@ -31,14 +31,14 @@ HallLeft5ft,5 Foot,Temperature,1.8,32,,Near Hall,Far Hall
 HallLeft6ft,6 Foot,Temperature,1.8,32,,Near Hall,Far Hall
 HallLeft7ft,7 Foot,Temperature,1.8,32,,Near Hall,Far Hall
 HallLeft8ft,8 Foot,Temperature,1.8,32,,Near Hall,Far Hall
-LRRear1ft,1 Foot,Temperature,1.8,32,,Living Room Rear,Living Room Rear
-LRRear2ft,2 Foot,Temperature,1.8,32,,Living Room Rear,Living Room Rear
-LRRear3ft,3 Foot,Temperature,1.8,32,,Living Room Rear,Living Room Rear
-LRRear4ft,4 Foot,Temperature,1.8,32,,Living Room Rear,Living Room Rear
-LRRear5ft,5 Foot,Temperature,1.8,32,,Living Room Rear,Living Room Rear
-LRRear6ft,6 Foot,Temperature,1.8,32,,Living Room Rear,Living Room Rear
-LRRear7ft,7 Foot,Temperature,1.8,32,,Living Room Rear,Living Room Rear
-LRRear8ft,8 Foot,Temperature,1.8,32,,Living Room Rear,Living Room Rear
+LRRearRight1ft,1 Foot,Temperature,1.8,32,,Dining Room Rear,Living Room Rear
+LRRearRight2ft,2 Foot,Temperature,1.8,32,,Dining Room Rear,Living Room Rear
+LRRearRight3ft,3 Foot,Temperature,1.8,32,,Dining Room Rear,Living Room Rear
+LRRearRight4ft,4 Foot,Temperature,1.8,32,,Dining Room Rear,Living Room Rear
+LRRearRight5ft,5 Foot,Temperature,1.8,32,,Dining Room Rear,Living Room Rear
+LRRearRight6ft,6 Foot,Temperature,1.8,32,,Dining Room Rear,Living Room Rear
+LRRearRight7ft,7 Foot,Temperature,1.8,32,,Dining Room Rear,Living Room Rear
+LRRearRight8ft,8 Foot,Temperature,1.8,32,,Dining Room Rear,Living Room Rear
 Bedroom31ft,1 Foot,Temperature,1.8,32,,Far Closed Bedroom,Near Closed Bedroom
 Bedroom32ft,2 Foot,Temperature,1.8,32,,Far Closed Bedroom,Near Closed Bedroom
 Bedroom33ft,3 Foot,Temperature,1.8,32,,Far Closed Bedroom,Near Closed Bedroom
@@ -71,22 +71,22 @@ Kitchen5ft,5 Foot,Temperature,1.8,32,,Kitchen,Kitchen
 Kitchen6ft,6 Foot,Temperature,1.8,32,,Kitchen,Kitchen
 Kitchen7ft,7 Foot,Temperature,1.8,32,,Kitchen,Kitchen
 Kitchen8ft,8 Foot,Temperature,1.8,32,,Kitchen,Kitchen
-DRFront1ft,1 Foot,Temperature,1.8,32,,Dining Room Front,Dining Room Front
-DRFront2ft,2 Foot,Temperature,1.8,32,,Dining Room Front,Dining Room Front
-DRFront3ft,3 Foot,Temperature,1.8,32,,Dining Room Front,Dining Room Front
-DRFront4ft,4 Foot,Temperature,1.8,32,,Dining Room Front,Dining Room Front
-DRFront5ft,5 Foot,Temperature,1.8,32,,Dining Room Front,Dining Room Front
-DRFront6ft,6 Foot,Temperature,1.8,32,,Dining Room Front,Dining Room Front
-DRFront7ft,7 Foot,Temperature,1.8,32,,Dining Room Front,Dining Room Front
-DRFront8ft,8 Foot,Temperature,1.8,32,,Dining Room Front,Dining Room Front
-LRFront1ft,1 Foot,Temperature,1.8,32,,Living Room Front,Living Room Front
-LRFront2ft,2 Foot,Temperature,1.8,32,,Living Room Front,Living Room Front
-LRFront3ft,3 Foot,Temperature,1.8,32,,Living Room Front,Living Room Front
-LRFront4ft,4 Foot,Temperature,1.8,32,,Living Room Front,Living Room Front
-LRFront5ft,5 Foot,Temperature,1.8,32,,Living Room Front,Living Room Front
-LRFront6ft,6 Foot,Temperature,1.8,32,,Living Room Front,Living Room Front
-LRFront7ft,7 Foot,Temperature,1.8,32,,Living Room Front,Living Room Front
-LRFront8ft,8 Foot,Temperature,1.8,32,,Living Room Front,Living Room Front
+LRFrontRight1ft,1 Foot,Temperature,1.8,32,,Dining Room Front,Living Room Front
+LRFrontRight2ft,2 Foot,Temperature,1.8,32,,Dining Room Front,Living Room Front
+LRFrontRight3ft,3 Foot,Temperature,1.8,32,,Dining Room Front,Living Room Front
+LRFrontRight4ft,4 Foot,Temperature,1.8,32,,Dining Room Front,Living Room Front
+LRFrontRight5ft,5 Foot,Temperature,1.8,32,,Dining Room Front,Living Room Front
+LRFrontRight6ft,6 Foot,Temperature,1.8,32,,Dining Room Front,Living Room Front
+LRFrontRight7ft,7 Foot,Temperature,1.8,32,,Dining Room Front,Living Room Front
+LRFrontRight8ft,8 Foot,Temperature,1.8,32,,Dining Room Front,Living Room Front
+LRFrontLeft1ft,1 Foot,Temperature,1.8,32,,Living Room Front,Dining Room Front
+LRFrontLeft2ft,2 Foot,Temperature,1.8,32,,Living Room Front,Dining Room Front
+LRFrontLeft3ft,3 Foot,Temperature,1.8,32,,Living Room Front,Dining Room Front
+LRFrontLeft4ft,4 Foot,Temperature,1.8,32,,Living Room Front,Dining Room Front
+LRFrontLeft5ft,5 Foot,Temperature,1.8,32,,Living Room Front,Dining Room Front
+LRFrontLeft6ft,6 Foot,Temperature,1.8,32,,Living Room Front,Dining Room Front
+LRFrontLeft7ft,7 Foot,Temperature,1.8,32,,Living Room Front,Dining Room Front
+LRFrontLeft8ft,8 Foot,Temperature,1.8,32,,Living Room Front,Dining Room Front
 HallLeftHF1ftV,1 Foot,Heat Flux,1919,0,,Near Hall HF,Far Hall HF
 HallLeftHF3ftV,3 Foot,Heat Flux,1965,0,,Near Hall HF,Far Hall HF
 HallLeftHF5ftV,5 Foot,Heat Flux,1899,0,,Near Hall HF,Far Hall HF
@@ -147,3 +147,7 @@ Kitchen05Press7ftV,7 Foot,Pressure,49.816,124.54,,Kitchen High Pressure,Kitchen 
 Kitchen01Press1ftV,1 Foot,Pressure,9.964,24.909,,Kitchen Low Pressure,Kitchen Low Pressure
 Kitchen01Press4ftV,4 Foot,Pressure,9.964,24.909,,Kitchen Low Pressure,Kitchen Low Pressure
 Kitchen01Press7ftV,7 Foot,Pressure,9.964,24.909,,Kitchen Low Pressure,Kitchen Low Pressure
+Firefighter_Attack,FF Attack,Remote Temperature,1.8,32,,FF Temperatures,FF Temperatures
+Firefighter_Search,FF Search,Remote Temperature,1.8,32,,FF Temperatures,FF Temperatures
+Victim_Closed_Door,Closed Door Victim,Remote Temperature,1.8,32,,Victim Temperatures,Victim Temperatures
+Victim_Open_Door,Open Door Victim,Remote Temperature,1.8,32,,Victim Temperatures,Victim Temperatures

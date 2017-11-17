@@ -36,3 +36,5 @@ Living Room High Pressure,Pressure (kPa),20,-20
 Living Room Low Pressure,Pressure (kPa),10,-10
 Kitchen High Pressure,Pressure (kPa),20,-20
 Kitchen Low Pressure,Pressure (kPa),10,-10
+FF Temperatures,Temperature ($^{\circ}$C),250,0
+Victim Temperatures,Temperature ($^{\circ}$C),250,0

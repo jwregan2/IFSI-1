@@ -30,7 +30,7 @@ test_des = pd.read_csv(info_dir+'Test_Description.csv',index_col = 'Test Name')
 # Load data & event pickle dicts
 test_data_dict = pickle.load(open(data_dir + 'metric_test_data.dict', 'rb'))
 test_events_dict = pickle.load(open(events_dir + 'events.dict', 'rb'))
-
+wireless_data_dict = pickle.load(open(data_dir + 'Wireless_TC_Data/metric_wireless_data.dict', 'rb'))
 #Define output directory
 output_dir = '../Figures/by_experiment/'
 
@@ -42,6 +42,7 @@ for experiment in test_des.index.values:
 	print()
 	print(experiment)
 	data_df = test_data_dict[experiment]
+	wireless_data = wireless_data_dict[experiment]
 	events_df = test_events_dict[experiment]
 
 	#find firefighter intervention time
@@ -75,14 +76,29 @@ for experiment in test_des.index.values:
 		plot_markers = cycle(['s', 'o', '^', 'd', 'h', 'p','v','8','D','*','<','>','H'])
 		for channel in channel_groups.get_group(chart).index.values:
  			if not channel in data_df.columns:
- 				continue
+ 				if not channel in wireless_data.columns:
+ 					print(wireless_data.columns)
+ 					continue
+ 			if 'Remote' in channels['Type'][channel]:
+ 				data = wireless_data[channel].dropna(how='all')
+ 				print(data)
+ 				data= data.rolling(window=5, center=True).mean()
 
+ 			else:
  			#take 5 second moving average of the data for the channel
- 			data = data_df[channel].rolling(window=5, center=True).mean()
+ 				data = data_df[channel].rolling(window=5, center=True).mean()
 
  			#cut the pre-ignition data
  			data = data.loc[0:]
+ 			#adjust times where the intervention is not within the index to the next second
+ 			if ff_int in data.index:
+ 				pass
+ 			elif ff_int + 1 in data_df.index:
+ 				ff_int = ff_int +1
+ 			else:
+ 				print( )
 
+ 			
  			#divide data into pre- and post-ff intervention
  			data_pre = data.loc[:ff_int]
  			data_post = data.loc[ff_int:end_time]
@@ -93,9 +109,9 @@ for experiment in test_des.index.values:
  			marker=next(plot_markers)
 
  			#Plot data
- 			plt.plot(data_pre.index.values,data_pre,ls='-', marker=marker,markersize=8,mew=1.5,mec='none',ms=7,label=channels['Label'][channel] ,color=color)
- 			plt.plot(data_post.index.values,data_post,ls='--',marker=marker,markersize=8,mew=1.5,mec='none',ms=7,color=color,label='_nolegend_')
- 			plt.plot(ff_int,data_at,lw=3,ls='--',marker='o',markersize=5,color='k',label='_nolegend_')
+ 			plt.plot(data_pre.index.values,data_pre,ls='-', marker=marker,markevery = 50,markersize=8,mew=1.5,mec='none',ms=7,label=channels['Label'][channel] ,color=color)
+ 			plt.plot(data_post.index.values,data_post,ls='--',marker=marker,markevery = 50,markersize=8,mew=1.5,mec='none',ms=7,color=color,label='_nolegend_')
+ 			plt.plot(ff_int,data_at,lw=3,ls='--',marker='o',markersize=5,markevery = 50,color='k',label='_nolegend_')
 
 		plt.grid(True)
 		plt.xlabel('Time (s)', fontsize=16)
@@ -106,7 +122,6 @@ for experiment in test_des.index.values:
 		plt.ylim([charts['Y Min'][chart],charts['Y Max'][chart]])
 		ax1 = plt.gca()
 		ax2=ax1.twiny()
-		ax2.set_xlim(0,1000)
 		eventtime=list(range(len(events_df.index.values)))
 
 		for i in events_df.index.values:
@@ -115,6 +130,7 @@ for experiment in test_des.index.values:
 		ax2.set_xticks(events_df.index.values)
 		plt.setp(plt.xticks()[1], rotation=45)
 		ax2.set_xticklabels(events_df['Event'], fontsize=14, ha='left')
+		ax2.set_xlim(0,1000)
 		handles1, labels1 = ax1.get_legend_handles_labels()		
 		fig.set_size_inches(10, 7)				
 		# plt.title('Experiment '+str(experiment)+' '+chart, y=1.08)

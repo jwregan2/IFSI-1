@@ -80,6 +80,7 @@ for test in test_des.index.values:
 		#If channel not in df, continue
 		if not channel in data_df.columns:
 			continue
+
 		scale_factor = channels['Scale Factor'][channel]
 		offset = channels['Offset'][channel]	
 		if channels['Type'][channel] == 'Temperature':
