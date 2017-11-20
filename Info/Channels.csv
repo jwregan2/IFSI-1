@@ -151,9 +151,9 @@ Firefighter_Attack,FF Attack,Remote Temperature,1.8,32,,FF Temperatures,FF Tempe
 Firefighter_Search,FF Search,Remote Temperature,1.8,32,,FF Temperatures,FF Temperatures
 Victim_Closed_Door,Closed Door Victim,Remote Temperature,1.8,32,,Victim Temperatures,Victim Temperatures
 Victim_Open_Door,Open Door Victim,Remote Temperature,1.8,32,,Victim Temperatures,Victim Temperatures
-Victim_Closed_CO,Reading (Carbon Monoxide),Reading (Carbon Monoxide),1,0,,Victim Temperatures,
-Victim_Closed_O2,Reading (Oxygen),Reading (Oxygen),1,0,,,
-Victim_Closed_CO2,Reading (Carbon Dioxide),Reading (Carbon Dioxide),1,0,,,
-Victim_Open_CO,Reading (Carbon Monoxide),Reading (Carbon Monoxide),1,0,,,
-Victim_Open_CO2,Reading (Oxygen),Reading (Oxygen),1,0,,,
-Victim_Open_O2,Reading (Carbon Dioxide),Reading (Carbon Dioxide),1,0,,,
+Victim_Closed_O2,Victim Closed Gas,Remote Gas,1,0,,Victim Gas,Victim Gas
+Victim_Closed_CO2,Victim Closed Gas,Remote Gas,1,0,,Victim Gas,Victim Gas
+Victim_Closed_CO,Victim Closed Gas,Remote Gas,1,0,,Victim CO,Victim CO
+Victim_Open_O2,Victim Open Gas,Remote Gas,1,0,,Victim Gas,Victim Gas
+Victim_Open_CO2,Victim Open Gas,Remote Gas,1,0,,Victim Gas,Victim Gas
+Victim_Open_CO,Victim Open Gas,Remote Gas,1,0,,Victim CO,Victim CO

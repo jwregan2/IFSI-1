@@ -30,12 +30,16 @@ test_des = pd.read_csv(info_dir+'Test_Description.csv',index_col = 'Test Name')
 # Load data & event pickle dicts
 test_data_dict = pickle.load(open(data_dir + 'metric_test_data.dict', 'rb'))
 test_events_dict = pickle.load(open(events_dir + 'events.dict', 'rb'))
-wireless_data_dict = pickle.load(open(data_dir + 'Wireless_TC_Data/metric_wireless_data.dict', 'rb'))
+wireless_data_dict = pickle.load(open(data_dir + 'metric_wireless_data.dict', 'rb'))
 #Define output directory
 output_dir = '../Figures/by_experiment/'
 
 #Loop through experiment files
 for experiment in test_des.index.values:
+	# if experiment == 'Experiment_04':
+	# 	pass
+	# else:
+	# 	continue
 	output_dir = '../Figures/by_experiment/'+experiment+'/'
 	if not os.path.exists(output_dir):
 		os.makedirs(output_dir)
@@ -75,13 +79,21 @@ for experiment in test_des.index.values:
 		tableau20=cycle(tableau20)
 		plot_markers = cycle(['s', 'o', '^', 'd', 'h', 'p','v','8','D','*','<','>','H'])
 		for channel in channel_groups.get_group(chart).index.values:
+
  			if not channel in data_df.columns:
  				if not channel in wireless_data.columns:
-
  					continue
+
+ 			# if 'Remote Gas' in channels['Type'][channel]:
+ 			# 	data = wireless_data[channel].dropna(how='all')
+ 			# 	data= data.rolling(window=5, center=True).mean()
+ 			# else:
+ 			# 	continue
+ 			# print(channel)
  			if 'Remote' in channels['Type'][channel]:
  				data = wireless_data[channel].dropna(how='all')
  				data= data.rolling(window=5, center=True).mean()
+ 				# print(data)
  			else:
  			#take 5 second moving average of the data for the channel
  				data = data_df[channel].rolling(window=5, center=True).mean()
@@ -91,10 +103,16 @@ for experiment in test_des.index.values:
  			#adjust times where the intervention is not within the index to the next second
  			if ff_int in data.index:
  				pass
- 			elif ff_int + 1 in data_df.index:
- 				ff_int = ff_int +1
+ 			# elif ff_int > data.index.values[-1]:
+ 			# 	ff_int = data.index.values[-1]
  			else:
- 				print( )
+ 				for ix in data.index.values:
+ 					if ix > ff_int:
+ 						print(ix-ff_int)
+ 						ff_int = ix 						
+ 						break
+ 			# print(ff_int)
+ 			# print(data.index.values)
 
  			
  			#divide data into pre- and post-ff intervention

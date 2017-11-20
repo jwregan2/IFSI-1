@@ -27,6 +27,7 @@ test_des = pd.read_csv(info_dir+'Test_Description.csv',index_col = 'Test Name')
 test_data_dict = pickle.load(open(data_dir + 'metric_test_data.dict', 'rb'))
 test_events_dict = pickle.load(open(events_dir + 'events.dict', 'rb'))
 
+
 output_table_loc='../Tables/'
 
 N_rows=12

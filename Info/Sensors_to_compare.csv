@@ -44,3 +44,9 @@ Firefighter_Attack,Firefighter_Attack,Firefighter_Attack,Temperature ($^{\circ}$
 Firefighter_Search,Firefighter_Search,Firefighter_Search,Temperature ($^{\circ}$C),250,0
 Victim_Closed_Door,Victim_Closed_Door,Victim_Closed_Door,Temperature ($^{\circ}$C),100,0
 Victim_Open_Door,Victim_Open_Door,Victim_Open_Door,Temperature ($^{\circ}$C),150,0
+Victim_Open_CO,Victim_Open_CO,Victim_Open_CO,Victim_Open_CO,2000,0
+Victim_Closed_CO,Victim_Closed_CO,Victim_Closed_CO,Victim_Closed_CO,2000,0
+Victim_Open_CO2,Victim_Open_CO2,Victim_Open_CO2,Victim_Open_CO2,15,0
+Victim_Closed_CO2,Victim_Closed_CO2,Victim_Closed_CO2,Victim_Closed_CO2,15,0
+Victim_Open_O2,Victim_Open_O2,Victim_Open_O2,Victim_Open_O2,25,0
+Victim_Closed_O2,Victim_Closed_O2,Victim_Closed_O2,Victim_Closed_O2,25,0
