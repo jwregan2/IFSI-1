@@ -94,8 +94,8 @@ HallRightHF1ftV,1 Foot,Heat Flux,1848,0,,Far Hall HF,Near Hall HF
 HallRightHF3ftV,3 Foot,Heat Flux,2026,0,,Far Hall HF,Near Hall HF
 HallRightHF5ftV,5 Foot,Heat Flux,1951,0,,Far Hall HF,Near Hall HF
 HallLeftO2V,O2,Gas,5,0,17,Near Hall Gas,Far Hall Gas
-HallLeftCO2V,CO2,Gas,5,0,40,Near Hall Gas,Far Hall CO
-HallLeftCOV,CO,Gas (PPM),10000,0,21,Near Hall CO,Far Hall Gas
+HallLeftCO2V,CO2,Gas,5,0,40,Near Hall Gas,Far Hall Gas
+HallLeftCOV,CO,Gas (PPM),10000,0,21,Near Hall CO,Far Hall CO
 Bedroom4O2V,O2,Gas,5,0,18,Near Bedroom Gas,Far Bedroom Gas
 Bedroom4CO2V,CO2,Gas,5,0,40,Near Bedroom Gas,Far Bedroom Gas
 Bedroom4COV,CO,Gas (PPM),10000,0,19,Near Bedroom CO,Far Bedroom CO
@@ -103,8 +103,8 @@ Bedroom3O2V,O2,Gas,5,0,17,Far Bedroom Gas,Near Bedroom Gas
 Bedroom3CO2V,CO2,Gas,5,0,21,Far Bedroom Gas,Near Bedroom Gas
 Bedroom3COV,CO,Gas (PPM),10000,0,21,Far Bedroom CO,Near Bedroom CO
 HallRightO2V,O2,Gas,5,0,19,Far Hall Gas,Near Hall Gas
-HallRightCO2V,CO2,Gas,5,0,21,Far Hall CO,Near Hall Gas
-HallRightCOV,CO,Gas (PPM),10000,0,21,Far Hall Gas,Near Hall CO
+HallRightCO2V,CO2,Gas,5,0,21,Far Hall Gas,Near Hall Gas
+HallRightCOV,CO,Gas (PPM),10000,0,21,Far Hall CO,Near Hall CO
 Bedroom105Press1ftV,1 Foot,Pressure,49.816,124.54,,Far Bedroom A High,Near Bedroom A High
 Bedroom105Press4ftV,4 Foot,Pressure,49.816,124.54,,Far Bedroom A High,Near Bedroom A High
 Bedroom105Press7ftV,7 Foot,Pressure,49.816,124.54,,Far Bedroom A High,Near Bedroom A High

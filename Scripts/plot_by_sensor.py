@@ -153,7 +153,7 @@ for chart in sensors.index.values:
 			door_flag = False
 
 
-	# ax1.errorbar(np.mean(int_times), np.mean(int_means), yerr= 0.15*np.mean(int_means), color = 'k', fmt ='o')
+	ax1.errorbar(np.mean(int_times), np.mean(int_means), yerr= 0.12*np.mean(int_means), color = 'k', fmt ='o')
 	plt.grid(True)
 	plt.xlabel('Time (s)', fontsize=16)
 	plt.ylabel(sensors['Y Label'][chart], fontsize=16)
