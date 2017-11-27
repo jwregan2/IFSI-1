@@ -26,14 +26,14 @@ test_des = pd.read_csv(info_dir+'Test_Description.csv',index_col = 'Test Name')
 # Load data & event pickle dicts
 test_data_dict = pickle.load(open(data_dir + 'metric_test_data.dict', 'rb'))
 test_events_dict = pickle.load(open(events_dir + 'events.dict', 'rb'))
-
+wireless_data_dict = pickle.load(open(data_dir + 'metric_wireless_data.dict', 'rb'))
 
 output_table_loc='../Tables/'
 
 N_rows=12
 N_columns=15
 FEDs_table=pd.DataFrame(np.zeros((N_rows,N_columns)))
-FEDs_table.columns=['Experiment','Attack Type','Test Length','Near Hall','Near Bedroom','Far Bedroom','Far Hall','Victim 1','Victim 2','Near Hall Temp','Near Bedroom Temp','Far Bedroom Temp','Far Hall Temp','Victim 1 Temp','Victim 2 Temp']
+FEDs_table.columns=['Experiment','Attack Type','Test Length','Near Hall','Near Bedroom','Far Bedroom','Far Hall','Victim Open','Victim Closed','Near Hall Temp','Near Bedroom Temp','Far Bedroom Temp','Far Hall Temp','Victim Open Temp','Victim Closed Temp']
 Exp_Names=[]
 for f in test_des.index.values:
 		Exp_Names.append(f)
@@ -53,6 +53,7 @@ for experiment in test_des.index.values:
 
 	#load slice of dictionary corresponding to expeiment
 	data_df = test_data_dict[experiment]
+	wireless_data = wireless_data_dict[experiment]
 	events = test_events_dict[experiment]
 	data_df = data_df.loc[0:]
 	Gas_FED_df = pd.DataFrame(data={'Elapsed Time':data_df.index.values})
@@ -67,26 +68,41 @@ for experiment in test_des.index.values:
 	# loop through locations for each
 	for chart in channels.index.values:
 		if not channels[side+' Gas Name'][chart] + 'COV' in data_df.columns:
-			FEDs_table.loc[experiment,chart] = 'No Data'
-			continue
+			# if not channels[side+' Gas Name'][chart] + '_CO':
+			# 	FEDs_table.loc[experiment,chart] = 'No Data'
+				continue
 		if not channels[side+' Temp Name'][chart] in data_df.columns:
-			FEDs_table.loc[experiment,chart+' Temp'] = 'No Data'
-			continue
-		#for Victim gas and temps, consider using if statment
-		CO_data = pd.Series(data_df[channels[side+' Gas Name'][chart]+ 'COV'].loc[0:end_time])
-		CO2_data = pd.Series(data_df[channels[side+' Gas Name'][chart]+ 'CO2V'].loc[0:end_time])
-		O2_data = pd.Series(data_df[channels[side+' Gas Name'][chart]+ 'O2V'].loc[0:end_time])
-		temp_data = pd.Series(data_df[channels[side+' Temp Name'][chart]].loc[0:end_time])
+			# if not channels[side+' Temp Name'][chart]:
+				FEDs_table.loc[experiment,chart+' Temp'] = 'No Data'
+				continue
+		if 'Victim' in chart:
+			#for Victim gas and temps, consider using if statment
+			CO_data = pd.Series(data_df[channels[side+' Gas Name'][chart]+ '_CO'].loc[0:end_time])
+			CO2_data = pd.Series(data_df[channels[side+' Gas Name'][chart]+ '_CO2'].loc[0:end_time])
+			O2_data = pd.Series(data_df[channels[side+' Gas Name'][chart]+ '_O2'].loc[0:end_time])
+			temp_data = pd.Series(data_df[channels[side+' Temp Name'][chart]].loc[0:end_time])
+		else:
+			#for Victim gas and temps, consider using if statment
+			CO_data = pd.Series(data_df[channels[side+' Gas Name'][chart]+ 'COV'].loc[0:end_time])
+			CO2_data = pd.Series(data_df[channels[side+' Gas Name'][chart]+ 'CO2V'].loc[0:end_time])
+			O2_data = pd.Series(data_df[channels[side+' Gas Name'][chart]+ 'O2V'].loc[0:end_time])
+			temp_data = pd.Series(data_df[channels[side+' Temp Name'][chart]].loc[0:end_time])
 
 
 		CO_FED=[]
 		CO2_FED=[]
 		O2_FED=[]
+		FED_rate=[]
 		FED_cum=[]
 
 		Temps_conv=[]
 		Temps_rad=[]
+		Temps_rate=[]
 		Temps_cum=[]
+
+		#determine delta t for gas measurements
+		
+		
 		#compute data for gas since delta t is =1, no need to compute
 		for t in O2_data:
 			O2_FED.append((1.0/60.0)*1/(exp(8.13-0.54*(20.9-t))))
@@ -96,6 +112,7 @@ for experiment in test_des.index.values:
 			CO_FED.append((1.0/60.0)*(t/35000.0))
 
 		for i in range(min(len(O2_FED),len(CO2_FED),len(CO_FED))):
+			FED_rate.append((O2_FED[i]+(CO2_FED[i]*CO_FED[i])))
 			if i == 0:
 				FED_cum.append((O2_FED[i]+(CO2_FED[i]*CO_FED[i])))
 			# elif FED_cum[i-1] >1.0:
@@ -115,7 +132,6 @@ for experiment in test_des.index.values:
 
 		#compute data for temp
 		for t in temp_data:
-
 			if np.isnan(t):
 				##If any of the temperatures are nans, act as if they are room temperature
 				Temps_rad.append((2.72*10**14)/((25+273.0)**(1.35)))
@@ -128,8 +144,10 @@ for experiment in test_des.index.values:
 
 
 		for i in range(min(len(Temps_rad),len(Temps_conv))):
+
 			if i == 0:
 				Temps_cum.append((1.0/60.0)*((1/Temps_rad[i])+(1/Temps_conv[i])))
+				Temps_rate.append((1.0/60.0)*((1/Temps_rad[i])+(1/Temps_conv[i])))
 			# elif Temps_cum[i-1] > 1.0:
 			# 	label = str(chart+' Temp')
 			# 	FEDs_table.loc[experiment,label] = i
@@ -147,24 +165,15 @@ for experiment in test_des.index.values:
 				break
 			else:
 				Temps_cum.append((1.0/60.0)*((1/Temps_rad[i])+(1/Temps_conv[i]))+Temps_cum[i-1])
+				Temps_rate.append((1.0/60.0)*((1/Temps_rad[i])+(1/Temps_conv[i])))
 
-
-
-
-
-
-		# FED_df['CO FED'] = pd.Series(CO_FED)
-		# FED_df['CO2 FED'] = pd.Series(CO2_FED)
-		# FED_df['O2 FED'] = pd.Series(O2_FED)
-		# FED_df['Gas Cumulative'] = pd.Series(FED_cum)
-		# FED_df['Radiative FED'] = pd.Series(Temps_rad)
-		# FED_df['Convective FED'] = pd.Series(Temps_conv)
-		# FED_df['Temp Cumulative'] = pd.Series(Temps_cum)
 		Gas_FED_df[chart] = pd.Series(FED_cum)
+		Gas_FED_df[chart+' rate'] = pd.Series(FED_rate)
 		Temp_FED_df[chart+' Temp'] = pd.Series(Temps_cum)
-		print
+		Temp_FED_df[chart+' Temp rate'] = pd.Series(Temps_rate)
 	Gas_FED_dict[experiment]=Gas_FED_df
 	Temp_FED_dict[experiment] = Temp_FED_df
+	print(Gas_FED_dict) 
 
 
 

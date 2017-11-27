@@ -37,9 +37,9 @@ Near Hall HF 5ft,HallLeftHF5ftV,HallRightHF5ftV,Heat Flux (kW/m$^2$),25,0
 Near Hall O2,HallLeftO2V,HallRightO2V,Percent (%),25,0
 Near Hall CO,HallLeftCOV,HallRightCOV,Concentration (PPM),30000,0
 Near Bedroom O2,Bedroom4O2V,Bedroom3O2V,Percent (%),25,0
-Near Bedroom CO,Bedroom4COV,Bedroom3COV,Concentration (PPM),30000,0
+Near Bedroom CO,Bedroom4COV,Bedroom3COV,Concentration (PPM),5000,0
 Far Bedroom O2,Bedroom3O2V,Bedroom4O2V,Percent (%),25,0
-Far Bedroom CO,Bedroom3COV,Bedroom4COV,Concentration (PPM),30000,0
+Far Bedroom CO,Bedroom3COV,Bedroom4COV,Concentration (PPM),5000,0
 Firefighter_Attack,Firefighter_Attack,Firefighter_Attack,Temperature ($^{\circ}$C),250,0
 Firefighter_Search,Firefighter_Search,Firefighter_Search,Temperature ($^{\circ}$C),250,0
 Victim_Closed_Door,Victim_Closed_Door,Victim_Closed_Door,Temperature ($^{\circ}$C),100,0
