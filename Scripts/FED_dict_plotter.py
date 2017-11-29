@@ -61,11 +61,13 @@ for experiment in test_des.index.values:
 	for event in events_df.index.values:
 		if events_df['Event'][event] == 'End of Experiment' or events_df['Event'][event] == 'Data System Error':
 			end_time = event
+
 	for loc in data_df.columns:
 		print(loc)
 		data = data_df[loc]
 		#cut the pre-ignition data
 		data = data.loc[0:]
+		mean_ls.append(max(data))
 
 		#divide data into pre- and post-ff intervention
 		data_pre = data.loc[:ff_int]
@@ -105,7 +107,7 @@ for experiment in test_des.index.values:
 	plt.savefig(output_dir + 'Gas_FED.png')
 	plt.close('all')	
 
-
+exit()
 FED_dict = pickle.load(open('../Tables/FED_temp.dict', 'rb'))
 
 #Loop through experiment files

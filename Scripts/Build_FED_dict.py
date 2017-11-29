@@ -70,10 +70,12 @@ for experiment in test_des.index.values:
 		if not channels[side+' Gas Name'][chart] + 'COV' in data_df.columns:
 			# if not channels[side+' Gas Name'][chart] + '_CO':
 			# 	FEDs_table.loc[experiment,chart] = 'No Data'
+				# print(chart)
 				continue
 		if not channels[side+' Temp Name'][chart] in data_df.columns:
 			# if not channels[side+' Temp Name'][chart]:
-				FEDs_table.loc[experiment,chart+' Temp'] = 'No Data'
+				# FEDs_table.loc[experiment,chart+' Temp'] = 'No Data'
+				# print(chart)
 				continue
 		if 'Victim' in chart:
 			#for Victim gas and temps, consider using if statment
@@ -134,43 +136,42 @@ for experiment in test_des.index.values:
 		for t in temp_data:
 			if np.isnan(t):
 				##If any of the temperatures are nans, act as if they are room temperature
-				Temps_rad.append((2.72*10**14)/((25+273.0)**(1.35)))
+				# Temps_rad.append((2.72*10**14)/((25+273.0)**(1.35)))
 				Temps_conv.append((5.0*10**7)*25)**(-3.4)
 			else:
 			# 	print(temp_data[1377:1380])		
 				
-				Temps_rad.append((2.72*10**14)/((max([t,0])+273.0)**(1.35)))
+				# Temps_rad.append((2.72*10**14)/((max([t,0])+273.0)**(1.35)))
 				Temps_conv.append((5.0*10**7)*max([t,0])**(-3.4))
 
 
-		for i in range(min(len(Temps_rad),len(Temps_conv))):
+		for i in range(len(Temps_conv)):
 
 			if i == 0:
-				Temps_cum.append((1.0/60.0)*((1/Temps_rad[i])+(1/Temps_conv[i])))
-				Temps_rate.append((1.0/60.0)*((1/Temps_rad[i])+(1/Temps_conv[i])))
+				Temps_cum.append((1.0/60.0)*((1/Temps_conv[i])))
+				Temps_rate.append((1.0/60.0)*((1/Temps_conv[i])))
 			# elif Temps_cum[i-1] > 1.0:
 			# 	label = str(chart+' Temp')
 			# 	FEDs_table.loc[experiment,label] = i
 			# 	print('1')
 			# 	break
-			elif i == min(len(Temps_rad),len(Temps_conv))-1:
+			elif i == len(Temps_conv)-1:
 				label = str(chart+' Temp')
 				FEDs_table.loc[experiment,label] = str('NA: '+str(np.round(Temps_cum[i-1],3)))
-				print('2')
+
 				break
 			elif np.isnan(Temps_cum[i-1]):
 				label = str(chart+' Temp')
 				FEDs_table.loc[experiment,label] = str('NA: '+str(np.round(Temps_cum[i-1],3)))
-				print('3')
 				break
 			else:
-				Temps_cum.append((1.0/60.0)*((1/Temps_rad[i])+(1/Temps_conv[i]))+Temps_cum[i-1])
-				Temps_rate.append((1.0/60.0)*((1/Temps_rad[i])+(1/Temps_conv[i])))
+				Temps_cum.append((1.0/60.0)*((1/Temps_conv[i]))+Temps_cum[i-1])
+				Temps_rate.append((1.0/60.0)*((1/Temps_conv[i])))
 
 		Gas_FED_df[chart] = pd.Series(FED_cum)
 		Gas_FED_df[chart+' rate'] = pd.Series(FED_rate)
-		Temp_FED_df[chart+' Temp'] = pd.Series(Temps_cum)
-		Temp_FED_df[chart+' Temp rate'] = pd.Series(Temps_rate)
+		Gas_FED_df[chart+' Temp'] = pd.Series(Temps_cum)
+		Gas_FED_df[chart+' Temp rate'] = pd.Series(Temps_rate)
 	Gas_FED_dict[experiment]=Gas_FED_df
 	Temp_FED_dict[experiment] = Temp_FED_df
 	print(Gas_FED_dict) 

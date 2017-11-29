@@ -48,31 +48,7 @@ for experiment in test_des.index.values:
 # print(stats_df)
 
 #obtain mean, sd for two attack types and perform a t-test
-print()
-attack_groups = test_des.groupby('Attack Type')
-for column in stats_df.columns:
-	print()
-	print(column)
-	print('Transitional')
-	trans_ls = []
-	for experiment in attack_groups.get_group('Transitional').index.values:
-		trans_ls.append(stats_df.loc[experiment,column])
-	mean = np.mean(trans_ls)
-	stdev = np.std(trans_ls)
-	print('mean: '+str(mean)+'+-'+str(stdev))
-
-	print('Interior')
-	int_ls =[]
-	for experiment in attack_groups.get_group('Interior').index.values:
-		int_ls.append(stats_df.loc[experiment,column])
-	mean = np.mean(int_ls)
-	stdev = np.std(int_ls)
-	print('mean: '+str(mean)+'+-'+str(stdev))
-
-	print('t-test')
-	print(stats.ttest_ind(np.array(trans_ls),np.array(int_ls),equal_var=False))
-
-	print()
+f
 
 print('----------------------------------------------------------------------------')
 attack_groups = test_des.groupby('Side')
@@ -124,3 +100,11 @@ for column in stats_df.columns:
 	print(stats.ttest_ind(np.array(First_ls),np.array(Second_ls),equal_var=False))
 
 	print()
+print('----------------------------------------------------------------------------')
+V1_mean = np.mean(stats_df['Time to remove V1'])
+V1_stdev = np.std(stats_df['Time to remove V1'])
+print('mean: '+str(V1_mean)+'+-'+str(V1_stdev))
+V2_mean = np.mean(stats_df['Time to remove V2'])
+V2_stdev = np.std(stats_df['Time to remove V2'])
+print('mean: '+str(V2_mean)+'+-'+str(V2_stdev))
+print(stats.ttest_ind(np.array(stats_df['Time to remove V1']),np.array(stats_df['Time to remove V2']),equal_var=False))

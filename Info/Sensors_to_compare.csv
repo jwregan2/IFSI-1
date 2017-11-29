@@ -52,3 +52,4 @@ Victim_Open_O2,Victim_Open_O2,Victim_Open_O2,Victim_Open_O2,25,0
 Victim_Closed_O2,Victim_Closed_O2,Victim_Closed_O2,Victim_Closed_O2,25,0
 Far Hall O2,HallRightO2V,HallLeftO2V,Percent (%),25,0
 Far Hall CO,HallRightCOV,HallLeftCOV,Concentration (PPM),30000,0
+DRRear3ft,LRRearRight3ft,LRRearLeft3ft,Temperature ($^{\circ}$C),500,0
