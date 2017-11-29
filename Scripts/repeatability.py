@@ -138,3 +138,37 @@ output_table_loc='../Tables/'
 if not os.path.exists(output_table_loc):
 	os.makedirs(output_table_loc)
 inflection_df.to_csv(output_table_loc+'time_to_inflection.csv')
+
+print('-------------------------------------------------------------')
+print('rate at time of door open and average rate in 60 s after')
+
+
+for experiment in test_des.index.values:
+	events_df = test_events_dict[experiment].reset_index()
+	events_df = events_df.set_index('Event')
+	# if test_des['Attack Type'][experiment] == 'Transitional':
+	# 	ff_int = events_df['Time Elapsed']['Water in Window']
+	# elif test_des['Attack Type'][experiment] == 'Interior':
+	# 	ff_int = events_df['Time Elapsed']['Nozzle FF Reaches Hallway']
+	ff_int = events_df['Time Elapsed']['FD Dispatch']
+	data_df = FED_dict[experiment]	
+	for loc in data_df.columns:
+		if 'rate' in loc:
+			pass
+		else:
+			continue
+		if 'Near Bedroom' in loc or 'Near Closed Bedroom' in loc:
+			if not np.isnan(victim_times[experiment]['Near BR Door Open']):
+				door_time = victim_times[experiment]['Near BR Door Open']
+				door_int = door_time + ff_int
+				# door_flag =True
+		elif 'Far Bedroom' in loc or 'Far Closed Bedroom' in loc:
+			if not np.isnan(victim_times[experiment]['Far BR Door Open']):
+				door_time = victim_times[experiment]['Far BR Door Open']
+				door_int = door_time + ff_int
+				# door_flag =True
+		else:
+			continue
+		data= data_df[loc]
+		data_at =data[door_int]
+		data_after = data[door_int:door_int+60]

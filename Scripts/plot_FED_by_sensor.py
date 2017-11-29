@@ -138,8 +138,11 @@ for chart in FED_dict['Experiment_01'].columns:
 		ls_1 = mean_ls
 	elif chart == 'Near Bedroom':
 		ls_2 = mean_ls
-# 	print('mean: '+str(np.round(np.mean(mean_ls),2))+'+-'+str(np.round(np.std(mean_ls),2)))	
+	elif chart =='Near Hall':
+		ls_3 = mean_ls
+	# print('mean: '+str(np.round(np.mean(mean_ls),2))+'+-'+str(np.round(np.std(mean_ls),2)))	
 # print(stats.ttest_ind(np.array(ls_1),np.array(ls_2),equal_var=False))
+# print(stats.ttest_ind(np.array(ls_3),np.array(ls_2),equal_var=False))
 # exit()
 ##PLOT FED RATE OF CHANGE##
 
@@ -245,11 +248,14 @@ for chart in FED_dict['Experiment_01'].columns:
 
 	plt.grid(True)
 	plt.xlabel('Time (s)', fontsize=16)
-	# plt.ylabel(charts['Y Label'][chart], fontsize=16)
+	plt.ylabel('FED rate', fontsize=16)
 	plt.xticks(fontsize=16)
 	plt.yticks(fontsize=16)
 	plt.xlim([0,1000])
-	# plt.ylim([charts['Y Min'][chart],charts['Y Max'][chart]])
+	if 'Bedroom' in chart:
+		plt.ylim([0,0.008])
+	# elif 'Hall' in chart:
+	# 	plt.ylim([0,0.012])
 	ax1 = plt.gca()
 	handles1, labels1 = ax1.get_legend_handles_labels()		
 	fig.set_size_inches(10, 7)				
@@ -369,7 +375,10 @@ for group in test_groups.groups:
 		plt.xticks(fontsize=16)
 		plt.yticks(fontsize=16)
 		plt.xlim([0,1000])
-		# plt.ylim([charts['Y Min'][chart],charts['Y Max'][chart]])
+	if 'Bedroom' in chart:
+		plt.ylim([0,0.008])
+	# elif 'Hall' in chart:
+	# 	plt.ylim([0,0.012])
 		ax1 = plt.gca()
 		handles1, labels1 = ax1.get_legend_handles_labels()		
 		fig.set_size_inches(10, 7)				
