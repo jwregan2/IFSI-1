@@ -142,33 +142,113 @@ inflection_df.to_csv(output_table_loc+'time_to_inflection.csv')
 print('-------------------------------------------------------------')
 print('rate at time of door open and average rate in 60 s after')
 
+FED_int_df = pd.DataFrame(np.zeros((nrows,5)))
+FED_int_df.columns = ['Experiment','Near Bedroom Rate at door open','Near Bedroom average rate+ 1 min','Far Bedroom Rate at door open','Far Bedroom average rate+ 1 min']
+FED_int_df['Experiment']=Exp_Names
+FED_int_df = FED_int_df.set_index('Experiment')
 
 for experiment in test_des.index.values:
 	events_df = test_events_dict[experiment].reset_index()
 	events_df = events_df.set_index('Event')
-	# if test_des['Attack Type'][experiment] == 'Transitional':
-	# 	ff_int = events_df['Time Elapsed']['Water in Window']
-	# elif test_des['Attack Type'][experiment] == 'Interior':
-	# 	ff_int = events_df['Time Elapsed']['Nozzle FF Reaches Hallway']
 	ff_int = events_df['Time Elapsed']['FD Dispatch']
+	if experiment == 'Experiment_01':
+		end_time =  events_df['Time Elapsed']['Data System Error']
+	else:
+		end_time = events_df['Time Elapsed']['Victim 2 Out']
+
 	data_df = FED_dict[experiment]	
 	for loc in data_df.columns:
-		if 'rate' in loc:
+		if 'Temp rate' in loc:
+			continue
+		elif 'rate' in loc:
 			pass
 		else:
 			continue
+		
 		if 'Near Bedroom' in loc or 'Near Closed Bedroom' in loc:
+			print(loc)
 			if not np.isnan(victim_times[experiment]['Near BR Door Open']):
 				door_time = victim_times[experiment]['Near BR Door Open']
 				door_int = door_time + ff_int
-				# door_flag =True
+				data= data_df[loc][0:end_time]
+				data_at =data[int(door_int)]
+				data_at =np.mean(data_at)
+				data_after = data[int(door_int):int(door_int+90)]
+				post_mean = np.mean(data_after)
+				post_mean = max(data)
+				# if experiment == 'Experiment_01':
+				# 	data_after = data[int(door_int):int(door_int+60)]
+				# 	post_mean = np.mean(data_after)
+				# else:
+				# 	post_mean = np.mean(data[int(door_int+60)])
+			else:
+				data_at =data[ff_int]
+				post_mean = max(data)
+			FED_int_df.loc[experiment,'Near Bedroom Rate at door open'] = data_at
+			FED_int_df.loc[experiment,'Near Bedroom average rate+ 1 min'] = post_mean
+
 		elif 'Far Bedroom' in loc or 'Far Closed Bedroom' in loc:
+			print(loc)
 			if not np.isnan(victim_times[experiment]['Far BR Door Open']):
 				door_time = victim_times[experiment]['Far BR Door Open']
 				door_int = door_time + ff_int
-				# door_flag =True
+				data= data_df[loc][0:end_time]
+				data_at =data[int(door_int-90):int(door_int)]
+				data_at =np.mean(data_at)
+				data_after = data[int(door_int):int(door_int+90)]
+				post_mean = np.mean(data_after)
+				post_mean = max(data)
+			#for experiments 1 and 5, where door was not opened, use the maximum rate as teh comparison
+			else:
+				print(experiment)
+				data_at =data[ff_int]
+				post_mean = max(data)
+
+				# post_mean = data[int(door_int+60)]
+			FED_int_df.loc[experiment,'Far Bedroom Rate at door open'] = data_at
+			FED_int_df.loc[experiment,'Far Bedroom average rate+ 1 min'] = post_mean				
 		else:
 			continue
-		data= data_df[loc]
-		data_at =data[door_int]
-		data_after = data[door_int:door_int+60]
+		print(data)
+exit()
+print(FED_int_df)
+near_BR_ls = []
+far_open_BR_ls = []
+far_shut_BR_ls =[]
+
+af_near_BR_ls = []
+af_far_open_BR_ls = []
+af_far_shut_BR_ls =[]
+for experiment in FED_int_df.index.values:
+	if experiment in ['Experiment_10','Experiment_12']:
+		near_BR_ls.append(FED_int_df.loc[experiment,'Near Bedroom Rate at door open'])
+		af_near_BR_ls.append(FED_int_df.loc[experiment,'Near Bedroom average rate+ 1 min'])
+	elif experiment in ['Experiment_11']:
+		far_open_BR_ls.append(FED_int_df.loc[experiment,'Far Bedroom Rate at door open'])
+		af_far_open_BR_ls.append(FED_int_df.loc[experiment,'Far Bedroom average rate+ 1 min'])
+	elif experiment in ['Experiment_01','Experiment_05','Experiment_09']:
+		if experiment in ['Experiment_05','Experiment_09']:
+			near_BR_ls.append(FED_int_df.loc[experiment,'Near Bedroom Rate at door open'])
+			af_near_BR_ls.append(FED_int_df.loc[experiment,'Near Bedroom average rate+ 1 min'])		
+		far_shut_BR_ls.append(FED_int_df.loc[experiment,'Far Bedroom Rate at door open'])
+		af_far_shut_BR_ls.append(FED_int_df.loc[experiment,'Far Bedroom average rate+ 1 min'])
+	else:
+		near_BR_ls.append(FED_int_df.loc[experiment,'Near Bedroom Rate at door open'])
+		af_near_BR_ls.append(FED_int_df.loc[experiment,'Near Bedroom average rate+ 1 min'])
+		far_open_BR_ls.append(FED_int_df.loc[experiment,'Far Bedroom Rate at door open'])
+		af_far_open_BR_ls.append(FED_int_df.loc[experiment,'Far Bedroom average rate+ 1 min'])
+print('compare closed to open for far BR')		
+print(af_far_open_BR_ls)
+print(af_far_shut_BR_ls)
+print(stats.ttest_ind(np.array(af_far_open_BR_ls),np.array(af_far_shut_BR_ls),equal_var=False))
+print()
+
+print('compare average 1 min after to time at for far BR (for exps where door opened')		
+print(stats.ttest_ind(np.array(far_open_BR_ls),np.array(af_far_shut_BR_ls),equal_var=False))
+print()
+
+print('compare average 1 min after to time at for near BR (for exps where door opened')		
+print(stats.ttest_ind(np.array(near_BR_ls),np.array(af_near_BR_ls),equal_var=False))
+print()
+
+#check if 
