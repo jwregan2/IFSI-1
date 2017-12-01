@@ -37,7 +37,7 @@ for experiment in test_des.index.values:
 	V2_rentry = victim_times[experiment]['Victim 2 Found'] - rentry
 	V2_abs = victim_times[experiment]['Victim 2 Found'] - entry
 	V2_out = victim_times[experiment]['Victim 2 Out'] - victim_times[experiment]['Victim 2 Found']
-
+	print(pre_entry)
 	stats_df.loc[experiment,'Dispatch to entry']= pre_entry
 	stats_df.loc[experiment,'Time to find V1']= V1_found
 	stats_df.loc[experiment,'Time to remove V1']= V1_out
@@ -98,6 +98,73 @@ for column in stats_df.columns:
 
 	print('t-test')
 	print(stats.ttest_ind(np.array(First_ls),np.array(Second_ls),equal_var=False))
+
+	print()
+print('----------------------------------------------------------------------------')
+attack_groups = test_des.groupby('Group')
+for column in stats_df.columns:
+	print()
+	print(column)
+	print('A1')
+	A1_ls = []
+	for experiment in attack_groups.get_group('A1').index.values:
+		A1_ls.append(stats_df.loc[experiment,column])
+	mean = np.mean(A1_ls)
+	stdev = np.std(A1_ls)
+	print('mean: '+str(mean)+'+-'+str(stdev))
+
+	print('A2')
+	A2_ls =[]
+	for experiment in attack_groups.get_group('A2').index.values:
+		A2_ls.append(stats_df.loc[experiment,column])
+	mean = np.mean(A2_ls)
+	stdev = np.std(A2_ls)
+	print('mean: '+str(mean)+'+-'+str(stdev))
+
+	print('B1')
+	print()
+	print(column)
+	print('First')
+	B1_ls = []
+	for experiment in attack_groups.get_group('B1').index.values:
+		B1_ls.append(stats_df.loc[experiment,column])
+	mean = np.mean(B1_ls)
+	stdev = np.std(B1_ls)
+	print('mean: '+str(mean)+'+-'+str(stdev))
+
+	print('B2')
+	B2_ls =[]
+	for experiment in attack_groups.get_group('B1').index.values:
+		B2_ls.append(stats_df.loc[experiment,column])
+	mean = np.mean(B2_ls)
+	stdev = np.std(B2_ls)
+	print('mean: '+str(mean)+'+-'+str(stdev))
+
+	print('C1')
+	print()
+	print(column)
+	print('First')
+	C1_ls = []
+	for experiment in attack_groups.get_group('C1').index.values:
+		C1_ls.append(stats_df.loc[experiment,column])
+	mean = np.mean(C1_ls)
+	stdev = np.std(C1_ls)
+	print('mean: '+str(mean)+'+-'+str(stdev))
+
+	print('C2')
+	C2_ls =[]
+	for experiment in attack_groups.get_group('C2').index.values:
+		C2_ls.append(stats_df.loc[experiment,column])
+	mean = np.mean(C2_ls)
+	stdev = np.std(C2_ls)
+	print('mean: '+str(mean)+'+-'+str(stdev))
+
+	print('t-test')	
+	print(stats.ttest_ind(np.array(A1_ls),np.array(A2_ls),equal_var=False))
+	print(stats.ttest_ind(np.array(A1_ls),np.array(B1_ls),equal_var=False))
+	print(stats.ttest_ind(np.array(A1_ls),np.array(B2_ls),equal_var=False))
+	print(stats.ttest_ind(np.array(A1_ls),np.array(C1_ls),equal_var=False))
+	print(stats.ttest_ind(np.array(A1_ls),np.array(C2_ls),equal_var=False))
 
 	print()
 print('----------------------------------------------------------------------------')

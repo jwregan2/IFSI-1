@@ -1,13 +1,13 @@
-Test Name,Side,Attack Type,Order
-Experiment_01,Left,Transitional,First
-Experiment_02,Right,Interior,Second
-Experiment_03,Left,Transitional,First
-Experiment_04,Right,Interior,Second
-Experiment_05,Left,Interior,First
-Experiment_06,Right,Transitional,Second
-Experiment_07,Left,Interior,First
-Experiment_08,Right,Transitional,Second
-Experiment_09,Left,Interior,First
-Experiment_10,Right,Transitional,Second
-Experiment_11,Left,Transitional,First
-Experiment_12,Right,Interior,Second
+Test Name,Side,Attack Type,Order,Group
+Experiment_01,Left,Transitional,First,A1
+Experiment_02,Right,Interior,Second,A1
+Experiment_03,Left,Transitional,First,B1
+Experiment_04,Right,Interior,Second,B1
+Experiment_05,Left,Interior,First,C1
+Experiment_06,Right,Transitional,Second,C1
+Experiment_07,Left,Interior,First,B2
+Experiment_08,Right,Transitional,Second,B2
+Experiment_09,Left,Interior,First,A2
+Experiment_10,Right,Transitional,Second,A2
+Experiment_11,Left,Transitional,First,C2
+Experiment_12,Right,Interior,Second,C2
