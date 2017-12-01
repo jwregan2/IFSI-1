@@ -35,6 +35,12 @@ for f in test_des.index.values:
 Temps_tabe['Experiment']=Exp_Names
 Temps_tabe=Temps_tabe.set_index('Experiment')
 
+#build datuhframe for rates
+Rates_tabe=pd.DataFrame(np.zeros((N_rows,N_columns)))
+Rates_tabe.columns=['Experiment','Near Hall','Near Bedroom','Far Bedroom','Far Hall']
+Rates_tabe['Experiment']=Exp_Names
+Rates_tabe=Rates_tabe.set_index('Experiment')
+
 #import channel list
 channels = pd.read_csv(info_dir+'FED_Channels.csv', index_col = 'Chart')
 
@@ -59,19 +65,33 @@ for experiment in Temps_tabe.index.values:
 	side = test_des['Side'][experiment]
 
 	for group in Temps_tabe.columns:
+		print(group)
 		dahtuh = data_df[channels[side+' Temp Name'][group]].loc[0:end_time]
+		#find average value in 30 s before ff intervention
 		int_average=np.mean(dahtuh.loc[ff_int-30:ff_int])
+		#place value in a table
 		Temps_tabe.loc[experiment,group] = int_average
-
-for column in Temps_tabe.columns:
-	print(column)
-	ave = np.mean(Temps_tabe[column])
-	std = np.std(Temps_tabe[column])
-	print(str(ave)+ ' =- '+str(std))
-	print(std/ave)
-	print()
+		#assemble rate of change list for 30 seconds before and after ff_int
+		roc_ls =[0]
+		elapsed_time=dahtuh.loc[ff_int-30:ff_int+30].index.values
+		supp_ar =np.array(dahtuh.loc[ff_int-30:ff_int+30])
+		for i in range(len(supp_ar)-1):
+				roc_ls.append(supp_ar[i+1]-supp_ar[i])
+		data = pd.Series(roc_ls,index = elapsed_time)
+		print(np.mean(data.loc[ff_int-30:ff_int]))
+		print(np.mean(data.loc[ff_int:ff_int+30]))
+		Rates_tabe.loc[experiment,group] =np.mean( data.loc[ff_int:ff_int+30])
+		print()
+# for column in Temps_tabe.columns:
+# 	print(column)
+# 	ave = np.mean(Temps_tabe[column])
+# 	std = np.std(Temps_tabe[column])
+# 	print(str(ave)+ ' =- '+str(std))
+# 	print(std/ave)
+# 	print()
 
 # print(Temps_tabe)
+print(Rates_tabe)
 
 
 
