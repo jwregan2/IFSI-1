@@ -84,9 +84,13 @@ for chart in sensors.index.values:
 			elapsed_time=data.index.values
 			#take 5 second moving average of the data for the channel
 			roc_ls =[0]
+			roc_ls_2 =[0]
 			data_ar = np.array(data)
 			for i in range(len(data_ar)-1):
 				roc_ls.append(data_ar[i+1]-data_ar[i])
+			# for i in range(len(roc_ls)-1):
+			# 	roc_ls_2.append(roc_ls[i+1]-roc_ls[1])
+			# data = pd.Series(roc_ls_2,index = elapsed_time)
 			data = pd.Series(roc_ls,index = elapsed_time)
 			data = data.rolling(window=10, center=True).mean()
 
@@ -112,7 +116,7 @@ for chart in sensors.index.values:
 
 		plt.grid(True)
 		plt.xlabel('Time (s)', fontsize=16)
-		plt.ylabel(sensors['Y Label'][chart], fontsize=16)
+		# plt.ylabel(sensors['Y Label'][chart], fontsize=16)
 		plt.xticks(fontsize=16)
 		plt.yticks(fontsize=16)
 		plt.xlim([200,600])

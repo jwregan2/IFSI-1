@@ -35,14 +35,24 @@ FED_int_df = FED_int_df.set_index('Experiment')
 test_events_dict = pickle.load(open(events_dir + 'events.dict', 'rb'))
 FED_dict = pickle.load(open('../Tables/FED_gas.dict', 'rb'))
 
-
+#Find maximum FEDS for each static victim lcoation or FED at time of FF intervention
+interior_ls=[]
+trans_ls=[]
 for experiment in test_des.index.values:
 	events_df = test_events_dict[experiment].reset_index()
 	events_df = events_df.set_index('Event')
 	if test_des['Attack Type'][experiment] == 'Transitional':
 		ff_int = events_df['Time Elapsed']['Water in Window']
+		int_start =events_df['Time Elapsed']['Front Door Open']
+		print(experiment)
+		trans_ls.append(int_start-ff_int)
+
 	elif test_des['Attack Type'][experiment] == 'Interior':
 		ff_int = events_df['Time Elapsed']['Nozzle FF Reaches Hallway']
+		int_start =events_df['Time Elapsed']['Front Door Open']
+		print(experiment)
+		interior_ls.append(ff_int-int_start)
+	continue
 	# ff_int = events_df['Time Elapsed']['FD Dispatch']
 	data_df = FED_dict[experiment]	
 	for loc in data_df.columns:
@@ -54,6 +64,8 @@ for experiment in test_des.index.values:
 				continue
 			int_data = max(data_df[loc])#[ff_int]
 			FED_int_df.loc[experiment,loc]=np.round(int_data,2)
+print(np.mean(interior_ls))
+print(np.mean(trans_ls))
 
 for loc in FED_int_df.columns:
 	FED_ls = []
@@ -209,9 +221,7 @@ for experiment in test_des.index.values:
 			FED_int_df.loc[experiment,'Far Bedroom average rate+ 1 min'] = post_mean				
 		else:
 			continue
-		print(data)
-exit()
-print(FED_int_df)
+		
 near_BR_ls = []
 far_open_BR_ls = []
 far_shut_BR_ls =[]
@@ -252,3 +262,17 @@ print(stats.ttest_ind(np.array(near_BR_ls),np.array(af_near_BR_ls),equal_var=Fal
 print()
 
 #check if 
+
+int_ls=[1.0,.562,.765,.678,.433,.714]
+trans_ls=[1.0,.869,.243,.291,.425,.862]
+print('Far Hall')
+print(str(np.mean(int_ls))+'+-'+str(np.std(int_ls)))
+print(str(np.mean(trans_ls))+'+-'+str(np.std(trans_ls)))
+print(stats.ttest_ind(np.array(int_ls),np.array(trans_ls),equal_var=False))
+print()
+print('Near Hall')
+int_ls=[344,300,341,346,225,373]
+trans_ls=[300,345,344,262,365,315]
+print(str(np.mean(int_ls))+'+-'+str(np.std(int_ls)))
+print(str(np.mean(trans_ls))+'+-'+str(np.std(trans_ls)))
+print(stats.ttest_ind(np.array(int_ls),np.array(trans_ls),equal_var=False))

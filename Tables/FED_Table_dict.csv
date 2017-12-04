@@ -1,13 +1,13 @@
-Experiment,Attack Type,Test Length,Near Hall,Near Bedroom,Far Bedroom,Far Hall,Victim 1,Victim 2,Near Hall Temp,Near Bedroom Temp,Far Bedroom Temp,Far Hall Temp,Victim 1 Temp,Victim 2 Temp
-Experiment_01,Transitional,0.0,NA: nan,NA: nan,NA: nan,535.0,No Data,No Data,300.0,NA: 0.019,NA: 0.009,NA: 0.008,0.0,0.0
-Experiment_02,Interior,0.0,540,NA: 0.28,NA: 0.784,NA: 0.144,No Data,No Data,344.0,NA: 0.035,NA: 0.037,NA: 0.022,0.0,0.0
-Experiment_03,Transitional,0.0,442,984,NA: 0.362,513,No Data,No Data,345.0,NA: 0.041,NA: 0.027,NA: 0.017,0.0,0.0
-Experiment_04,Interior,0.0,468,NA: 0.077,764,NA: nan,No Data,No Data,300.0,NA: 0.02,NA: 0.028,NA: 0.016,0.0,0.0
-Experiment_05,Interior,0.0,465,928,NA: 0.758,820,No Data,No Data,341.0,NA: 0.072,NA: 0.034,NA: 0.022,0.0,0.0
-Experiment_06,Transitional,0.0,624,NA: 0.283,NA: nan,975,No Data,No Data,344.0,NA: 0.027,NA: 0.024,NA: 0.024,0.0,0.0
-Experiment_07,Interior,0.0,419,NA: 0.569,NA: 0.578,474,No Data,No Data,346.0,NA: 0.026,NA: 0.018,NA: 0.014,0.0,0.0
-Experiment_08,Transitional,0.0,410,NA: 0.41,1079,877,No Data,No Data,262.0,NA: 0.024,NA: 0.026,NA: 0.02,0.0,0.0
-Experiment_09,Interior,0.0,408,NA: 0.209,NA: 0.72,477,No Data,No Data,225.0,NA: 0.038,NA: 0.026,NA: 0.018,0.0,0.0
-Experiment_10,Transitional,0.0,445,NA: 0.056,NA: -0.002,979,No Data,No Data,365.0,NA: 0.032,NA: 0.031,NA: 0.026,0.0,0.0
-Experiment_11,Transitional,0.0,371,NA: -0.004,NA: 0.845,456,No Data,No Data,315.0,NA: 0.036,NA: 0.034,NA: 0.022,0.0,0.0
-Experiment_12,Interior,0.0,442,NA: 0.033,NA: -0.002,0.0,No Data,No Data,373.0,NA: 0.028,NA: 0.04,No Data,0.0,0.0
+Experiment,Attack Type,Test Length,Near Hall,Near Bedroom,Far Bedroom,Far Hall,Victim Open,Victim Closed,Near Hall Temp,Near Bedroom Temp,Far Bedroom Temp,Far Hall Temp,Victim Open Temp,Victim Closed Temp
+Experiment_01,Transitional,0.0,NA: nan,NA: nan,NA: nan,535.0,0.0,0.0,300.0,NA: 0.019,NA: 0.009,436.0,0.0,0.0
+Experiment_02,Interior,0.0,540,NA: 0.28,NA: 0.784,NA: 0.144,0.0,0.0,344.0,NA: 0.035,NA: 0.037,406.0,0.0,0.0
+Experiment_03,Transitional,0.0,442,984,NA: 0.362,513,0.0,0.0,345.0,NA: 0.041,NA: 0.027,NA: 0.869,0.0,0.0
+Experiment_04,Interior,0.0,468,NA: 0.077,764,NA: nan,0.0,0.0,300.0,NA: 0.02,NA: 0.028,NA: 0.562,0.0,0.0
+Experiment_05,Interior,0.0,465,928,NA: 0.758,820,0.0,0.0,341.0,NA: 0.072,NA: 0.034,NA: 0.765,0.0,0.0
+Experiment_06,Transitional,0.0,624,NA: 0.283,NA: nan,975,0.0,0.0,344.0,NA: 0.027,NA: 0.024,NA: 0.243,0.0,0.0
+Experiment_07,Interior,0.0,419,NA: 0.569,NA: 0.578,474,0.0,0.0,346.0,NA: 0.026,NA: 0.018,NA: 0.678,0.0,0.0
+Experiment_08,Transitional,0.0,410,NA: 0.41,1079,877,0.0,0.0,262.0,NA: 0.024,NA: 0.026,NA: 0.291,0.0,0.0
+Experiment_09,Interior,0.0,408,NA: 0.209,NA: 0.72,477,0.0,0.0,225.0,NA: 0.038,NA: 0.026,NA: 0.433,0.0,0.0
+Experiment_10,Transitional,0.0,445,NA: 0.056,NA: -0.002,979,0.0,0.0,365.0,NA: 0.032,NA: 0.031,NA: 0.425,0.0,0.0
+Experiment_11,Transitional,0.0,371,NA: -0.004,NA: 0.845,456,0.0,0.0,315.0,NA: 0.036,NA: 0.034,NA: 0.862,0.0,0.0
+Experiment_12,Interior,0.0,442,NA: 0.033,NA: -0.002,638,0.0,0.0,373.0,NA: 0.028,NA: 0.04,NA: 0.714,0.0,0.0

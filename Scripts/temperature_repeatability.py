@@ -11,7 +11,7 @@ events_dir = info_dir + 'Events/'
 
 #import test descriptions
 test_des = pd.read_csv(info_dir+'Test_Description.csv',index_col = 'Test Name')
-
+attack_groups = test_des.groupby('Attack Type')
 #import victim times
 victim_times = pd.read_csv(info_dir+'Victim.csv', index_col = 'Event')
 
@@ -41,10 +41,17 @@ Rates_tabe.columns=['Experiment','Near Hall','Near Bedroom','Far Bedroom','Far H
 Rates_tabe['Experiment']=Exp_Names
 Rates_tabe=Rates_tabe.set_index('Experiment')
 
+Delta_t_df=pd.DataFrame(np.zeros((N_rows,N_columns)))
+Delta_t_df.columns=['Experiment','Near Hall','Near Bedroom','Far Bedroom','Far Hall']
+Delta_t_df['Experiment']=Exp_Names
+Delta_t_df=Delta_t_df.set_index('Experiment')
 #import channel list
 channels = pd.read_csv(info_dir+'FED_Channels.csv', index_col = 'Chart')
 
+window = 60
+
 for experiment in Temps_tabe.index.values:
+
 	# output_dir = '../Figures/by_experiment/'+experiment+'/'
 	# if not os.path.exists(output_dir):
 	# 	os.makedirs(output_dir)
@@ -68,30 +75,116 @@ for experiment in Temps_tabe.index.values:
 		print(group)
 		dahtuh = data_df[channels[side+' Temp Name'][group]].loc[0:end_time]
 		#find average value in 30 s before ff intervention
-		int_average=np.mean(dahtuh.loc[ff_int-30:ff_int])
+
+		int_average=np.mean(dahtuh.loc[ff_int-window:ff_int])
 		#place value in a table
 		Temps_tabe.loc[experiment,group] = int_average
-		#assemble rate of change list for 30 seconds before and after ff_int
+		#assemble rate of change list for window seconds before and after ff_int
 		roc_ls =[0]
-		elapsed_time=dahtuh.loc[ff_int-30:ff_int+30].index.values
-		supp_ar =np.array(dahtuh.loc[ff_int-30:ff_int+30])
+		elapsed_time=dahtuh.loc[ff_int-window:ff_int+window].index.values
+		supp_ar =np.array(dahtuh.loc[ff_int-window:ff_int+window])
 		for i in range(len(supp_ar)-1):
 				roc_ls.append(supp_ar[i+1]-supp_ar[i])
 		data = pd.Series(roc_ls,index = elapsed_time)
-		print(np.mean(data.loc[ff_int-30:ff_int]))
-		print(np.mean(data.loc[ff_int:ff_int+30]))
-		Rates_tabe.loc[experiment,group] =np.mean( data.loc[ff_int:ff_int+30])
-		print()
-# for column in Temps_tabe.columns:
-# 	print(column)
-# 	ave = np.mean(Temps_tabe[column])
-# 	std = np.std(Temps_tabe[column])
-# 	print(str(ave)+ ' =- '+str(std))
-# 	print(std/ave)
-# 	print()
 
-# print(Temps_tabe)
+		mindex_rate = data.loc[ff_int:ff_int+window].idxmin()
+		mindex_temp = dahtuh.loc[ff_int:ff_int+window].idxmin()
+
+
+		# for t in data.index.values:
+		# 	#only concenred with avlues after the absolute minimum
+		# 	if t < mindex:
+		# 		continue
+		# 	if data[t] > 0.0:
+		# 		delta_t = dahtuh.loc[ff_int]-dahtuh.loc[t]
+		# 		break
+		delta_t = (dahtuh.loc[ff_int]-dahtuh.loc[mindex_temp])
+		decrease_time = mindex_rate-ff_int
+		# print(np.mean(data.loc[ff_int-30:ff_int]))
+		# print(np.mean(data.loc[ff_int:ff_int+30]))
+		Rates_tabe.loc[experiment,group] =decrease_time
+		Delta_t_df.loc[experiment,group] =delta_t
+		print()
+for column in Temps_tabe.columns:
+	print(column)
+	ave = np.mean(Temps_tabe[column])
+	std = np.std(Temps_tabe[column])
+	print(str(ave)+ ' =- '+str(std))
+	print(std/ave)
+	print()
+print(Delta_t_df)
 print(Rates_tabe)
+
+
+print('---------------------------------------------------------')
+print('Compare times to minimum rate of change')
+for column in Rates_tabe.columns:
+	if column ==0:
+		continue
+	print()
+	print(column)
+	print('Transitional')
+	trans_ls = []
+	for experiment in attack_groups.get_group('Transitional').index.values:
+		if experiment in ['Experiment_03','Experiment_05']:
+			continue
+		trans_ls.append(Rates_tabe.loc[experiment,column])
+	mean = np.mean(trans_ls)
+	stdev = np.std(trans_ls)
+	print('mean: '+str(mean)+'+-'+str(stdev))
+
+	print('Interior')
+	int_ls =[]
+	for experiment in attack_groups.get_group('Interior').index.values:
+		if str(error_exps['Skip'][experiment]) +' rate' == column:
+			continue
+		elif experiment in ['Experiment_03','Experiment_05']:
+			continue
+		int_ls.append(Rates_tabe.loc[experiment,column])
+	mean = np.mean(int_ls)
+	stdev = np.std(int_ls)
+	print('mean: '+str(mean)+'+-'+str(stdev))
+
+	print('t-test')
+	print(stats.ttest_ind(np.array(trans_ls),np.array(int_ls),equal_var=False))
+
+	print()
+
+
+print('---------------------------------------------------------')
+print('Compare temperature decreases')
+for column in Delta_t_df.columns:
+	if column ==0:
+		continue
+	print()
+	print(column)
+	print('Transitional')
+	trans_ls = []
+	for experiment in attack_groups.get_group('Transitional').index.values:
+		if experiment in ['Experiment_03','Experiment_05']:
+			continue
+		trans_ls.append(Delta_t_df.loc[experiment,column])
+	mean = np.mean(trans_ls)
+	stdev = np.std(trans_ls)
+	print('mean: '+str(mean)+'+-'+str(stdev))
+
+	print('Interior')
+	int_ls =[]
+	for experiment in attack_groups.get_group('Interior').index.values:
+		if str(error_exps['Skip'][experiment]) +' rate' == column:
+			continue
+		elif experiment in ['Experiment_03','Experiment_05']:
+			continue
+		int_ls.append(Delta_t_df.loc[experiment,column])
+	mean = np.mean(int_ls)
+	stdev = np.std(int_ls)
+	print('mean: '+str(mean)+'+-'+str(stdev))
+
+	print('t-test')
+	print(stats.ttest_ind(np.array(trans_ls),np.array(int_ls),equal_var=False))
+
+	print()
+# print(Rates_tabe)
 
 
 
