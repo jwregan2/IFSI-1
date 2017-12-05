@@ -51,12 +51,7 @@ channels = pd.read_csv(info_dir+'FED_Channels.csv', index_col = 'Chart')
 window = 60
 
 for experiment in Temps_tabe.index.values:
-
-	# output_dir = '../Figures/by_experiment/'+experiment+'/'
-	# if not os.path.exists(output_dir):
-	# 	os.makedirs(output_dir)
 	print()
-	print(experiment)
 	data_df = test_data_dict[experiment]
 	events_df = test_events_dict[experiment]
 
@@ -72,10 +67,8 @@ for experiment in Temps_tabe.index.values:
 	side = test_des['Side'][experiment]
 
 	for group in Temps_tabe.columns:
-		print(group)
 		dahtuh = data_df[channels[side+' Temp Name'][group]].loc[0:end_time]
 		#find average value in 30 s before ff intervention
-
 		int_average=np.mean(dahtuh.loc[ff_int-window:ff_int])
 		#place value in a table
 		Temps_tabe.loc[experiment,group] = int_average
@@ -112,9 +105,14 @@ for column in Temps_tabe.columns:
 	print(str(ave)+ ' =- '+str(std))
 	print(std/ave)
 	print()
-print(Delta_t_df)
-print(Rates_tabe)
+# print(Delta_t_df)
+# print(Rates_tabe)
 
+print('Near')
+print(stats.ttest_ind(np.array(Temps_tabe['Near Bedroom']),np.array(Temps_tabe['Near Hall']),equal_var=False))
+print('FAr')
+
+print(stats.ttest_ind(np.array(Temps_tabe['Far Bedroom']),np.array(Temps_tabe['Far Hall']),equal_var=False))
 
 print('---------------------------------------------------------')
 print('Compare times to minimum rate of change')
