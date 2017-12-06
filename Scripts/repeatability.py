@@ -141,11 +141,12 @@ for column in inflection_df.columns:
 	print('mean: '+str(mean)+'+-'+str(stdev))
 
 	print('t-test')
-	print(stats.ttest_ind(np.array(trans_ls),np.array(int_ls),equal_var=False))
+	print(stats.shapiro(np.array(trans_ls,int_ls)))
+	print(stats.ttest_ind(np.array(trans_ls),np.array(int_ls)))
 
 	print()
 # print(inflection_df)
-
+exit()
 output_table_loc='../Tables/'
 if not os.path.exists(output_table_loc):
 	os.makedirs(output_table_loc)
