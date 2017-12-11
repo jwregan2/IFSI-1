@@ -12,6 +12,9 @@ test_des = pd.read_csv(info_dir+'Test_Description.csv',index_col = 'Test Name')
 #import victim times
 victim_times = pd.read_csv(info_dir+'Victim.csv', index_col = 'Event')
 
+#import attack times
+attack_times = pd.read_csv(info_dir+'Fire_attack.csv',index_col = 'Event')
+
 #Build dataframe to hold results
 
 nrows = 12
@@ -37,7 +40,7 @@ for experiment in test_des.index.values:
 	V2_rentry = victim_times[experiment]['Victim 2 Found'] - rentry
 	V2_abs = victim_times[experiment]['Victim 2 Found'] - entry
 	V2_out = victim_times[experiment]['Victim 2 Out'] - victim_times[experiment]['Victim 2 Found']
-	print(pre_entry)
+	# print(pre_entry)
 	stats_df.loc[experiment,'Dispatch to entry']= pre_entry
 	stats_df.loc[experiment,'Time to find V1']= V1_found
 	stats_df.loc[experiment,'Time to remove V1']= V1_out
@@ -48,7 +51,31 @@ for experiment in test_des.index.values:
 # print(stats_df)
 
 #obtain mean, sd for two attack types and perform a t-test
-f
+print('----------------------------------------------------------------------------')
+attack_groups = test_des.groupby('Attack Type')
+for column in stats_df.columns:
+	print()
+	print(column)
+	print('Transitional')
+	Trans_ls = []
+	for experiment in attack_groups.get_group('Transitional').index.values:
+		Trans_ls.append(stats_df.loc[experiment,column])
+	mean = np.mean(Trans_ls)
+	stdev = np.std(Trans_ls)
+	print('mean: '+str(mean)+'+-'+str(stdev))
+
+	print('Interior')
+	int_ls =[]
+	for experiment in attack_groups.get_group('Interior').index.values:
+		int_ls.append(stats_df.loc[experiment,column])
+	mean = np.mean(int_ls)
+	stdev = np.std(int_ls)
+	print('mean: '+str(mean)+'+-'+str(stdev))
+
+	print('t-test')
+	print(stats.ttest_ind(np.array(Trans_ls),np.array(int_ls),equal_var=False))
+
+	print()
 
 print('----------------------------------------------------------------------------')
 attack_groups = test_des.groupby('Side')
@@ -175,3 +202,57 @@ V2_mean = np.mean(stats_df['Time to remove V2'])
 V2_stdev = np.std(stats_df['Time to remove V2'])
 print('mean: '+str(V2_mean)+'+-'+str(V2_stdev))
 print(stats.ttest_ind(np.array(stats_df['Time to remove V1']),np.array(stats_df['Time to remove V2']),equal_var=False))
+print('----------------------------------------------------------------------------')
+attack_groups = test_des.groupby('Side')
+
+print()
+print('Left')
+ls=[]
+left_ls = []
+for experiment in attack_groups.get_group('Left').index.values:
+	left_ls.append(attack_times.loc['Delta',experiment])
+	ls.append(attack_times.loc['Delta',experiment])
+mean = np.mean(left_ls)
+stdev = np.std(left_ls)
+print('mean: '+str(mean)+'+-'+str(stdev))
+
+print('Right')
+right_ls =[]
+for experiment in attack_groups.get_group('Right').index.values:
+	right_ls.append(attack_times.loc['Delta',experiment])
+	ls.append(attack_times.loc['Delta',experiment])
+mean = np.mean(right_ls)
+stdev = np.std(right_ls)
+print('mean: '+str(mean)+'+-'+str(stdev))
+
+print('t-test')
+print(stats.ttest_ind(np.array(left_ls),np.array(right_ls),equal_var=False))
+print(stats.shapiro(ls))
+
+print()
+ls=[]
+attack_groups = test_des.groupby('Attack Type')
+print()
+print('Transitional')
+trans_ls = []
+for experiment in attack_groups.get_group('Transitional').index.values:
+	trans_ls.append(attack_times.loc['Delta',experiment])
+	ls.append(attack_times.loc['Delta',experiment])
+mean = np.mean(trans_ls)
+stdev = np.std(trans_ls)
+print('mean: '+str(mean)+'+-'+str(stdev))
+
+print('Interior')
+int_ls =[]
+for experiment in attack_groups.get_group('Interior').index.values:
+	int_ls.append(attack_times.loc['Delta',experiment])
+	ls.append(attack_times.loc['Delta',experiment])
+mean = np.mean(int_ls)
+stdev = np.std(int_ls)
+print('mean: '+str(mean)+'+-'+str(stdev))
+
+print('t-test')
+print(stats.ttest_ind(np.array(trans_ls),np.array(int_ls),equal_var=False))
+print(stats.shapiro(trans_ls))
+print(stats.shapiro(int_ls))
+print()

@@ -118,7 +118,7 @@ for chart in sensors.index.values:
 		else:
 			for ix in data.index.values:
 				if ix > ff_int:
-					print(ix-ff_int)
+					# print(ix-ff_int)
 					ff_int = ix 						
 					break
 		if door_flag == True:
@@ -127,7 +127,7 @@ for chart in sensors.index.values:
 			else:
 				for ix in data.index.values:
 					if ix > door_int:
-						print(ix-door_int)
+						# print(ix-door_int)
 						door_int = ix 						
 						break
 			data_door = data.loc[door_int]

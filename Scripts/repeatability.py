@@ -15,6 +15,9 @@ test_des = pd.read_csv(info_dir+'Test_Description.csv',index_col = 'Test Name')
 #import victim times
 victim_times = pd.read_csv(info_dir+'Victim.csv', index_col = 'Event')
 
+#import attack time
+attack_times = pd.read_csv(info_dir+'Fire_attack.csv',index_col = 'Event')
+
 #import sensors error data
 error_exps = pd.read_csv(info_dir + 'gas_errors.csv',index_col = 'Experiment')
 
@@ -52,7 +55,6 @@ for experiment in test_des.index.values:
 		int_start =events_df['Time Elapsed']['Front Door Open']
 		print(experiment)
 		interior_ls.append(ff_int-int_start)
-	continue
 	# ff_int = events_df['Time Elapsed']['FD Dispatch']
 	data_df = FED_dict[experiment]	
 	for loc in data_df.columns:
@@ -81,7 +83,7 @@ for loc in FED_int_df.columns:
 	print('min: '+str(min(FED_ls)))
 	print()
 print(FED_int_df)
-
+exit()
 print('-------------------------------------------------------------')
 print('find time to inflection point in FED')
 
@@ -141,12 +143,12 @@ for column in inflection_df.columns:
 	print('mean: '+str(mean)+'+-'+str(stdev))
 
 	print('t-test')
-	print(stats.shapiro(np.array(trans_ls,int_ls)))
-	print(stats.ttest_ind(np.array(trans_ls),np.array(int_ls)))
+	print(stats.ttest_ind(np.array(trans_ls),np.array(int_ls),equal_var=False))
+	
 
 	print()
 # print(inflection_df)
-exit()
+
 output_table_loc='../Tables/'
 if not os.path.exists(output_table_loc):
 	os.makedirs(output_table_loc)
@@ -248,6 +250,7 @@ for experiment in FED_int_df.index.values:
 		af_near_BR_ls.append(FED_int_df.loc[experiment,'Near Bedroom average rate+ 1 min'])
 		far_open_BR_ls.append(FED_int_df.loc[experiment,'Far Bedroom Rate at door open'])
 		af_far_open_BR_ls.append(FED_int_df.loc[experiment,'Far Bedroom average rate+ 1 min'])
+
 print('compare closed to open for far BR')		
 print(af_far_open_BR_ls)
 print(af_far_shut_BR_ls)
@@ -271,6 +274,7 @@ print(str(np.mean(int_ls))+'+-'+str(np.std(int_ls)))
 print(str(np.mean(trans_ls))+'+-'+str(np.std(trans_ls)))
 print(stats.ttest_ind(np.array(int_ls),np.array(trans_ls),equal_var=False))
 print()
+
 print('Near Hall')
 int_ls=[344,300,341,346,225,373]
 trans_ls=[300,345,344,262,365,315]

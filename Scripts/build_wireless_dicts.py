@@ -39,6 +39,7 @@ for experiment in test_des.index.values:
 			end_time = event
 
 
+
 	#insert flag to know when to create dataframe
 	df_flag = True
 	#loop through channels and skip those not remote
@@ -96,18 +97,26 @@ for experiment in test_des.index.values:
 				test_df = pd.concat([test_df,data],axis=1)
 
 		elif channels['Type'][channel] == 'Remote Gas':
+			print(channel)
 			if not os.path.exists(data_dir+'Wireless_Gas_Analyzers/'+str(experiment)+'/'+channels['Label'][channel].replace(' ','_')+'.csv'):
 				continue
 			data_df = pd.read_csv(data_dir+'Wireless_Gas_Analyzers/'+str(experiment)+'/'+channels['Label'][channel].replace(' ','_')+'.csv')
 			#define empty column for elapsed time
 			elapsed_time_ls =[]
+			for event in exp_events.index.values:
+				if 'Victim_Open' in channel:
+					if exp_events['Event'][event] == 'Victim 1 Out':
+						vic_time = event
+				elif 'Victim_Closed' in channel:
+					if exp_events['Event'][event] == 'Victim 2 Out':
+						vic_time = event
 			for t in data_df['Time']:
 				timestamp = t.split(' ')[-2]
 				# timestamp = timestamp[:-3]
 				hh,mm,ss = timestamp.split(':')
-				elapsed_time = 3600*int(hh) + 60*int(mm) + int(ss) -int(ignition)+int(offsets[channels['Label'][channel].replace(' ','_')][experiment])
+				elapsed_time = 3600*int(hh) + 60*int(mm) + int(ss) -int(ignition)+int(offsets[channels['Label'][channel].replace(' ','_')][experiment])-int(vic_time)
 				elapsed_time_ls.append(elapsed_time)
-			print(channel)
+			# print(channel)
 
 			data_df['Elapsed Time'] = elapsed_time_ls
 			data_df = data_df.set_index('Elapsed Time')
