@@ -149,9 +149,6 @@ for column in stats_df.columns:
 	print('mean: '+str(mean)+'+-'+str(stdev))
 
 	print('B1')
-	print()
-	print(column)
-	print('First')
 	B1_ls = []
 	for experiment in attack_groups.get_group('B1').index.values:
 		B1_ls.append(stats_df.loc[experiment,column])
@@ -168,9 +165,6 @@ for column in stats_df.columns:
 	print('mean: '+str(mean)+'+-'+str(stdev))
 
 	print('C1')
-	print()
-	print(column)
-	print('First')
 	C1_ls = []
 	for experiment in attack_groups.get_group('C1').index.values:
 		C1_ls.append(stats_df.loc[experiment,column])
@@ -192,7 +186,11 @@ for column in stats_df.columns:
 	print(stats.ttest_ind(np.array(A1_ls),np.array(B2_ls),equal_var=False))
 	print(stats.ttest_ind(np.array(A1_ls),np.array(C1_ls),equal_var=False))
 	print(stats.ttest_ind(np.array(A1_ls),np.array(C2_ls),equal_var=False))
-
+	print(stats.ttest_ind(np.array(A2_ls),np.array(B1_ls),equal_var=False))
+	print(stats.ttest_ind(np.array(A2_ls),np.array(B2_ls),equal_var=False))
+	print(stats.ttest_ind(np.array(A2_ls),np.array(C1_ls),equal_var=False))
+	print(stats.ttest_ind(np.array(A2_ls),np.array(C2_ls),equal_var=False))
+	
 	print()
 print('----------------------------------------------------------------------------')
 V1_mean = np.mean(stats_df['Time to remove V1'])

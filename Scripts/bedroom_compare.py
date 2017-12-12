@@ -140,3 +140,101 @@ print()
 print('far BR')
 print(stats.ttest_ind(np.array(FED_int_df['Far Hall']),np.array(FED_int_df['Far Hall Temp']),equal_var=False))
 print()
+print('---------------------------------------------------------------------------------------------------------')
+column_headers = ['Experiment','Near Hall','Far Hall','Near Bedroom','Far Bedroom']
+vic_df = pd.DataFrame(np.zeros((nrows,ncols)))
+vic_df.columns = column_headers
+Exp_Names=[]
+for f in test_des.index.values:
+	Exp_Names.append(f)
+vic_df['Experiment']=Exp_Names
+vic_df = vic_df.set_index('Experiment')
+test_events_dict = pickle.load(open(events_dir + 'events.dict', 'rb'))
+FED_dict = pickle.load(open('../Tables/FED_gas.dict', 'rb'))
+
+#Find maximum FEDS for each static victim lcoation or FED at time of FF intervention
+interior_ls=[]
+trans_ls=[]
+for experiment in test_des.index.values:
+	events_df = test_events_dict[experiment].reset_index()
+	events_df = events_df.set_index('Event')
+	door_time = events_df['Time Elapsed']['FD Dispatch']
+	ff_int = door_time + victim_times[experiment]['Victim 1 Found']
+	# if test_des['Attack Type'][experiment] == 'Transitional':
+	# 	ff_int = events_df['Time Elapsed']['Water in Window']
+	# 	int_start =events_df['Time Elapsed']['Front Door Open']
+	# 	print(experiment)
+	# 	trans_ls.append(int_start-ff_int)
+
+	# elif test_des['Attack Type'][experiment] == 'Interior':
+	# 	ff_int = events_df['Time Elapsed']['Nozzle FF Reaches Hallway']
+	# 	int_start =events_df['Time Elapsed']['Front Door Open']
+	# 	print(experiment)
+	# 	interior_ls.append(ff_int-int_start)
+	# ff_int = events_df['Time Elapsed']['FD Dispatch']
+	data_df = FED_dict[experiment]	
+	for loc in data_df.columns:
+		if 'rate' in loc:
+			continue
+		else:
+			if error_exps['Skip'][experiment] == loc:
+				# vic_df.loc[experiment,loc]='n.a'
+				continue
+			if ff_int in data_df.index.values:
+				print(data_df[loc])
+				int_data = data_df[loc][int(ff_int)]
+			else:
+				in_data = data_df[int(ff_int-1)]
+			vic_df.loc[experiment,loc]=np.round(int_data,2)
+for room in [' Bedroom',' Hall']:
+
+
+	fig=plt.figure()
+	plt.xlabel('Maximum Gas FED',fontsize=18)
+	plt.ylabel('Maximum Temperature FED',fontsize=18)
+	ax =plt.gca()
+	ax.set_axisbelow(True)
+	plt.grid(linestyle='-',linewidth = 1.5)
+	ax.set_xscale('log')
+	ax.set_yscale('log')
+	ax.set_xlim([.1,50])
+	ax.set_ylim([.1,50])
+	for axis in [ax.xaxis, ax.yaxis]:
+		 axis.set_major_formatter(ScalarFormatter())
+	plt.xticks(fontsize=16)
+	plt.yticks(fontsize=16)
+	tableau20 = [(31, 119, 180), (255, 187, 120), (196, 156, 148),(140, 86, 75), (158, 218, 229), (23, 190, 207),(174, 199, 232), (255, 127, 14), (255, 187, 120),
+		(44, 160, 44), (152, 223, 138), (214, 39, 40), (255, 152, 150),
+		(148, 103, 189), (197, 176, 213), 
+		(227, 119, 194), (247, 182, 210), (127, 127, 127), (199, 199, 199),
+		(188, 189, 34), (219, 219, 141)  ]
+	for i in range(len(tableau20)):
+		r, g, b = tableau20[i]
+		tableau20[i] = (r / 255., g / 255., b / 255.)
+	tableau20=cycle(tableau20)
+	plot_markers = cycle(['s','8',  '^', 'x', 'd', 'h', 'p','v','D','*','<','>','H'])
+	for loc in ['Near','Far']:
+	
+		if 'Near' in loc:
+			group = 'Hallway'
+		elif 'Far' in loc:
+			group = 'Dining Room'
+		xerr=[]
+		yerr=[]
+		gas_fed = vic_df[loc+room]
+		temp_fed= vic_df[loc+room+' Temp']
+		for gas in gas_fed:
+			xerr.append(0.35*gas)
+		for temp in temp_fed:
+			yerr.append(0.35*temp)
+		ax.errorbar(gas_fed, temp_fed, yerr = yerr, xerr =xerr, color = next(tableau20), markersize = 5, marker = next(plot_markers),  label = group, fmt ='o')
+	fig.set_size_inches(10, 7)
+	plt.tight_layout()
+	plt.plot([1.0,1.0],[0,1.0],color='r',lw=2)
+	plt.plot([0,1.0],[1.0,1.0],color='r',lw=2)
+	handles1, labels1 = ax.get_legend_handles_labels()
+	plt.legend(handles1, labels1, loc ='upper left',  fontsize=15)	
+	if not os.path.exists(output_location):
+		os.makedirs(output_location)
+	plt.savefig(output_location +room+'_vic1.pdf')
+	plt.close('all')

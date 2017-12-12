@@ -112,6 +112,10 @@ for chart in sensors.index.values:
 			if not np.isnan(victim_times[experiment]['Far BR Door Open']):
 				door_time = victim_times[experiment]['Far BR Door Open']
 				door_int = door_time + disp_time
+		# if chart == 'Firefighter_Search' or chart =='Victim_Open_Door':
+		# vic_time = victim_times[experiment]['Victim 1 Found']
+		# ff_int =vic_time + disp_time
+
  		#adjust times where the intervention is not within the index to the next second (ff_int and door_int)
 		if ff_int in data.index:
 			pass
@@ -137,6 +141,7 @@ for chart in sensors.index.values:
 		data_post = data.loc[ff_int:end_time]
 		data_at = data.loc[ff_int]
 
+
 		int_means.append(data_at)
 		int_times.append(ff_int)
 
@@ -154,6 +159,7 @@ for chart in sensors.index.values:
 
 
 	ax1.errorbar(np.mean(int_times), np.mean(int_means), yerr= 0.12*np.mean(int_means), color = 'k', fmt ='o')
+	print(np.round(np.mean(int_means)))
 	plt.grid(True)
 	plt.xlabel('Time (s)', fontsize=16)
 	plt.ylabel(sensors['Y Label'][chart], fontsize=16)

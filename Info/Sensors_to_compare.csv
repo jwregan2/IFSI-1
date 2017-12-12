@@ -40,8 +40,8 @@ Near Bedroom O2,Bedroom4O2V,Bedroom3O2V,Percent (%),25,0
 Near Bedroom CO,Bedroom4COV,Bedroom3COV,Concentration (PPM),5000,0
 Far Bedroom O2,Bedroom3O2V,Bedroom4O2V,Percent (%),25,0
 Far Bedroom CO,Bedroom3COV,Bedroom4COV,Concentration (PPM),5000,0
-Firefighter_Attack,Firefighter_Attack,Firefighter_Attack,Temperature ($^{\circ}$C),250,0
-Firefighter_Search,Firefighter_Search,Firefighter_Search,Temperature ($^{\circ}$C),250,0
+Firefighter_Attack,Firefighter_Attack,Firefighter_Attack,Temperature ($^{\circ}$C),150,0
+Firefighter_Search,Firefighter_Search,Firefighter_Search,Temperature ($^{\circ}$C),100,0
 Victim_Closed_Door,Victim_Closed_Door,Victim_Closed_Door,Temperature ($^{\circ}$C),100,0
 Victim_Open_Door,Victim_Open_Door,Victim_Open_Door,Temperature ($^{\circ}$C),150,0
 Victim_Open_CO,Victim_Open_CO,Victim_Open_CO,Victim_Open_CO,2000,0
@@ -53,3 +53,6 @@ Victim_Closed_O2,Victim_Closed_O2,Victim_Closed_O2,Victim_Closed_O2,25,0
 Far Hall O2,HallRightO2V,HallLeftO2V,Percent (%),25,0
 Far Hall CO,HallRightCOV,HallLeftCOV,Concentration (PPM),30000,0
 DRRear3ft,LRRearRight3ft,LRRearLeft3ft,Temperature ($^{\circ}$C),500,0
+DRRear5ft,LRRearRight5ft,LRRearLeft5ft,Temperature ($^{\circ}$C),500,0
+Near Hall CO2,HallLeftCO2V,HallRightCO2V,Percent (%),25,0
+Far Hall CO2,HallRightCO2V,HallLeftCO2V,Percent (%),25,0
