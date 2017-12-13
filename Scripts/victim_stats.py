@@ -15,6 +15,9 @@ victim_times = pd.read_csv(info_dir+'Victim.csv', index_col = 'Event')
 #import attack times
 attack_times = pd.read_csv(info_dir+'Fire_attack.csv',index_col = 'Event')
 
+#import water times
+water_times = pd.read_csv(info_dir+'Suppression.csv',index_col = 'Experiment')
+
 #Build dataframe to hold results
 
 nrows = 12
@@ -201,6 +204,7 @@ V2_stdev = np.std(stats_df['Time to remove V2'])
 print('mean: '+str(V2_mean)+'+-'+str(V2_stdev))
 print(stats.ttest_ind(np.array(stats_df['Time to remove V1']),np.array(stats_df['Time to remove V2']),equal_var=False))
 print('----------------------------------------------------------------------------')
+print('Fire attack')
 attack_groups = test_des.groupby('Side')
 
 print()
@@ -254,3 +258,55 @@ print(stats.ttest_ind(np.array(trans_ls),np.array(int_ls),equal_var=False))
 print(stats.shapiro(trans_ls))
 print(stats.shapiro(int_ls))
 print()
+('Entry')
+print()
+ls=[]
+attack_groups = test_des.groupby('Attack Type')
+print()
+print('Transitional')
+trans_ls = []
+for experiment in attack_groups.get_group('Transitional').index.values:
+	trans_ls.append(attack_times.loc['Entry',experiment])
+	ls.append(attack_times.loc['Entry',experiment])
+mean = np.mean(trans_ls)
+stdev = np.std(trans_ls)
+print('mean: '+str(mean)+'+-'+str(stdev))
+
+print('Interior')
+int_ls =[]
+for experiment in attack_groups.get_group('Interior').index.values:
+	int_ls.append(attack_times.loc['Entry',experiment])
+	ls.append(attack_times.loc['Entry',experiment])
+mean = np.mean(int_ls)
+stdev = np.std(int_ls)
+print('mean: '+str(mean)+'+-'+str(stdev))
+
+print('t-test')
+print(stats.ttest_ind(np.array(trans_ls),np.array(int_ls),equal_var=False))
+print(stats.shapiro(trans_ls))
+print(stats.shapiro(int_ls))
+print()
+print('---------------------------------------------------------------------------------------')
+attack_groups = test_des.groupby('Attack Type')
+print('Trans')
+water_1=[]
+water_2=[]
+trans_times=[]
+
+for experiment in attack_groups.get_group('Transitional').index.values:
+	water_1.append(water_times['Water 1 (BR A)'][experiment])
+	water_2.append(water_times['Water 2 (BR B)'][experiment])
+	trans_times.append(water_times['Time after door open'][experiment])
+print(str(np.mean(water_1))+'+-'+str(np.std(water_1)))
+print(str(np.mean(water_2))+'+-'+str(np.std(water_2)))
+print(str(np.mean(trans_times))+'+-'+str(np.std(trans_times)))
+print()
+print('Int')
+int_times=[]
+water_1 =[]
+for experiment in attack_groups.get_group('Interior').index.values:
+	water_1.append(water_times['Water 1 (BR A)'][experiment])
+	int_times.append(water_times['Time after door open'][experiment])
+print(str(np.mean(int_times))+'+-'+str(np.std(int_times)))
+print(str(np.mean(water_1))+'+-'+str(np.std(water_1)))
+print(stats.ttest_ind(np.array(trans_times),np.array(int_times),equal_var=False))

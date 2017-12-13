@@ -12,6 +12,9 @@ from itertools import cycle
 import matplotlib.pyplot as plt
 import pickle
 
+#Flag to determine if secondary charts should be included
+secondary_chart_flag = True
+
 #Define directories for the info files, data files, and events files
 info_dir = '../Info/'
 data_dir = '../Data/'
@@ -58,11 +61,18 @@ for experiment in test_des.index.values:
 	for event in events_df.index.values:
 		if events_df['Event'][event] == 'End of Experiment' or events_df['Event'][event] == 'Data System Error':
 			end_time = event
+	#Group channels b y the side of the structure that they were used on
 
 	if test_des['Side'][experiment] == 'Left':
-		channel_groups = channels.groupby('Left Chart')
+		if secondary_chart_flag == True:
+			channel_groups = channels.groupby('Left Secondary Chart')
+		else:
+			channel_groups = channels.groupby('Left Chart')
 	elif test_des['Side'][experiment] == 'Right':
-		channel_groups = channels.groupby('Right Chart')
+		if secondary_chart_flag == True:
+			channel_groups = channels.groupby('Right Secondary Chart')
+		else:
+			channel_groups = channels.groupby('Right Chart')
 
 	for chart in channel_groups.groups:
 		print(chart)
@@ -93,7 +103,7 @@ for experiment in test_des.index.values:
  			if 'Remote' in channels['Type'][channel]:
  				data = wireless_data[channel].dropna(how='all')
  				data= data.rolling(window=5, center=True).mean()
- 				# print(data)
+
  			else:
  			#take 5 second moving average of the data for the channel
  				data = data_df[channel].rolling(window=5, center=True).mean()
@@ -103,17 +113,12 @@ for experiment in test_des.index.values:
  			#adjust times where the intervention is not within the index to the next second
  			if ff_int in data.index:
  				pass
- 			# elif ff_int > data.index.values[-1]:
- 			# 	ff_int = data.index.values[-1]
  			else:
  				for ix in data.index.values:
  					if ix > ff_int:
  						print(ix-ff_int)
  						ff_int = ix 						
  						break
- 			# print(ff_int)
- 			# print(data.index.values)
-
  			
  			#divide data into pre- and post-ff intervention
  			data_pre = data.loc[:ff_int]
@@ -125,16 +130,24 @@ for experiment in test_des.index.values:
  			marker=next(plot_markers)
 
  			#Plot data
+
+
  			plt.plot(data_pre.index.values,data_pre,ls='-', marker=marker,markevery = 50,markersize=8,mew=1.5,mec='none',ms=7,label=channels['Label'][channel] ,color=color)
  			plt.plot(data_post.index.values,data_post,ls='--',marker=marker,markevery = 50,markersize=8,mew=1.5,mec='none',ms=7,color=color,label='_nolegend_')
  			plt.plot(ff_int,data_at,lw=3,ls='--',marker='o',markersize=5,markevery = 50,color='k',label='_nolegend_')
-
+		for event in events_df.index.values:
+			if events_df['Event'][event] == 'FD Dispatch':
+				fd = event
+				continue
 		plt.grid(True)
 		plt.xlabel('Time (s)', fontsize=16)
 		plt.ylabel(charts['Y Label'][chart], fontsize=16)
 		plt.xticks(fontsize=16)
 		plt.yticks(fontsize=16)
-		plt.xlim([0,1000])
+		if secondary_chart_flag == True:
+			plt.xlim([fd,800])
+		else:
+			plt.xlim([0,1000])
 		plt.ylim([charts['Y Min'][chart],charts['Y Max'][chart]])
 		ax1 = plt.gca()
 		ax2=ax1.twiny()
@@ -146,7 +159,13 @@ for experiment in test_des.index.values:
 		ax2.set_xticks(events_df.index.values)
 		plt.setp(plt.xticks()[1], rotation=45)
 		ax2.set_xticklabels(events_df['Event'], fontsize=14, ha='left')
-		ax2.set_xlim(0,1000)
+		if secondary_chart_flag == True:
+			ax2.set_xlim(fd,800)
+		else:
+			ax2.set_xlim(0,1000)
+
+		
+			
 		handles1, labels1 = ax1.get_legend_handles_labels()		
 		fig.set_size_inches(10, 7)				
 		# plt.title('Experiment '+str(experiment)+' '+chart, y=1.08)

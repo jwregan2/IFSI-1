@@ -40,3 +40,4 @@ FF Temperatures,Temperature ($^{\circ}$C),250,0
 Victim Temperatures,Temperature ($^{\circ}$C),250,0
 Victim Gas,Gas Concentration (%),25,0
 Victim CO,Gas Concentration (PPM),6000,0
+Suppression_Results,Temperature ($^{\circ}$C),1000,0
