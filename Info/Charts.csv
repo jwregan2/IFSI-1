@@ -1,9 +1,9 @@
 Chart,Y Label,Y Max,Y Min
 Dining Room Rear,Temperature ($^{\circ}$C),500,0
 Near Closed Bedroom,Temperature ($^{\circ}$C),100,0
-Near Bedroom B,Temperature ($^{\circ}$C),1000,0
-Near Bedroom A,Temperature ($^{\circ}$C),1000,0
-Near Hall,Temperature ($^{\circ}$C),1000,0
+Near Bedroom B,Temperature ($^{\circ}$C),1100,0
+Near Bedroom A,Temperature ($^{\circ}$C),1100,0
+Near Hall,Temperature ($^{\circ}$C),1100,0
 Living Room Rear,Temperature ($^{\circ}$C),500,0
 Far Bedroom A,Temperature ($^{\circ}$C),50,0
 Far Bedroom B,Temperature ($^{\circ}$C),50,0
@@ -40,4 +40,4 @@ FF Temperatures,Temperature ($^{\circ}$C),250,0
 Victim Temperatures,Temperature ($^{\circ}$C),250,0
 Victim Gas,Gas Concentration (%),25,0
 Victim CO,Gas Concentration (PPM),6000,0
-Suppression_Results,Temperature ($^{\circ}$C),1000,0
+Suppression_Results,Temperature ($^{\circ}$C),1100,0

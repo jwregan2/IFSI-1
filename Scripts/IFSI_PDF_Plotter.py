@@ -56,6 +56,7 @@ for experiment in test_des.index.values:
 	for event in events_df.index.values:
 		if events_df['Event'][event] == 'Front Door Open' or events_df['Event'][event] == 'Water in Window':
 			ff_int = event
+			door = event
 			break	
 	#find end of test data
 	for event in events_df.index.values:
@@ -89,52 +90,61 @@ for experiment in test_des.index.values:
 		tableau20=cycle(tableau20)
 		plot_markers = cycle(['s', 'o', '^', 'd', 'h', 'p','v','8','D','*','<','>','H'])
 		for channel in channel_groups.get_group(chart).index.values:
+			if secondary_chart_flag ==True:
+				if test_des['Side'][experiment] == 'Left':
+					supp_label =channels['Left Chart'][channel]
+				elif test_des['Side'][experiment] == 'Right':
+					supp_label =channels['Right Chart'][channel]
+			if not channel in data_df.columns:
+				if not channel in wireless_data.columns:
+					continue
 
- 			if not channel in data_df.columns:
- 				if not channel in wireless_data.columns:
- 					continue
+			# if 'Remote Gas' in channels['Type'][channel]:
+			# 	data = wireless_data[channel].dropna(how='all')
+			# 	data= data.rolling(window=5, center=True).mean()
+			# else:
+			# 	continue
+			# print(channel)
+			if 'Remote' in channels['Type'][channel]:
+				data = wireless_data[channel].dropna(how='all')
+				data= data.rolling(window=5, center=True).mean()
 
- 			# if 'Remote Gas' in channels['Type'][channel]:
- 			# 	data = wireless_data[channel].dropna(how='all')
- 			# 	data= data.rolling(window=5, center=True).mean()
- 			# else:
- 			# 	continue
- 			# print(channel)
- 			if 'Remote' in channels['Type'][channel]:
- 				data = wireless_data[channel].dropna(how='all')
- 				data= data.rolling(window=5, center=True).mean()
+			else:
+			#take 5 second moving average of the data for the channel
+				data = data_df[channel].rolling(window=5, center=True).mean()
 
- 			else:
- 			#take 5 second moving average of the data for the channel
- 				data = data_df[channel].rolling(window=5, center=True).mean()
+			#cut the pre-ignition data
+			data = data.loc[0:]
+			#adjust times where the intervention is not within the index to the next second
+			if ff_int in data.index:
+				pass
+			else:
+				for ix in data.index.values:
+					if ix > ff_int:
+						print(ix-ff_int)
+						ff_int = ix 						
+						break
+			
+			#divide data into pre- and post-ff intervention
+			data_pre = data.loc[:ff_int]
+			data_post = data.loc[ff_int:end_time]
+			data_at = data.loc[ff_int]
+			print(channel)
+			print(data.loc[door])
+			print(max(data.loc[400:500]))
+			print(min(data.loc[400:500]))
+			##cycle plot markers and colors
+			color=next(tableau20)
+			marker=next(plot_markers)
 
- 			#cut the pre-ignition data
- 			data = data.loc[0:]
- 			#adjust times where the intervention is not within the index to the next second
- 			if ff_int in data.index:
- 				pass
- 			else:
- 				for ix in data.index.values:
- 					if ix > ff_int:
- 						print(ix-ff_int)
- 						ff_int = ix 						
- 						break
- 			
- 			#divide data into pre- and post-ff intervention
- 			data_pre = data.loc[:ff_int]
- 			data_post = data.loc[ff_int:end_time]
- 			data_at = data.loc[ff_int]
+			#Plot data
 
- 			##cycle plot markers and colors
- 			color=next(tableau20)
- 			marker=next(plot_markers)
-
- 			#Plot data
-
-
- 			plt.plot(data_pre.index.values,data_pre,ls='-', marker=marker,markevery = 50,markersize=8,mew=1.5,mec='none',ms=7,label=channels['Label'][channel] ,color=color)
- 			plt.plot(data_post.index.values,data_post,ls='--',marker=marker,markevery = 50,markersize=8,mew=1.5,mec='none',ms=7,color=color,label='_nolegend_')
- 			plt.plot(ff_int,data_at,lw=3,ls='--',marker='o',markersize=5,markevery = 50,color='k',label='_nolegend_')
+			if secondary_chart_flag== True:
+				plt.plot(data_pre.index.values,data_pre,ls='-', marker=marker,markevery = 50,markersize=8,mew=1.5,mec='none',ms=7,label=supp_label+channels['Label'][channel] ,color=color)
+			else:
+				plt.plot(data_pre.index.values,data_pre,ls='-', marker=marker,markevery = 50,markersize=8,mew=1.5,mec='none',ms=7,label=channels['Label'][channel] ,color=color)
+			plt.plot(data_post.index.values,data_post,ls='--',marker=marker,markevery = 50,markersize=8,mew=1.5,mec='none',ms=7,color=color,label='_nolegend_')
+			plt.plot(ff_int,data_at,lw=3,ls='--',marker='o',markersize=5,markevery = 50,color='k',label='_nolegend_')
 		for event in events_df.index.values:
 			if events_df['Event'][event] == 'FD Dispatch':
 				fd = event
@@ -145,7 +155,7 @@ for experiment in test_des.index.values:
 		plt.xticks(fontsize=16)
 		plt.yticks(fontsize=16)
 		if secondary_chart_flag == True:
-			plt.xlim([fd,800])
+			plt.xlim([fd,600])
 		else:
 			plt.xlim([0,1000])
 		plt.ylim([charts['Y Min'][chart],charts['Y Max'][chart]])
@@ -160,7 +170,7 @@ for experiment in test_des.index.values:
 		plt.setp(plt.xticks()[1], rotation=45)
 		ax2.set_xticklabels(events_df['Event'], fontsize=14, ha='left')
 		if secondary_chart_flag == True:
-			ax2.set_xlim(fd,800)
+			ax2.set_xlim(fd,600)
 		else:
 			ax2.set_xlim(0,1000)
 
@@ -170,7 +180,7 @@ for experiment in test_des.index.values:
 		fig.set_size_inches(10, 7)				
 		# plt.title('Experiment '+str(experiment)+' '+chart, y=1.08)
 		plt.tight_layout()	
-		plt.legend(handles1, labels1, fontsize=12)	
+		plt.legend(handles1, labels1, fontsize=12,loc='upper left')	
 		plt.savefig(output_dir + chart.replace(' ','_') + '.png')
 		plt.close('all')	
 
