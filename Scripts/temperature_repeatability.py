@@ -24,7 +24,17 @@ test_data_dict = pickle.load(open(data_dir + 'metric_test_data.dict', 'rb'))
 
 print('assess repeatability of temperature measurements at victim locations at time of FF intervention')
 
-c
+#build dataframe for temp averages
+N_rows=12
+N_columns=5
+Temps_tabe=pd.DataFrame(np.zeros((N_rows,N_columns)))
+Temps_tabe.columns=['Experiment','Near Hall','Near Bedroom','Far Bedroom','Far Hall']
+Exp_Names=[]
+for f in test_des.index.values:
+		Exp_Names.append(f)
+Temps_tabe['Experiment']=Exp_Names
+Temps_tabe=Temps_tabe.set_index('Experiment')
+ 
 #build datuhframe for rates
 Rates_tabe=pd.DataFrame(np.zeros((N_rows,N_columns)))
 Rates_tabe.columns=['Experiment','Near Hall','Near Bedroom','Far Bedroom','Far Hall']
@@ -82,7 +92,7 @@ for experiment in Temps_tabe.index.values:
 		# 		delta_t = dahtuh.loc[ff_int]-dahtuh.loc[t]
 		# 		break
 		delta_t = (dahtuh.loc[ff_int]-dahtuh.loc[mindex_temp])
-		decrease_time = mindex_rate-ff_int
+		decrease_time = mindex_rate#-ff_int
 		# print(np.mean(data.loc[ff_int-30:ff_int]))
 		# print(np.mean(data.loc[ff_int:ff_int+30]))
 		Rates_tabe.loc[experiment,group] =decrease_time
@@ -97,8 +107,7 @@ for column in Temps_tabe.columns:
 	print()
 # print(Delta_t_df)
 # print(Rates_tabe)
-print(Temps_tabe)
-exit()
+
 print('Near')
 print(stats.ttest_ind(np.array(Temps_tabe['Near Bedroom']),np.array(Temps_tabe['Near Hall']),equal_var=False))
 print('FAr')
