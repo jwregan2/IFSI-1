@@ -281,3 +281,80 @@ trans_ls=[300,345,344,262,365,315]
 print(str(np.mean(int_ls))+'+-'+str(np.std(int_ls)))
 print(str(np.mean(trans_ls))+'+-'+str(np.std(trans_ls)))
 print(stats.ttest_ind(np.array(int_ls),np.array(trans_ls),equal_var=False))
+
+print('Time to advance line')
+
+hose_advance_df = pd.DataFrame(np.zeros((nrows,2)))
+hose_advance_df.columns = ['Experiment','Advance Time']
+
+hose_advance_df['Experiment']=Exp_Names
+hose_advance_df = hose_advance_df.set_index('Experiment')
+
+int_adv_ls=[]
+trans_adv_ls=[]
+all_ls = []
+for experiment in test_des.index.values:
+	events_df = test_events_dict[experiment].reset_index()
+	events_df = events_df.set_index('Event')
+	line_advance = events_df['Time Elapsed']['Nozzle FF Reaches Hallway']-events_df['Time Elapsed']['Front Door Open']
+	hose_advance_df.loc[experiment,'Advance Time']=line_advance
+	if experiment == 'Experiment_06':
+		continue
+	all_ls.append(line_advance)
+	if test_des['Attack Type'][experiment] =='Transitional':
+		trans_adv_ls.append(line_advance)
+
+	elif test_des['Attack Type'][experiment] =='Interior':
+		int_adv_ls.append(line_advance)
+print(max(all_ls)/min(all_ls))
+print('mean: '+str(np.mean(all_ls))+'+-'+str(np.std(all_ls)))
+print('Int mean: '+str(np.mean(int_adv_ls))+'+-'+str(np.std(int_adv_ls)))
+print('Trans mean: '+str(np.mean(trans_adv_ls))+'+-'+str(np.std(trans_adv_ls)))
+print('t-test')
+print(stats.ttest_ind(np.array(trans_adv_ls),np.array(int_adv_ls),equal_var=False))
+	
+
+print('---------------------------------------------------------------------------------')
+nrows = 12
+ncols = 5
+column_headers = ['Experiment','Near Hall','Far Hall','Near Bedroom','Far Bedroom']
+removal_df = pd.DataFrame(np.zeros((nrows,ncols)))
+removal_df.columns = column_headers
+Exp_Names=[]
+for f in test_des.index.values:
+	Exp_Names.append(f)
+removal_df['Experiment']=Exp_Names
+removal_df = removal_df.set_index('Experiment')
+test_events_dict = pickle.load(open(events_dir + 'events.dict', 'rb'))
+FED_dict = pickle.load(open('../Tables/FED_gas.dict', 'rb'))
+
+#Find maximum FEDS for each static victim lcoation or FED at time of FF intervention
+
+for experiment in test_des.index.values:
+	events_df = test_events_dict[experiment].reset_index()
+	events_df = events_df.set_index('Event')
+	# ff_int = events_df['Time Elapsed']['FD Dispatch']
+	data_df = FED_dict[experiment]	
+	for loc in data_df.columns:
+		if 'rate' in loc:
+			if 'Temp' in loc:
+				continue				
+			if error_exps['Skip'][experiment] == loc:
+				removal_df.loc[experiment,loc[-5]]='n.a'
+				continue
+			# print(loc)
+			if 'Near' in loc:
+				if experiment =='Experiment_01':
+					removal_df.loc[experiment,loc[-5]]='n.a'
+					continue
+				victim_time = victim_times[experiment]['Victim 2 Found']
+				rescue_time = victim_time+events_df['Time Elapsed']['FD Dispatch']+victim_time
+			elif 'Far' in loc:
+				victim_time = victim_times[experiment]['Victim 1 Found']
+				rescue_time = victim_time+events_df['Time Elapsed']['FD Dispatch']+victim_time
+			else:
+				print('bad')
+			# print(rescue_time)
+			int_data = data_df[loc][rescue_time]
+			removal_df.loc[experiment,loc[:-5]]=int_data*60
+# print(removal_df)

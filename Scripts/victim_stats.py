@@ -52,6 +52,20 @@ for experiment in test_des.index.values:
 	stats_df.loc[experiment,'Total time to find V2']= V2_abs
 
 # print(stats_df)
+print('V1 found')
+print('mean: '+str(np.mean(stats_df['Time to find V1']))+'+-'+str(np.std(stats_df['Time to find V1'])))
+
+print('V1 out')
+print('mean: '+str(np.mean(stats_df['Time to remove V1']))+'+-'+str(np.std(stats_df['Time to remove V1'])))
+print(max(stats_df['Time to remove V1']),min(stats_df['Time to remove V1']))
+print('V2 found')
+print('mean: '+str(np.mean(stats_df['Time to find V2']))+'+-'+str(np.std(stats_df['Time to find V2'])))
+
+print('V2 out')
+print('mean: '+str(np.mean(stats_df['Time to remove V2']))+'+-'+str(np.std(stats_df['Time to remove V2'])))
+
+
+print(max(stats_df['Time to remove V2']),min(stats_df['Time to remove V2']))
 
 #obtain mean, sd for two attack types and perform a t-test
 print('----------------------------------------------------------------------------')
