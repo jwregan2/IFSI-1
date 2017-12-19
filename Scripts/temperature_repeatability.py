@@ -183,8 +183,3 @@ for column in Delta_t_df.columns:
 
 	print()
 # print(Rates_tabe)
-
-
-
-
-

@@ -33,7 +33,8 @@ stats_df['Experiment']=Exp_Names
 stats_df = stats_df.set_index('Experiment')
 #loop through columns of victim times to fill in the dataframe
 #the time at which the search crew entered the building will be considered the "start time"
-
+V1_total_ls=[]
+V2_total_ls=[]
 for experiment in test_des.index.values:
 	entry = victim_times[experiment]['Enter']
 	rentry =victim_times[experiment]['Re-Enter']
@@ -50,7 +51,11 @@ for experiment in test_des.index.values:
 	stats_df.loc[experiment,'Time to find V2']= V2_rentry
 	stats_df.loc[experiment,'Time to remove V2']= V2_out
 	stats_df.loc[experiment,'Total time to find V2']= V2_abs
-
+	V1_total_ls.append(V1_found+V1_out)
+	V2_total_ls.append(V2_abs+V2_out)
+print(max(V1_total_ls),min(V1_total_ls))
+print(max(V2_total_ls),min(V2_total_ls))
+exit()
 # print(stats_df)
 print('V1 found')
 print('mean: '+str(np.mean(stats_df['Time to find V1']))+'+-'+str(np.std(stats_df['Time to find V1'])))
@@ -324,3 +329,4 @@ for experiment in attack_groups.get_group('Interior').index.values:
 print(str(np.mean(int_times))+'+-'+str(np.std(int_times)))
 print(str(np.mean(water_1))+'+-'+str(np.std(water_1)))
 print(stats.ttest_ind(np.array(trans_times),np.array(int_times),equal_var=False))
+

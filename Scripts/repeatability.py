@@ -4,6 +4,9 @@ import numpy as np
 from pylab import * 
 from scipy import stats
 import pickle
+from itertools import cycle
+import matplotlib.pyplot as plt
+
 
 info_dir = '../Info/'
 data_dir = '../Data/'
@@ -315,46 +318,166 @@ print(stats.ttest_ind(np.array(trans_adv_ls),np.array(int_adv_ls),equal_var=Fals
 	
 
 print('---------------------------------------------------------------------------------')
+#Build dataframe to hold results
+
 nrows = 12
 ncols = 5
-column_headers = ['Experiment','Near Hall','Far Hall','Near Bedroom','Far Bedroom']
-removal_df = pd.DataFrame(np.zeros((nrows,ncols)))
-removal_df.columns = column_headers
+
+column_headers = ['Experiment','Far Hall','Far Hall Time','Near Bedroom','Near Bedroom Time']
+vic_removal_df = pd.DataFrame(np.zeros((nrows,ncols)))
+vic_removal_df.columns = column_headers
 Exp_Names=[]
 for f in test_des.index.values:
 	Exp_Names.append(f)
-removal_df['Experiment']=Exp_Names
-removal_df = removal_df.set_index('Experiment')
-test_events_dict = pickle.load(open(events_dir + 'events.dict', 'rb'))
-FED_dict = pickle.load(open('../Tables/FED_gas.dict', 'rb'))
+vic_removal_df['Experiment']=Exp_Names
+vic_removal_df = vic_removal_df.set_index('Experiment')
 
-#Find maximum FEDS for each static victim lcoation or FED at time of FF intervention
-
-for experiment in test_des.index.values:
+# v1_max = max(V1_total_ls)
+# v1_min = min(V1_total_ls)
+# v1_increase_ls=[]
+# v2_max = max(V2_total_ls)
+# v2_min = min(V2_total_ls)
+# v2_increase_ls=[]
+# for experiment in test_des.index.values:
+# 	if experiment in ['Experiment_01','Experiment_02']:
+# 		continue
+# 	print(experiment)
+# 	events_df = test_events_dict[experiment].reset_index()
+# 	events_df = events_df.set_index('Event')
+# 	data_df = FED_dict[experiment]
+# 	disp_time = events_df['Time Elapsed']['FD Dispatch']
+# 	entry_time = victim_times.loc['Enter',experiment]
+# 	v1_min_time = disp_time+entry_time+	v1_min	
+# 	v1_max_time = disp_time+entry_time+	v1_max	
+# 	v1_increase_ls.append(np.round((data_df.loc[v1_max_time,'Far Hall']-data_df.loc[v1_min_time,'Far Hall'])/data_df.loc[v1_min_time,'Far Hall'],2))
+# 	v2_min_time = disp_time+entry_time+	v2_min	
+# 	v2_max_time = disp_time+entry_time+	v2_max	
+# 	v2_increase_ls.append(np.round((data_df.loc[v2_max_time,'Far Hall']-data_df.loc[v2_min_time,'Far Hall'])/data_df.loc[v2_min_time,'Far Hall'],2))	
+# print(v1_increase_ls)
+# print(v2_increase_ls)
+# print(str(np.mean(v1_increase_ls))+'+-'+str(np.std((v1_increase_ls))))
+# print(str(np.mean(v2_increase_ls))+'+-'+str(np.std((v2_increase_ls))))
+v1_increase_ls=[]
+v2_increase_ls=[]
+rescue_times =[]
+for experiment in vic_removal_df.index.values:
 	events_df = test_events_dict[experiment].reset_index()
 	events_df = events_df.set_index('Event')
-	# ff_int = events_df['Time Elapsed']['FD Dispatch']
-	data_df = FED_dict[experiment]	
-	for loc in data_df.columns:
-		if 'rate' in loc:
-			if 'Temp' in loc:
-				continue				
-			if error_exps['Skip'][experiment] == loc:
-				removal_df.loc[experiment,loc[-5]]='n.a'
+	data_df = FED_dict[experiment]
+	disp_time = events_df['Time Elapsed']['FD Dispatch']
+	vic_2_out = victim_times.loc['Victim 2 Out',experiment]+disp_time
+	vic_1_out = victim_times.loc['Victim 1 Found',experiment]+disp_time
+	entry_time = victim_times.loc['Enter',experiment]+disp_time	
+
+	rescue_times.append(vic_1_out-entry_time)
+	for col in vic_removal_df.columns:
+		if col == error_exps['Skip'][experiment]:
+			continue
+		if 'Time' in col:
+			continue
+
+		if col == 'Near Bedroom':
+			vic_time = vic_2_out
+			if experiment == 'Experiment_01':
 				continue
-			# print(loc)
-			if 'Near' in loc:
-				if experiment =='Experiment_01':
-					removal_df.loc[experiment,loc[-5]]='n.a'
-					continue
-				victim_time = victim_times[experiment]['Victim 2 Found']
-				rescue_time = victim_time+events_df['Time Elapsed']['FD Dispatch']+victim_time
-			elif 'Far' in loc:
-				victim_time = victim_times[experiment]['Victim 1 Found']
-				rescue_time = victim_time+events_df['Time Elapsed']['FD Dispatch']+victim_time
-			else:
-				print('bad')
-			# print(rescue_time)
-			int_data = data_df[loc][rescue_time]
-			removal_df.loc[experiment,loc[:-5]]=int_data*60
-# print(removal_df)
+		elif col == 'Far Hall':
+			vic_time = vic_1_out
+
+		entry_time=(vic_time-entry_time)
+		if entry_time not in data_df.index.values:
+			entry_time = entry_time+1
+		vic_removal_df.loc[experiment,col+' Time']=entry_time
+		vic_removal_df.loc[experiment, col]=(np.round((data_df.loc[vic_time,col]-data_df.loc[entry_time,col])/data_df.loc[entry_time,col],2))
+output_dir = '../Figures/victim_removal/'
+if not os.path.exists(output_dir):
+		os.makedirs(output_dir)
+
+# print(vic_removal_df)
+for col in vic_removal_df.columns:
+	if 'Time' in col:
+		continue
+	fig=plt.figure()
+	ax = plt.gca()	
+	tableau20 = ([(31, 119, 180), (174, 199, 232), (255, 127, 14), (255, 187, 120),
+					(44, 160, 44), (152, 223, 138), (214, 39, 40), (255, 152, 150),
+					(148, 103, 189), (197, 176, 213), (140, 86, 75), (196, 156, 148),
+					(227, 119, 194), (247, 182, 210), (127, 127, 127), (199, 199, 199),
+					(188, 189, 34), (219, 219, 141), (23, 190, 207), (158, 218, 229)])
+	for i in range(len(tableau20)):
+		r, g, b = tableau20[i]
+		tableau20[i] = (r / 255., g / 255., b / 255.)
+	tableau20=cycle(tableau20)
+	plot_markers = cycle(['s', 'o', '^', 'd', 'h', 'p','v','8','D','*','<','>','H'])
+	plt.grid(True)
+	plt.xlabel('Removal Time (s)', fontsize=16)
+	plt.ylabel('FED increase (-/-)')
+
+	plt.xlim([.9*min(vic_removal_df[col+' Time']),1.1*max(vic_removal_df[col+' Time'])])
+	plt.ylim([0,1.1*max(vic_removal_df[col])])
+	plt.xticks(fontsize=16)
+	plt.yticks(fontsize=16)
+	ax.scatter(vic_removal_df[col+' Time'],vic_removal_df[col])
+	# handles1, labels1 = ax1.get_legend_handles_labels()		
+	fig.set_size_inches(10, 7)				
+	# plt.title('Experiment '+str(experiment)+' '+chart, y=1.08)
+	plt.tight_layout()	
+	# plt.legend(handles1, labels1, fontsize=12,loc='upper left')	
+	plt.savefig(output_dir +col.replace(' ','_')+'.png')
+	plt.close('all')
+	
+
+fig=plt.figure()
+ax = plt.gca()	
+tableau20 = ([(31, 119, 180), (174, 199, 232), (255, 127, 14), (255, 187, 120),
+				(44, 160, 44), (152, 223, 138), (214, 39, 40), (255, 152, 150),
+				(148, 103, 189), (197, 176, 213), (140, 86, 75), (196, 156, 148),
+				(227, 119, 194), (247, 182, 210), (127, 127, 127), (199, 199, 199),
+				(188, 189, 34), (219, 219, 141), (23, 190, 207), (158, 218, 229)])
+for i in range(len(tableau20)):
+	r, g, b = tableau20[i]
+	tableau20[i] = (r / 255., g / 255., b / 255.)
+tableau20=cycle(tableau20)
+colors=cycle(['b','r','k','y','c','m','g'])
+plot_markers = cycle(['s', 'o', '^', 'd', 'h', 'p','v','8','D','*','<','>','H'])
+max_vals=[]
+min_vals=[]
+for experiment in test_des.index.values:
+	if experiment == 'Experiment_02':
+		continue
+	events_df = test_events_dict[experiment].reset_index()
+	events_df = events_df.set_index('Event')
+	data_df = FED_dict[experiment]
+	data_df = data_df.reset_index().drop_duplicates(subset='Elapsed Time', keep='last').set_index('Elapsed Time')
+	disp_time = events_df['Time Elapsed']['FD Dispatch']
+	entry_time = victim_times.loc['Enter',experiment]+disp_time
+	if entry_time not in data_df.index.values:
+		entry_time = entry_time+1	
+	vic_fed = []
+	j=0
+	for i in rescue_times:
+		if entry_time +i not in data_df.index.values:
+			j=1	
+		vic_fed.append(100*(data_df.loc[entry_time+i+j,'Far Hall']-data_df.loc[entry_time,'Far Hall'])/data_df.loc[entry_time,'Far Hall'])
+		j=0
+	max_vals.append(max(vic_fed))
+	min_vals.append(min(vic_fed))
+	ax.scatter(rescue_times,vic_fed,c=next(colors),marker=next(plot_markers),label = 'Exp '+ experiment[-2:])
+plt.grid(True)
+plt.xlabel('Removal Time (s)', fontsize=16)
+plt.ylabel('Percewnt Increase in FED (%)')
+# plt.xlim([.9*min(vic_removal_df[col+' Time']),1.1*max(vic_removal_df[col+' Time'])])
+# plt.ylim([0,1.1*max(max_vals)])
+plt.xticks(fontsize=16)
+plt.yticks(fontsize=16)
+ax.set_yscale('log')
+for axis in [ax.xaxis, ax.yaxis]:
+	 axis.set_major_formatter(ScalarFormatter())
+
+handles1, labels1 = ax.get_legend_handles_labels()		
+fig.set_size_inches(10, 7)				
+# plt.title('Experiment '+str(experiment)+' '+chart, y=1.08)
+plt.tight_layout()	
+plt.legend(handles1, labels1, fontsize=12,loc='upper left')	
+plt.savefig(output_dir +'v1.png')
+plt.close('all')
+print(stats.ttest_ind(np.array(max_vals),np.array(min_vals),equal_var=False))
