@@ -57,6 +57,7 @@ for chart in FED_dict['Experiment_01'].columns:
 	tableau20=cycle(tableau20)
 	plot_markers = cycle(['s', 'o', '^', 'd', 'h', 'p','v','8','D','*','<','>','H'])
 	for experiment in test_des.index.values:
+		print(experiment)
 		data_df = FED_dict[experiment]
 		events_df = test_events_dict[experiment]
 		for event in events_df.index.values:

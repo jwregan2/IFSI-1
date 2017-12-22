@@ -18,6 +18,9 @@ attack_times = pd.read_csv(info_dir+'Fire_attack.csv',index_col = 'Event')
 #import water times
 water_times = pd.read_csv(info_dir+'Suppression.csv',index_col = 'Experiment')
 
+info_dir+'Events/'
+# test_events_dict = pickle.load(open(info_dir+'Events/events.dict', 'rb'))
+
 #Build dataframe to hold results
 
 nrows = 12
@@ -55,7 +58,7 @@ for experiment in test_des.index.values:
 	V2_total_ls.append(V2_abs+V2_out)
 print(max(V1_total_ls),min(V1_total_ls))
 print(max(V2_total_ls),min(V2_total_ls))
-exit()
+
 # print(stats_df)
 print('V1 found')
 print('mean: '+str(np.mean(stats_df['Time to find V1']))+'+-'+str(np.std(stats_df['Time to find V1'])))

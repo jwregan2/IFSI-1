@@ -181,7 +181,6 @@ for experiment in test_des.index.values:
 				# vic_df.loc[experiment,loc]='n.a'
 				continue
 			if ff_int in data_df.index.values:
-				print(data_df[loc])
 				int_data = data_df[loc][int(ff_int)]
 			else:
 				in_data = data_df[int(ff_int-1)]

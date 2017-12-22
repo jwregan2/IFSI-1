@@ -42,6 +42,7 @@ for test in test_des.index.values:
 	events_df['Time Elapsed']=event_times
 	events_df = events_df.set_index('Time Elapsed')
 	events_dict[test] = events_df
+	print(events_df)
 	#Read data dataframe 
 	data_df = pd.read_csv(data_dir+test+'.csv')
 

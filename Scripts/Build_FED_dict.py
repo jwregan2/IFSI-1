@@ -103,15 +103,23 @@ for experiment in test_des.index.values:
 		Temps_cum=[]
 
 		#determine delta t for gas measurements
-		
+		print(chart)
 		
 		#compute data for gas since delta t is =1, no need to compute
 		for t in O2_data:
+			# O2_FED.append(0.0)
 			O2_FED.append((1.0/60.0)*1/(exp(8.13-0.54*(20.9-t))))
 		for t in CO2_data:
-			CO2_FED.append(exp(t/5.0))
+			# CO2_FED.append(exp(t/5.0))
+			CO2_FED.append(exp((0.1903*t+2.0004)/7.1903))
 		for t in CO_data:
-			CO_FED.append((1.0/60.0)*(t/35000.0))
+			# CO_FED.append((1.0/60.0)*(t/35000.0))
+			CO_FED.append((1.0/60.0)*((2.674*10**-5)*(abs(t)**(1.036))))
+		CO_FED =  [0 if math.isnan(x) else x for x in CO_FED]
+		# print(CO_FED)
+		# # print(CO2_FED)
+		# # print(O2_FED)
+
 
 		for i in range(min(len(O2_FED),len(CO2_FED),len(CO_FED))):
 			FED_rate.append((O2_FED[i]+(CO2_FED[i]*CO_FED[i])))
@@ -173,12 +181,12 @@ for experiment in test_des.index.values:
 		Gas_FED_df[chart+' Temp rate'] = pd.Series(Temps_rate)
 	Gas_FED_dict[experiment]=Gas_FED_df
 	Temp_FED_dict[experiment] = Temp_FED_df
-	# print(Gas_FED_dict) 
+	# print(Gas_FED_df) 
 
 
 
 pickle.dump(Gas_FED_dict, open (output_dir+'FED_gas.dict','wb'))
 pickle.dump(Temp_FED_dict, open (output_dir+'FED_temp.dict','wb'))
-# if not os.path.exists(output_table_loc):
-# 	os.makedirs(output_table_loc)
-# FEDs_table.to_csv(output_table_loc+'FED_Table_dict.csv')
+if not os.path.exists(output_table_loc):
+	os.makedirs(output_table_loc)
+FEDs_table.to_csv(output_table_loc+'FED_Table_dict.csv')

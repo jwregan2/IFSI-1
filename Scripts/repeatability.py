@@ -85,7 +85,7 @@ for loc in FED_int_df.columns:
 	print('max: '+str(max(FED_ls)))
 	print('min: '+str(min(FED_ls)))
 	print()
-# print(FED_int_df)
+print(FED_int_df)
 # exit()
 print('-------------------------------------------------------------')
 print('find time to inflection point in FED')
@@ -112,7 +112,7 @@ for experiment in test_des.index.values:
 		else:
 			continue
 		index = data_df[loc].idxmax(axis=0)
-		inflection_df.loc[experiment,loc]=np.round(index)#-ff_int)
+		inflection_df.loc[experiment,loc]=np.round(index-ff_int)
 
 print()
 attack_groups = test_des.groupby('Attack Type')
