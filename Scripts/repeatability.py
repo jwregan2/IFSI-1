@@ -40,6 +40,10 @@ FED_int_df['Experiment']=Exp_Names
 FED_int_df = FED_int_df.set_index('Experiment')
 test_events_dict = pickle.load(open(events_dir + 'events.dict', 'rb'))
 FED_dict = pickle.load(open('../Tables/FED_gas.dict', 'rb'))
+FED_max_df =  pd.DataFrame(np.zeros((nrows,ncols)))
+FED_max_df.columns = column_headers
+FED_max_df['Experiment']=Exp_Names
+FED_max_df = FED_max_df.set_index('Experiment')
 
 #Find maximum FEDS for each static victim lcoation or FED at time of FF intervention
 interior_ls=[]
@@ -66,25 +70,31 @@ for experiment in test_des.index.values:
 		else:
 			if error_exps['Skip'][experiment] == loc:
 				FED_int_df.loc[experiment,loc]='n.a'
+				FED_max_df.loc[experiment,loc]='n.a'
 				continue
-			int_data = max(data_df[loc])#[ff_int]
+			int_data = data_df[loc][ff_int]
 			FED_int_df.loc[experiment,loc]=np.round(int_data,2)
+			FED_max_df.loc[experiment,loc]=np.round(max(data_df[loc]),2)
 print(np.mean(interior_ls))
 print(np.mean(trans_ls))
 
-for loc in FED_int_df.columns:
+for loc in FED_max_df.columns:
 	FED_ls = []
-	for experiment in FED_int_df[loc].index.values:
+	for experiment in FED_max_df[loc].index.values:
 		if error_exps['Skip'][experiment] == loc:
 			print(experiment,loc)
 			continue
-		FED_ls.append(FED_int_df[loc][experiment])
+		FED_ls.append(FED_max_df[loc][experiment])
 	print(loc)
 	print(str(np.mean(FED_ls))+' +- ' + str(np.std(FED_ls)))
 	print(np.std(FED_ls)/np.mean(FED_ls))
 	print('max: '+str(max(FED_ls)))
 	print('min: '+str(min(FED_ls)))
 	print()
+('max values')
+print(FED_max_df)
+print()
+print('intervention values')
 print(FED_int_df)
 # exit()
 print('-------------------------------------------------------------')
