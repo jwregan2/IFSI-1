@@ -235,5 +235,5 @@ for room in [' Bedroom',' Hall']:
 	plt.legend(handles1, labels1, loc ='upper left',  fontsize=15)	
 	if not os.path.exists(output_location):
 		os.makedirs(output_location)
-	plt.savefig(output_location +room+'_vic1.pdf')
+	plt.savefig(output_location +room.replace(' ','')+'_vic1.pdf')
 	plt.close('all')

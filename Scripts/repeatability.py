@@ -157,6 +157,8 @@ for column in inflection_df.columns:
 
 	print('t-test')
 	print(stats.ttest_ind(np.array(trans_ls),np.array(int_ls),equal_var=False))
+	print('u-test')
+	print(stats.mannwhitneyu(np.array(trans_ls),np.array(int_ls)))
 	
 
 	print()
@@ -268,14 +270,20 @@ print('compare closed to open for far BR')
 print(af_far_open_BR_ls)
 print(af_far_shut_BR_ls)
 print(stats.ttest_ind(np.array(af_far_open_BR_ls),np.array(af_far_shut_BR_ls),equal_var=False))
+print('u-test')
+print(stats.mannwhitneyu(np.array(af_far_open_BR_ls),np.array(af_far_shut_BR_ls)))
 print()
 
 print('compare average 1 min after to time at for far BR (for exps where door opened')		
 print(stats.ttest_ind(np.array(far_open_BR_ls),np.array(af_far_shut_BR_ls),equal_var=False))
+print('u-test')
+print(stats.mannwhitneyu(np.array(far_open_BR_ls),np.array(af_far_shut_BR_ls)))
 print()
 
 print('compare average 1 min after to time at for near BR (for exps where door opened')		
 print(stats.ttest_ind(np.array(near_BR_ls),np.array(af_near_BR_ls),equal_var=False))
+print('u-test')
+print(stats.mannwhitneyu(np.array(near_BR_ls),np.array(af_near_BR_ls)))
 print()
 
 #check if 
