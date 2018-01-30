@@ -110,9 +110,11 @@ for column in Temps_tabe.columns:
 
 print('Near')
 print(stats.ttest_ind(np.array(Temps_tabe['Near Bedroom']),np.array(Temps_tabe['Near Hall']),equal_var=False))
+print(stats.ranksums(np.array(Temps_tabe['Near Bedroom']),np.array(Temps_tabe['Near Hall'])))
 print('FAr')
 
 print(stats.ttest_ind(np.array(Temps_tabe['Far Bedroom']),np.array(Temps_tabe['Far Hall']),equal_var=False))
+print(stats.ranksums(np.array(Temps_tabe['Far Bedroom']),np.array(Temps_tabe['Far Hall'])))
 
 print('---------------------------------------------------------')
 print('Compare times to minimum rate of change')
@@ -145,6 +147,7 @@ for column in Rates_tabe.columns:
 
 	print('t-test')
 	print(stats.ttest_ind(np.array(trans_ls),np.array(int_ls),equal_var=False))
+	print(stats.ranksums(np.array(trans_ls),np.array(int_ls)))
 
 	print()
 
@@ -180,6 +183,7 @@ for column in Delta_t_df.columns:
 
 	print('t-test')
 	print(stats.ttest_ind(np.array(trans_ls),np.array(int_ls),equal_var=False))
+	print(stats.ranksums(np.array(trans_ls),np.array(int_ls)))
 
 	print()
 # print(Rates_tabe)

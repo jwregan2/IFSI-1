@@ -56,8 +56,12 @@ for experiment in test_des.index.values:
 	for event in events_df.index.values:
 		if events_df['Event'][event] == 'Front Door Open' or events_df['Event'][event] == 'Water in Window':
 			ff_int = event
-			door = event
+			water = event
 			break	
+	#find door time for trans exps
+	for event in events_df.index.values:
+		if events_df['Event'][event] == 'Front Door Open':
+			door =event
 	#find end of test data
 	for event in events_df.index.values:
 		if events_df['Event'][event] == 'End of Experiment' or events_df['Event'][event] == 'Data System Error':
@@ -129,10 +133,20 @@ for experiment in test_des.index.values:
 			data_pre = data.loc[:ff_int]
 			data_post = data.loc[ff_int:end_time]
 			data_at = data.loc[ff_int]
-			print(channel)
-			print(data.loc[door])
-			print(max(data.loc[400:500]))
-			print(min(data.loc[400:500]))
+			if test_des['Attack Type'][experiment] == 'Transitional':
+				print(channel)
+				print(data.loc[water])
+				# print('400-500')
+				# print(min(data.loc[400:500]))
+				# print(max(data.loc[400:500]))
+				# print()
+				print('water-door')
+				print(min(data.loc[water:door]))
+				i_min= data.loc[water:door].idxmin()
+				print(max(data.loc[i_min:door]))
+				# if experiment == 'Experiment_03':
+
+				print()
 			##cycle plot markers and colors
 			color=next(tableau20)
 			marker=next(plot_markers)
