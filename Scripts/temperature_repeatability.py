@@ -111,8 +111,7 @@ for column in Temps_tabe.columns:
 print('Near')
 print(stats.ttest_ind(np.array(Temps_tabe['Near Bedroom']),np.array(Temps_tabe['Near Hall']),equal_var=False))
 print(stats.ranksums(np.array(Temps_tabe['Near Bedroom']),np.array(Temps_tabe['Near Hall'])))
-print('FAr')
-
+print('Far')
 print(stats.ttest_ind(np.array(Temps_tabe['Far Bedroom']),np.array(Temps_tabe['Far Hall']),equal_var=False))
 print(stats.ranksums(np.array(Temps_tabe['Far Bedroom']),np.array(Temps_tabe['Far Hall'])))
 

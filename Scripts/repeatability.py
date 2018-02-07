@@ -54,13 +54,11 @@ for experiment in test_des.index.values:
 	if test_des['Attack Type'][experiment] == 'Transitional':
 		ff_int = events_df['Time Elapsed']['Water in Window']
 		int_start =events_df['Time Elapsed']['Front Door Open']
-		print(experiment)
 		trans_ls.append(int_start-ff_int)
 
 	elif test_des['Attack Type'][experiment] == 'Interior':
 		ff_int = events_df['Time Elapsed']['Nozzle FF Reaches Hallway']
 		int_start =events_df['Time Elapsed']['Front Door Open']
-		print(experiment)
 		interior_ls.append(ff_int-int_start)
 	# ff_int = events_df['Time Elapsed']['FD Dispatch']
 	data_df = FED_dict[experiment]	
@@ -75,14 +73,14 @@ for experiment in test_des.index.values:
 			int_data = data_df[loc][ff_int]
 			FED_int_df.loc[experiment,loc]=np.round(int_data,2)
 			FED_max_df.loc[experiment,loc]=np.round(max(data_df[loc]),2)
-print(np.mean(interior_ls))
-print(np.mean(trans_ls))
+# print(np.mean(interior_ls))
+# print(np.mean(trans_ls))
 
 for loc in FED_max_df.columns:
 	FED_ls = []
 	for experiment in FED_max_df[loc].index.values:
 		if error_exps['Skip'][experiment] == loc:
-			print(experiment,loc)
+			# print(experiment,loc)
 			continue
 		FED_ls.append(FED_max_df[loc][experiment])
 	print(loc)
@@ -185,38 +183,18 @@ for experiment in test_des.index.values:
 		end_time =  events_df['Time Elapsed']['Data System Error']
 	else:
 		end_time = events_df['Time Elapsed']['End of Experiment']
-
+	print(experiment)
 	data_df = FED_dict[experiment]	
 	for loc in data_df.columns:
+
 		if 'Temp rate' in loc:
 			continue
 		elif 'rate' in loc:
 			pass
 		else:
 			continue
-		
-		# if 'Near Bedroom' in loc or 'Near Closed Bedroom' in loc:
-		# 	continue
-		# 	print(loc)
-		# 	if not np.isnan(victim_times[experiment]['Near BR Door Open']):
-		# 		door_time = victim_times[experiment]['Near BR Door Open']
-		# 		door_int = door_time + ff_int
-		# 		data= data_df[loc][0:end_time]
-		# 		data_at =data[int(door_int)]
-		# 		data_at =np.mean(data_at)
-		# 		data_after = data[int(door_int):int(end_time)]
-		# 		post_mean = np.mean(data_after)
-		# 		post_mean = max(data_after)
-		# 		# if experiment == 'Experiment_01':
-		# 		# 	data_after = data[int(door_int):int(door_int+60)]
-		# 		# 	post_mean = np.mean(data_after)
-		# 		# else:
-		# 		# 	post_mean = np.mean(data[int(door_int+60)])
-		# 	else:
-		# 		data_at =data[ff_int]
-		# 		post_mean = max(data)
-		# 	door_df.loc[experiment,'Near Bedroom Rate at door open'] = data_at
-		# 	door_df.loc[experiment,'Near Bedroom average rate+ 1 min'] = post_mean
+		print(loc)
+		print(max(data_df[loc][0:end_time]))
 
 		if 'Far Bedroom' in loc or 'Far Closed Bedroom' in loc:
 			print(loc)
@@ -233,7 +211,7 @@ for experiment in test_des.index.values:
 
 			#for experiments 1 and 5, where door was not opened, use the maximum rate as teh comparison
 			else:
-				print(experiment)
+				# print(experiment)
 				data=data_df[loc][0:end_time]
 				data_at =data[ff_int]
 				ff_int_rate = data[ff_int]
@@ -248,7 +226,7 @@ for experiment in test_des.index.values:
 
 
 		elif 'Near Bedroom' in loc or 'Near Closed Bedroom' in loc:
-			print(loc, experiment)
+			# print(loc, experiment)
 			if not np.isnan(victim_times[experiment]['Near BR Door Open']):
 				door_time = victim_times[experiment]['Near BR Door Open']
 				door_int = door_time + ff_int
@@ -263,7 +241,7 @@ for experiment in test_des.index.values:
 				print('ERROR')
 			door_df.loc[experiment,'Near BR pre peak'] = pre_peak
 			door_df.loc[experiment,'Near BR post peak'] = post_mean
-# exit()
+exit()
 yes_close=[]
 no_close=[]
 ff_int_yes=[]
