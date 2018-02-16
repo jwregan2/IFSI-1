@@ -241,7 +241,6 @@ for experiment in test_des.index.values:
 				print('ERROR')
 			door_df.loc[experiment,'Near BR pre peak'] = pre_peak
 			door_df.loc[experiment,'Near BR post peak'] = post_mean
-exit()
 yes_close=[]
 no_close=[]
 ff_int_yes=[]
@@ -278,7 +277,6 @@ print(stats.ranksums(np.array(near_pre),np.array(near_post)))
 print(stats.ttest_ind(np.array(near_pre),np.array(near_post),equal_var=False))
 
 
-exit()	
 
 
 #check if 
@@ -495,3 +493,48 @@ plt.legend(handles1, labels1, fontsize=12,loc='upper left')
 plt.savefig(output_dir +'v1.png')
 plt.close('all')
 print(stats.ttest_ind(np.array(max_vals),np.array(min_vals),equal_var=False))
+print('------------------------------------------------------------------------------')
+print('ff_int times')
+ff_int_int = []
+ff_int_trans = []
+
+for experiment in test_des.index.values:
+	events_df = test_events_dict[experiment].reset_index()
+	events_df = events_df.set_index('Event')
+	if test_des['Attack Type'][experiment] == 'Transitional':
+		ff_int = events_df['Time Elapsed']['Water in Window']
+		ff_int_trans.append(ff_int)
+
+	elif test_des['Attack Type'][experiment] == 'Interior':
+		ff_int = events_df['Time Elapsed']['Front Door Open']
+		interior_ls.append(ff_int-int_start)
+		ff_int_int.append(ff_int)
+print('trans int time')
+print(str(np.mean(ff_int_trans))+'+-'+str(np.std(ff_int_trans)))
+print()
+print('int int time')
+print(str(np.mean(ff_int_int))+'+-'+str(np.std(ff_int_int)))
+print()
+
+print('------------------------------------------------------------------------------')
+print('door times')
+ff_int_int = []
+ff_int_trans = []
+
+for experiment in test_des.index.values:
+	events_df = test_events_dict[experiment].reset_index()
+	events_df = events_df.set_index('Event')
+	if test_des['Attack Type'][experiment] == 'Transitional':
+		ff_int = events_df['Time Elapsed']['Front Door Open']
+		ff_int_trans.append(ff_int)
+
+	elif test_des['Attack Type'][experiment] == 'Interior':
+		ff_int = events_df['Time Elapsed']['Front Door Open']
+		interior_ls.append(ff_int-int_start)
+		ff_int_int.append(ff_int)
+print('trans door time')
+print(str(np.mean(ff_int_trans))+'+-'+str(np.std(ff_int_trans)))
+print()
+print('int door time')
+print(str(np.mean(ff_int_int))+'+-'+str(np.std(ff_int_int)))
+print()

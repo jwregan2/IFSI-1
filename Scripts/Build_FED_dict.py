@@ -29,6 +29,7 @@ test_events_dict = pickle.load(open(events_dir + 'events.dict', 'rb'))
 wireless_data_dict = pickle.load(open(data_dir + 'metric_wireless_data.dict', 'rb'))
 
 output_table_loc='../Tables/'
+unity_flag = False
 
 N_rows=12
 N_columns=15
@@ -125,9 +126,10 @@ for experiment in test_des.index.values:
 			FED_rate.append((O2_FED[i]+(CO2_FED[i]*CO_FED[i])))
 			if i == 0:
 				FED_cum.append((O2_FED[i]+(CO2_FED[i]*CO_FED[i])))
-			# elif FED_cum[i-1] >1.0:
-			# 	FEDs_table.loc[experiment,chart] = i
-			# 	break
+			elif unity_flag == True:
+				if FED_cum[i-1] >1.0:
+					FEDs_table.loc[experiment,chart] = i
+					break
 			elif i == min(len(O2_FED),len(CO2_FED),len(CO_FED))-1:
 				FEDs_table.loc[experiment,chart] = ('NA: '+str(np.round(FED_cum[i-1],3)))
 				break
@@ -157,11 +159,12 @@ for experiment in test_des.index.values:
 			if i == 0:
 				Temps_cum.append((1.0/60.0)*((1/Temps_conv[i])))
 				Temps_rate.append((1.0/60.0)*((1/Temps_conv[i])))
-			# elif Temps_cum[i-1] > 1.0:
-			# 	label = str(chart+' Temp')
-			# 	FEDs_table.loc[experiment,label] = i
-			# 	print('1')
-			# 	break
+			elif unity_flag == True:
+				if Temps_cum[i-1] > 1.0:
+					label = str(chart+' Temp')
+					FEDs_table.loc[experiment,label] = i
+					print('1')
+					break
 			elif i == len(Temps_conv)-1:
 				label = str(chart+' Temp')
 				FEDs_table.loc[experiment,label] = str('NA: '+str(np.round(Temps_cum[i-1],3)))
