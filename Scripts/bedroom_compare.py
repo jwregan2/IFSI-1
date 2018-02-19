@@ -115,6 +115,7 @@ for loc in ['Near','Far']:
 	plt.tight_layout()
 	plt.plot([1.0,1.0],[0,1.0],color='r',lw=2)
 	plt.plot([0,1.0],[1.0,1.0],color='r',lw=2)
+	plt.plot([0,50],[0,50],color = 'k',ls='--',lw = 2)
 	handles1, labels1 = ax.get_legend_handles_labels()
 	plt.legend(handles1, labels1, loc ='upper left',  fontsize=15)	
 	if not os.path.exists(output_location):
@@ -231,6 +232,7 @@ for room in [' Bedroom',' Hall']:
 	plt.tight_layout()
 	plt.plot([1.0,1.0],[0,1.0],color='r',lw=2)
 	plt.plot([0,1.0],[1.0,1.0],color='r',lw=2)
+	plt.plot([0,50],[0,50],color = 'k',ls='--',lw = 2)
 	handles1, labels1 = ax.get_legend_handles_labels()
 	plt.legend(handles1, labels1, loc ='upper left',  fontsize=15)	
 	if not os.path.exists(output_location):

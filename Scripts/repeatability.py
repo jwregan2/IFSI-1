@@ -166,7 +166,77 @@ output_table_loc='../Tables/'
 if not os.path.exists(output_table_loc):
 	os.makedirs(output_table_loc)
 inflection_df.to_csv(output_table_loc+'time_to_inflection.csv')
+print('-------------------------------------------------------------')
+print('find time to inflection point in FED from Dispatch')
 
+inflect_from_disp_df = pd.DataFrame(np.zeros((nrows,1)))
+
+inflect_from_disp_df['Experiment']=Exp_Names
+inflect_from_disp_df = inflect_from_disp_df.set_index('Experiment')
+
+for experiment in test_des.index.values:
+	events_df = test_events_dict[experiment].reset_index()
+	events_df = events_df.set_index('Event')
+	if test_des['Attack Type'][experiment] == 'Transitional':
+		ff_int = events_df['Time Elapsed']['FD Dispatch']
+	elif test_des['Attack Type'][experiment] == 'Interior':
+		ff_int = events_df['Time Elapsed']['FD Dispatch']
+
+	data_df = FED_dict[experiment]
+
+	
+	for loc in data_df.columns:
+		if 'rate' in loc:
+			pass
+		else:
+			continue
+		index = data_df[loc].idxmax(axis=0)
+		inflect_from_disp_df.loc[experiment,loc]=np.round(index-ff_int)
+
+print()
+attack_groups = test_des.groupby('Attack Type')
+for column in inflect_from_disp_df.columns:
+	if column ==0:
+		continue
+	print()
+	print(column)
+	print('Transitional')
+	trans_ls = []
+	for experiment in attack_groups.get_group('Transitional').index.values:
+		if str(error_exps['Skip'][experiment]) +' rate' == column:
+			continue
+		elif experiment in ['Experiment_03','Experiment_05']:
+			continue
+		trans_ls.append(inflect_from_disp_df.loc[experiment,column])
+	mean = np.mean(trans_ls)
+	stdev = np.std(trans_ls)
+	print('mean: '+str(mean)+'+-'+str(stdev))
+
+	print('Interior')
+	int_ls =[]
+	for experiment in attack_groups.get_group('Interior').index.values:
+		if str(error_exps['Skip'][experiment]) +' rate' == column:
+			continue
+		elif experiment in ['Experiment_03','Experiment_05']:
+			continue
+		int_ls.append(inflect_from_disp_df.loc[experiment,column])
+	mean = np.mean(int_ls)
+	stdev = np.std(int_ls)
+	print('mean: '+str(mean)+'+-'+str(stdev))
+
+	print('t-test')
+	print(stats.ttest_ind(np.array(trans_ls),np.array(int_ls),equal_var=False))
+	print('u-test')
+	print(stats.ranksums(np.array(trans_ls),np.array(int_ls)))
+	
+
+	print()
+# print(inflect_from_disp_df)
+
+output_table_loc='../Tables/'
+if not os.path.exists(output_table_loc):
+	os.makedirs(output_table_loc)
+inflect_from_disp_df.to_csv(output_table_loc+'time_to_inflection.csv')
 print('-------------------------------------------------------------')
 print('rate at time of door open and max time')
 
@@ -183,7 +253,7 @@ for experiment in test_des.index.values:
 		end_time =  events_df['Time Elapsed']['Data System Error']
 	else:
 		end_time = events_df['Time Elapsed']['End of Experiment']
-	print(experiment)
+
 	data_df = FED_dict[experiment]	
 	for loc in data_df.columns:
 
@@ -193,11 +263,7 @@ for experiment in test_des.index.values:
 			pass
 		else:
 			continue
-		print(loc)
-		print(max(data_df[loc][0:end_time]))
-
 		if 'Far Bedroom' in loc or 'Far Closed Bedroom' in loc:
-			print(loc)
 			if not np.isnan(victim_times[experiment]['Far BR Door Open']):
 				door_time = victim_times[experiment]['Far BR Door Open']
 				door_int = door_time + ff_int
