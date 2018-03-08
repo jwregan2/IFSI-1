@@ -75,7 +75,7 @@ for experiment in test_des.index.values:
 			FED_max_df.loc[experiment,loc]=np.round(max(data_df[loc]),2)
 # print(np.mean(interior_ls))
 # print(np.mean(trans_ls))
-
+print('max FEDs for each location')
 for loc in FED_max_df.columns:
 	FED_ls = []
 	for experiment in FED_max_df[loc].index.values:
@@ -89,7 +89,9 @@ for loc in FED_max_df.columns:
 	print('max: '+str(max(FED_ls)))
 	print('min: '+str(min(FED_ls)))
 	print()
-('max values')
+
+
+print('max values')
 print(FED_max_df)
 print()
 print('intervention values')
@@ -604,3 +606,42 @@ print()
 print('int door time')
 print(str(np.mean(ff_int_int))+'+-'+str(np.std(ff_int_int)))
 print()
+print('-------------------------------------------------------------------------------')
+print('FED max comparison b/n attacks')
+# print(FED_max_df)
+# exit()
+for col in FED_max_df.columns:
+	print(col)
+	FED_max_t_ls=[]
+	FED_max_i_ls=[]
+	for experiment in test_des.index.values:
+		events_df = test_events_dict[experiment].reset_index()
+		events_df = events_df.set_index('Event')
+		if FED_max_df[col][experiment] == 'n.a':
+			continue
+		if test_des['Attack Type'][experiment] == 'Transitional':
+			FED_max_t_ls.append(FED_max_df[col][experiment])
+
+		elif test_des['Attack Type'][experiment] == 'Interior':
+			FED_max_i_ls.append(FED_max_df[col][experiment])
+	print('trans')
+	print(str(np.mean(FED_max_t_ls))+'+-'+str(np.std(FED_max_t_ls)))
+	print('int')
+	print(str(np.mean(FED_max_i_ls))+'+-'+str(np.std(FED_max_i_ls)))
+	print()
+	print(stats.ttest_ind(np.array(FED_max_i_ls),np.array(FED_max_t_ls),equal_var=False))
+	print(stats.ranksums(np.array(FED_max_i_ls),np.array(FED_max_t_ls)))
+	print()
+
+print('------------------------------------------------------------------------------')
+print('compare near and far bedroom FED mags')
+print(FED_max_df)
+
+print('gas')
+print(stats.ttest_ind(np.array(FED_max_df['Near Bedroom'].replace('n.a',0)),np.array(FED_max_df['Far Bedroom'].replace('n.a',0)),equal_var=False))
+print(stats.ranksums(np.array(FED_max_df['Near Bedroom'].replace('n.a',0)),np.array(FED_max_df['Far Bedroom'].replace('n.a',0))))
+
+print()
+print('temp')
+print(stats.ttest_ind(np.array(FED_max_df['Near Bedroom Temp']),np.array(FED_max_df['Far Bedroom Temp']),equal_var=False))
+print(stats.ranksums(np.array(FED_max_df['Near Bedroom Temp']),np.array(FED_max_df['Far Bedroom Temp'])))
