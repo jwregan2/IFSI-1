@@ -46,6 +46,8 @@ FED_max_df['Experiment']=Exp_Names
 FED_max_df = FED_max_df.set_index('Experiment')
 
 #Find maximum FEDS for each static victim lcoation or FED at time of FF intervention
+int_i=[]
+int_t=[]
 interior_ls=[]
 trans_ls=[]
 for experiment in test_des.index.values:
@@ -54,11 +56,13 @@ for experiment in test_des.index.values:
 	if test_des['Attack Type'][experiment] == 'Transitional':
 		ff_int = events_df['Time Elapsed']['Water in Window']
 		int_start =events_df['Time Elapsed']['Front Door Open']
+		int_t.append(int_start)
 		trans_ls.append(int_start-ff_int)
 
 	elif test_des['Attack Type'][experiment] == 'Interior':
 		ff_int = events_df['Time Elapsed']['Nozzle FF Reaches Hallway']
 		int_start =events_df['Time Elapsed']['Front Door Open']
+		int_i.append(int_start)
 		interior_ls.append(ff_int-int_start)
 	# ff_int = events_df['Time Elapsed']['FD Dispatch']
 	data_df = FED_dict[experiment]	
@@ -73,8 +77,7 @@ for experiment in test_des.index.values:
 			int_data = data_df[loc][ff_int]
 			FED_int_df.loc[experiment,loc]=np.round(int_data,2)
 			FED_max_df.loc[experiment,loc]=np.round(max(data_df[loc]),2)
-# print(np.mean(interior_ls))
-# print(np.mean(trans_ls))
+			
 print('max FEDs for each location')
 for loc in FED_max_df.columns:
 	FED_ls = []
