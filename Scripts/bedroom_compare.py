@@ -96,12 +96,15 @@ for loc in ['Near','Far']:
 		tableau20[i] = (r / 255., g / 255., b / 255.)
 	tableau20=cycle(tableau20)
 	plot_markers = cycle(['s','8',  '^', 'x', 'd', 'h', 'p','v','D','*','<','>','H'])
-
+	plt.plot([1.0,1.0],[0,1.0],color='r',lw=4)
+	plt.plot([0,1.0],[1.0,1.0],color='r',lw=4)
+	plt.plot([0,50],[0,50],color = 'k',ls='--',lw = 2)
 	for room in [' Bedroom',' Hall']:
-		if 'Hall' in room:
-			group = 'Exposed'
-		elif 'Bedroom' in room:
-			group = 'Isolated'
+		group = loc  + room
+		if group == 'Far Hall':
+			group = 'Dining Room'
+		elif group == 'Near Hall':
+			group = 'Hallway' 
 		xerr=[]
 		yerr=[]
 		gas_fed = FED_int_df[loc+room]
@@ -113,9 +116,7 @@ for loc in ['Near','Far']:
 		ax.errorbar(gas_fed, temp_fed, yerr = yerr, xerr =xerr, color = next(tableau20), markersize = 5, marker = next(plot_markers),  label = group, fmt ='o')
 	fig.set_size_inches(10, 7)
 	plt.tight_layout()
-	plt.plot([1.0,1.0],[0,1.0],color='r',lw=2)
-	plt.plot([0,1.0],[1.0,1.0],color='r',lw=2)
-	plt.plot([0,50],[0,50],color = 'k',ls='--',lw = 2)
+
 	handles1, labels1 = ax.get_legend_handles_labels()
 	plt.legend(handles1, labels1, loc ='upper left',  fontsize=15)	
 	if not os.path.exists(output_location):
@@ -208,6 +209,9 @@ for room in [' Bedroom',' Hall']:
 		(148, 103, 189), (197, 176, 213), 
 		(227, 119, 194), (247, 182, 210), (127, 127, 127), (199, 199, 199),
 		(188, 189, 34), (219, 219, 141)  ]
+	plt.plot([1.0,1.0],[0,1.0],color='r',lw=4)
+	plt.plot([0,1.0],[1.0,1.0],color='r',lw=4)
+	plt.plot([0,50],[0,50],color = 'k',ls='--',lw = 4)
 	for i in range(len(tableau20)):
 		r, g, b = tableau20[i]
 		tableau20[i] = (r / 255., g / 255., b / 255.)
@@ -230,9 +234,7 @@ for room in [' Bedroom',' Hall']:
 		ax.errorbar(gas_fed, temp_fed, yerr = yerr, xerr =xerr, color = next(tableau20), markersize = 5, marker = next(plot_markers),  label = group, fmt ='o')
 	fig.set_size_inches(10, 7)
 	plt.tight_layout()
-	plt.plot([1.0,1.0],[0,1.0],color='r',lw=2)
-	plt.plot([0,1.0],[1.0,1.0],color='r',lw=2)
-	plt.plot([0,50],[0,50],color = 'k',ls='--',lw = 2)
+
 	handles1, labels1 = ax.get_legend_handles_labels()
 	plt.legend(handles1, labels1, loc ='upper left',  fontsize=15)	
 	if not os.path.exists(output_location):

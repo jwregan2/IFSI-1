@@ -471,6 +471,8 @@ for experiment in vic_removal_df.index.values:
 			entry_time = entry_time+1
 		vic_removal_df.loc[experiment,col+' Time']=entry_time
 		vic_removal_df.loc[experiment, col]=(np.round((data_df.loc[vic_time,col]-data_df.loc[entry_time,col])/data_df.loc[entry_time,col],2))
+
+
 output_dir = '../Figures/victim_removal/'
 if not os.path.exists(output_dir):
 		os.makedirs(output_dir)
@@ -507,6 +509,27 @@ for col in vic_removal_df.columns:
 	# plt.legend(handles1, labels1, fontsize=12,loc='upper left')	
 	plt.savefig(output_dir +col.replace(' ','_')+'.png')
 	plt.close('all')
+
+ncols = 12
+nrows = len(rescue_times)
+
+column_headers = rescue_times
+removal_times_df = pd.DataFrame(np.zeros((nrows,ncols)))
+removal_times_df.columns = test_des.index.values
+removal_times_df['Times']=rescue_times
+removal_times_df = removal_times_df.set_index('Times')	
+
+# ncols = 51
+# nrows = 12
+# removal_times_df = pd.DataFrame(np.zeros((nrows,ncols)))
+# column_headers = np.linspace(20,70,51)
+# print(column_headers)
+# removal_times_df.columns = column_headers
+# Exp_Names=[]
+# for f in test_des.index.values:
+# 	Exp_Names.append(f)
+# removal_times_df['Experiment']=Exp_Names
+# removal_times_df = removal_times_df.set_index('Experiment')	
 	
 
 fig=plt.figure()
@@ -524,37 +547,54 @@ colors=cycle(['b','r','k','y','c','m','g'])
 plot_markers = cycle(['s', 'o', '^', 'd', 'h', 'p','v','8','D','*','<','>','H'])
 max_vals=[]
 min_vals=[]
-for experiment in test_des.index.values:
-	if experiment == 'Experiment_02':
-		continue
-	events_df = test_events_dict[experiment].reset_index()
-	events_df = events_df.set_index('Event')
-	data_df = FED_dict[experiment]
-	data_df = data_df.reset_index().drop_duplicates(subset='Elapsed Time', keep='last').set_index('Elapsed Time')
-	disp_time = events_df['Time Elapsed']['FD Dispatch']
-	entry_time = victim_times.loc['Enter',experiment]+disp_time
-	if entry_time not in data_df.index.values:
-		entry_time = entry_time+1	
-	vic_fed = []
-	j=0
-	for i in rescue_times:
+for i in rescue_times:
+	for experiment in test_des.index.values:
+		if experiment == 'Experiment_02':
+			continue
+		events_df = test_events_dict[experiment].reset_index()
+		events_df = events_df.set_index('Event')
+		data_df = FED_dict[experiment]
+		data_df = data_df.reset_index().drop_duplicates(subset='Elapsed Time', keep='last').set_index('Elapsed Time')
+		disp_time = events_df['Time Elapsed']['FD Dispatch']
+		entry_time = victim_times.loc['Enter',experiment]+disp_time
+		if entry_time not in data_df.index.values:
+			entry_time = entry_time+1	
+		vic_fed = []
+		j=0
 		if entry_time +i not in data_df.index.values:
 			j=1	
-		vic_fed.append(100*(data_df.loc[entry_time+i+j,'Far Hall']-data_df.loc[entry_time,'Far Hall'])/data_df.loc[entry_time,'Far Hall'])
+		removal_times_df.loc[i,experiment]=(100*(data_df.loc[entry_time+i+j,'Far Hall']-data_df.loc[entry_time,'Far Hall'])/data_df.loc[entry_time,'Far Hall'])
 		j=0
-	max_vals.append(max(vic_fed))
-	min_vals.append(min(vic_fed))
-	ax.scatter(rescue_times,vic_fed,c=next(colors),marker=next(plot_markers),label = 'Exp '+ experiment[-2:])
+	
+	# max_vals.append(max(vic_fed))
+	# min_vals.append(min(vic_fed))
+	# ax.scatter(rescue_times,vic_fed,c=next(colors),marker=next(plot_markers),label = 'Exp '+ experiment[-2:])
+# print(removal_times_df)	
+removal_times_df=removal_times_df.drop('Experiment_02',axis = 1)
+# plt.boxplot(removal_times_df)
+# print(removal_times_df.columns)
+# removal_times_df.boxplot(column=list(removal_times_df.columns.values),positions=np.linspace(20,70,51))
+removal_times_df.boxplot(fontsize=16,markersize=4)#column=list(removal_times_df.columns.values),positions = np.linspace(0,10,11))
+# plt.boxplot(removal_times_df,np.linspace(20,70,51))
+
 plt.grid(True)
-plt.xlabel('Removal Time (s)', fontsize=16)
-plt.ylabel('Percewnt Increase in FED (%)')
+plt.xlabel('Experiment', fontsize=16)
+plt.ylabel('Percent Increase in FED from Entry to Victim Removal (%)')
 # plt.xlim([.9*min(vic_removal_df[col+' Time']),1.1*max(vic_removal_df[col+' Time'])])
 # plt.ylim([0,1.1*max(max_vals)])
-plt.xticks(fontsize=16)
+# plt.xticks(np.linspace(0,10,11),list(removal_times_df.columns.values), fontsize=16)
+# print(list(removal_times_df.columns.values))
+labels = [' ']
+
+for i in [1,3,4,5,6,7,8,9,10,11,12]:
+	labels.append('E'+str(i) )
+labels.append(' ')
+print(labels) 
+plt.xticks(np.arange(len(labels)),labels, fontsize=16)
 plt.yticks(fontsize=16)
-ax.set_yscale('log')
-for axis in [ax.xaxis, ax.yaxis]:
-	 axis.set_major_formatter(ScalarFormatter())
+# ax.set_yscale('log')
+# for axis in [ax.xaxis, ax.yaxis]:
+# 	 axis.set_major_formatter(ScalarFormatter())
 
 handles1, labels1 = ax.get_legend_handles_labels()		
 fig.set_size_inches(10, 7)				
@@ -563,6 +603,8 @@ plt.tight_layout()
 plt.legend(handles1, labels1, fontsize=12,loc='upper left')	
 plt.savefig(output_dir +'v1.png')
 plt.close('all')
+
+
 print(stats.ttest_ind(np.array(max_vals),np.array(min_vals),equal_var=False))
 print('------------------------------------------------------------------------------')
 print('ff_int times')
